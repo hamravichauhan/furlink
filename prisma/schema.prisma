@@ -1,0 +1,201 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                     String                 @id
+  email                  String                 @unique
+  name                   String?
+  role                   Role                   @default(USER)
+  roleUpdatedAt          DateTime?
+  promotedById           String?
+  promotedBy             User?                  @relation("UserPromotions", fields: [promotedById], references: [id])
+  promotedUsers          User[]                 @relation("UserPromotions")
+  createdAt              DateTime               @default(now())
+  applications           AdoptionApplication[]
+  donations              Donation[]
+  stories                FurStory[]
+  rescues                RescueReport[]
+  sterilizations         SterilizationRequest[] @relation("RequesterSterilizations")
+  assignedSterilizations SterilizationRequest[] @relation("RescuerSterilizations")
+  verifiedSterilizations SterilizationRequest[] @relation("VerifierSterilizations")
+  disputedSterilizations SterilizationRequest[] @relation("DisputerSterilizations")
+}
+
+model RescueReport {
+  id          String       @id @default(cuid())
+  userId      String
+  animalType  String
+  description String
+  location    String
+  latitude    Float?
+  longitude   Float?
+  imageUrl    String
+  status      RescueStatus @default(REPORTED)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  user        User         @relation(fields: [userId], references: [id])
+}
+
+model Pet {
+  id           String                @id @default(cuid())
+  name         String
+  species      String
+  breed        String?
+  age          String
+  gender       String
+  description  String
+  imageUrl     String
+  status       AdoptionStatus        @default(AVAILABLE)
+  createdAt    DateTime              @default(now())
+  applications AdoptionApplication[]
+}
+
+model AdoptionApplication {
+  id        String            @id @default(cuid())
+  petId     String
+  userId    String
+  fullName  String
+  phone     String
+  address   String
+  reason    String
+  status    ApplicationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  pet       Pet               @relation(fields: [petId], references: [id])
+  user      User              @relation(fields: [userId], references: [id])
+}
+
+model Donation {
+  id        String   @id @default(cuid())
+  userId    String?
+  amount    Float
+  currency  String   @default("INR")
+  paymentId String   @unique
+  orderId   String   @unique
+  status    String
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model SterilizationRequest {
+  id         String              @id @default(cuid())
+  userId     String
+  animalType String
+  count      Int                 @default(1)
+  location   String
+  latitude   Float?
+  longitude  Float?
+  notes      String?
+  status     SterilizationStatus @default(PENDING)
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  // Rescuer assignment
+  rescuerId        String?
+  rescuer          User?     @relation("RescuerSterilizations", fields: [rescuerId], references: [id])
+  scheduledAt      DateTime?
+  scheduledNotes   String?
+
+  // Proof of work
+  completionCertificateUrl String?
+  completionNotes          String?
+  clinicName               String?
+  veterinarianName         String?
+  completionLatitude       Float?
+  completionLongitude      Float?
+  proofSubmittedAt         DateTime?
+
+  // Verification
+  verifiedById     String?
+  verifiedBy       User?     @relation("VerifierSterilizations", fields: [verifiedById], references: [id])
+  verifiedAt       DateTime?
+  verificationNote String?
+
+  // Dispute
+  disputedAt     DateTime?
+  disputedById   String?
+  disputedBy     User?     @relation("DisputerSterilizations", fields: [disputedById], references: [id])
+  disputeReason  String?
+
+  // Cancellation
+  cancelledAt      DateTime?
+  cancellationNote String?
+
+  // Legacy — kept for backward compat with rows created before verification flow
+  completedAt DateTime?
+
+  user User @relation("RequesterSterilizations", fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([rescuerId])
+  @@index([verifiedById])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model FurStory {
+  id        String          @id @default(cuid())
+  userId    String
+  title     String
+  content   String
+  imageUrl  String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  user      User            @relation(fields: [userId], references: [id])
+  images    FurStoryImage[]
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model FurStoryImage {
+  id        String   @id @default(cuid())
+  storyId   String
+  story     FurStory @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  url       String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([storyId])
+}
+
+enum Role {
+  USER
+  VERIFIER
+  ADMIN
+}
+
+enum RescueStatus {
+  REPORTED
+  IN_PROGRESS
+  RESCUED
+  CLOSED
+}
+
+enum AdoptionStatus {
+  AVAILABLE
+  PENDING
+  ADOPTED
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum SterilizationStatus {
+  PENDING
+  SCHEDULED
+  PROOF_SUBMITTED
+  VERIFIED
+  DISPUTED
+  CANCELLED
+  COMPLETED
+}

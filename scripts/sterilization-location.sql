@@ -1,0 +1,2 @@
+ALTER TABLE "SterilizationRequest" ADD COLUMN IF NOT EXISTS "latitude" DOUBLE PRECISION;
+ALTER TABLE "SterilizationRequest" ADD COLUMN IF NOT EXISTS "longitude" DOUBLE PRECISION;
