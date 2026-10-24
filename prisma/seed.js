@@ -57,15 +57,67 @@ async function main() {
   console.log('[OK] Created users: Admin, Verifier, Regular Users');
 
   // 3. Create Pets
+  const petRani = await prisma.pet.create({
+    data: {
+      name: 'Rani',
+      species: 'Dog',
+      breed: 'Indie Pariah',
+      age: '3 years',
+      gender: 'Female',
+      description: 'Gentle shadow who walks with a healed paw and loves quiet morning tea. Sterilized (TNVR), fully vaccinated (7-in-1), right hind paw healed after splint.',
+      imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
+      status: 'AVAILABLE',
+    },
+  });
+
+  const petChotu = await prisma.pet.create({
+    data: {
+      name: 'Chotu',
+      species: 'Dog',
+      breed: 'Terrier Indie Mix',
+      age: '2 years',
+      gender: 'Male',
+      description: 'Rescued from a storm drain at 4 weeks. An observant, attentive listener. Sterilized, dewormed, anti-rabies certified, zero health conditions.',
+      imageUrl: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80',
+      status: 'AVAILABLE',
+    },
+  });
+
+  const petTara = await prisma.pet.create({
+    data: {
+      name: 'Tara',
+      species: 'Dog',
+      breed: 'Indie Pup',
+      age: '1 year',
+      gender: 'Female',
+      description: 'Warm-hearted pup who greets every volunteer by resting her chin on your shoes. Sterilization scheduled this week, core puppy booster shots completed.',
+      imageUrl: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=800&q=80',
+      status: 'AVAILABLE',
+    },
+  });
+
   const petBruno = await prisma.pet.create({
     data: {
       name: 'Bruno',
       species: 'Dog',
-      breed: 'Desi Indie Pup',
-      age: '4 months',
+      breed: 'Indie Shepherd Mix',
+      age: '2.5 years',
       gender: 'Male',
-      description: 'Bruno was rescued near Belagavi railway station. He is full of energy, loves cuddles, vaccinated, and gets along well with other pets.',
-      imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
+      description: 'Quiet guardian who sits next to the clinic gate and watches over injured puppies. Complete orthopedic clearance, sterilized, microchipped.',
+      imageUrl: 'https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=800&q=80',
+      status: 'AVAILABLE',
+    },
+  });
+
+  const petSheru = await prisma.pet.create({
+    data: {
+      name: 'Sheru',
+      species: 'Dog',
+      breed: 'Belagavi Indie',
+      age: '3 years',
+      gender: 'Male',
+      description: 'Hit-and-run survivor currently completing final physiotherapy with high spirits. Pins removed from hind femur, weight-bearing rehabilitation in progress.',
+      imageUrl: 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
     },
   });
@@ -75,9 +127,9 @@ async function main() {
       name: 'Misty',
       species: 'Cat',
       breed: 'Domestic Longhair Mix',
-      age: '1 year',
+      age: '1.5 years',
       gender: 'Female',
-      description: 'Misty is a gentle, sweet cat who loves napping in sunbeams. Spayed, dewormed, and litter-box trained.',
+      description: 'Calm window-watcher with silk fur who purrs the moment anyone enters the room. Spayed, feline leukemia negative, flea/tick cleared.',
       imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
     },
@@ -87,11 +139,11 @@ async function main() {
     data: {
       name: 'Leo',
       species: 'Dog',
-      breed: 'Golden Retriever Indie Mix',
+      breed: 'Golden Indie Mix',
       age: '2 years',
       gender: 'Male',
-      description: 'Leo is an obedient, friendly boy rescued from neglect. He loves brisk walks, ball games, and is great with children.',
-      imageUrl: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80',
+      description: 'Joyful sunbeam rescued near Khanapur road. Loves fetch and gentle head pats. Neutered, vaccinated, full dental clean, healthy energetic appetite.',
+      imageUrl: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
     },
   });
@@ -100,11 +152,11 @@ async function main() {
     data: {
       name: 'Bella',
       species: 'Cat',
-      breed: 'Calico',
-      age: '3 months',
+      breed: 'Indie Calico',
+      age: '1 year',
       gender: 'Female',
-      description: 'Rescued from a vegetable market stall. Tiny, curious, and loves climbing onto laps for belly rubs.',
-      imageUrl: 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=800&q=80',
+      description: 'Playful acrobat rescued from a spice warehouse. Will investigate every shoelace. Spayed, fully vaccinated, indoor litter box certified.',
+      imageUrl: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80',
       status: 'PENDING',
     },
   });
@@ -116,13 +168,13 @@ async function main() {
       breed: 'Indie Pariah',
       age: '3 years',
       gender: 'Male',
-      description: 'Loyal guard dog and loving companion. Fully vaccinated, neutered, and looking for a farmhouse or loving home.',
-      imageUrl: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80',
+      description: 'Loyal guard dog and loving companion. Fully vaccinated, neutered, and thriving in his permanent home in Mumbai.',
+      imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
       status: 'ADOPTED',
     },
   });
 
-  console.log('[OK] Created 5 pets in adoption catalog');
+  console.log('[OK] Created 9 pets in adoption catalog with rich photos');
 
   // 4. Adoption Applications
   await prisma.adoptionApplication.create({

@@ -168,6 +168,7 @@ export interface AdoptedAlumni {
   adoptionDate: string;
   city: string;
   familyQuote: string;
+  imageUrl: string;
 }
 
 export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
@@ -180,6 +181,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Oct 12",
     city: "Mumbai",
     familyQuote: "He sleeps at the foot of our bed every single night like an old guardian angel.",
+    imageUrl: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=400&q=80",
   },
   {
     number: "02",
@@ -190,6 +192,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Oct 19",
     city: "Pune",
     familyQuote: "The happiest, most loyal family member we could have ever wished for.",
+    imageUrl: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=400&q=80",
   },
   {
     number: "03",
@@ -200,6 +203,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Oct 26",
     city: "Bangalore",
     familyQuote: "Found him through the emergency board. He rules our sunny balcony now.",
+    imageUrl: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80",
   },
   {
     number: "04",
@@ -210,6 +214,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Nov 02",
     city: "Belagavi",
     familyQuote: "From roadside fractures to running on the farm every morning.",
+    imageUrl: "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=400&q=80",
   },
   {
     number: "05",
@@ -220,6 +225,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Nov 09",
     city: "Goa",
     familyQuote: "She healed our entire home after a painful year. We love her endlessly.",
+    imageUrl: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80",
   },
   {
     number: "06",
@@ -230,6 +236,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Nov 16",
     city: "Kolhapur",
     familyQuote: "A gentle giant who gently nudges our hands whenever we sit on the sofa.",
+    imageUrl: "https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=400&q=80",
   },
   {
     number: "07",
@@ -240,6 +247,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Nov 21",
     city: "Hubli",
     familyQuote: "She went from 4 weeks in an ambulance crate to the center of our lives.",
+    imageUrl: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=400&q=80",
   },
   {
     number: "08",
@@ -250,6 +258,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Nov 28",
     city: "Dharwad",
     familyQuote: "Sleek, affectionate, and never leaves my side while I work at my desk.",
+    imageUrl: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=400&q=80",
   },
 ];
 

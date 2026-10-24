@@ -29,12 +29,12 @@ export default function WaitingBoard() {
           {/* Sheet Header Information */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b-[1.5px] border-[#1A2540]/20 pb-4 mb-8 gap-3">
             <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[#cc2b3f] inline-block" />
-              <span className="font-heading text-xs sm:text-sm uppercase tracking-wider text-[#1A2540]">
+              <span className="w-3 h-3 rounded-full bg-[#cc2b3f] inline-block animate-pulse" />
+              <span className="font-heading text-xs sm:text-sm uppercase tracking-wider text-[#1A2540] font-bold">
                 Belagavi Sanctuary Station · Live Census · No-Kill Verified
               </span>
             </div>
-            <div className="flex items-center gap-4 font-body text-xs text-[#1A2540]/65">
+            <div className="flex items-center gap-4 font-body text-xs text-[#1A2540]/65 font-medium">
               <span>8 Active Badges</span>
               <span>·</span>
               <span>Sorted by days waiting</span>
@@ -56,10 +56,10 @@ export default function WaitingBoard() {
                   className="group relative cursor-pointer"
                 >
                   {/* Kiss-Cut Die Line Contour */}
-                  <div className="relative p-1.5 sm:p-2 rounded-[22px] border-[1.5px] border-dashed border-[#1A2540] bg-[#f2e9db] transition-all duration-200 group-hover:border-[#cc2b3f]">
-                    {/* Chunky Rounded Animal Badge */}
+                  <div className="relative p-1.5 sm:p-2 rounded-[24px] border-[1.5px] border-dashed border-[#1A2540] bg-[#f2e9db] transition-all duration-200 group-hover:border-[#cc2b3f]">
+                    {/* Chunky Rounded Animal Badge WITH REAL VISIBLE PET PHOTO */}
                     <div
-                      className={`relative w-full aspect-square rounded-2xl p-4 sm:p-5 border-[1.5px] border-[#1A2540] flex flex-col justify-between shadow-sm transition-transform duration-200 group-hover:-translate-y-1 ${
+                      className={`relative w-full rounded-2xl p-3 sm:p-4 border-[1.5px] border-[#1A2540] flex flex-col justify-between shadow-sm transition-transform duration-200 group-hover:-translate-y-1 ${
                         isCrimson
                           ? "bg-[#cc2b3f] text-[#f2e9db]"
                           : "bg-[#f2e9db] text-[#cc2b3f] ring-[2px] ring-[#cc2b3f]"
@@ -76,40 +76,53 @@ export default function WaitingBoard() {
                       {/* Numeral, Days Counter & Line Icon */}
                       <div className="flex items-start justify-between">
                         <div>
-                          <span className="font-heading text-2xl sm:text-3xl font-extrabold leading-none tracking-tight block">
+                          <span className="font-heading text-2xl sm:text-3xl font-black leading-none tracking-tight block">
                             {animal.number}
                           </span>
                           <span
-                            className={`font-body text-[10px] uppercase font-semibold tracking-wider mt-1 block ${
-                              isCrimson ? "text-[#f2e9db]/80" : "text-[#cc2b3f]/80"
+                            className={`font-body text-[9.5px] sm:text-[10px] uppercase font-bold tracking-wider mt-1 block px-2 py-0.5 rounded-full ${
+                              isCrimson ? "bg-white/20 text-[#f2e9db]" : "bg-[#cc2b3f]/15 text-[#cc2b3f]"
                             }`}
                           >
                             Waiting {animal.daysWaiting} days
                           </span>
                         </div>
-                        <div className="p-1.5 rounded-lg border border-current/25 shrink-0">
-                          <AnimalLineIcon species={animal.species} className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <div className="p-1.5 rounded-lg border border-current/25 shrink-0 bg-white/10">
+                          <AnimalLineIcon species={animal.species} className="w-5 h-5" />
+                        </div>
+                      </div>
+
+                      {/* Prominent Pet Photo Portrait */}
+                      <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden border-[1.5px] border-[#1A2540] my-2.5 bg-slate-900 shadow-2xs">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={animal.imageUrl}
+                          alt={animal.name}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute bottom-1.5 left-1.5 bg-[#1A2540]/80 backdrop-blur-xs text-[#f2e9db] font-body text-[8.5px] font-bold px-2 py-0.5 rounded-md">
+                          {animal.gender} · {animal.age}
                         </div>
                       </div>
 
                       {/* Animal Name, Breed & Personality Snippet */}
                       <div>
-                        <div className="font-heading text-base sm:text-lg leading-tight">
+                        <div className="font-heading text-base sm:text-lg font-bold leading-tight">
                           {animal.name}
                         </div>
                         <div
                           className={`font-body text-[11px] mt-0.5 font-medium ${
-                            isCrimson ? "text-[#f2e9db]/70" : "text-[#cc2b3f]/75"
+                            isCrimson ? "text-[#f2e9db]/75" : "text-[#cc2b3f]/80"
                           }`}
                         >
-                          {animal.breed} · {animal.age}
+                          {animal.breed}
                         </div>
                         <p
-                          className={`font-body text-[10.5px] mt-2 line-clamp-2 leading-relaxed ${
+                          className={`font-body text-[10px] sm:text-[10.5px] mt-1.5 line-clamp-2 leading-relaxed ${
                             isCrimson ? "text-[#f2e9db]/85" : "text-[#1A2540]/80"
                           }`}
                         >
-                          {animal.oneLiner}
+                          &ldquo;{animal.oneLiner}&rdquo;
                         </p>
                       </div>
                     </div>
@@ -134,7 +147,7 @@ export default function WaitingBoard() {
                           }}
                         />
 
-                        <div className="absolute -bottom-3 -right-2 bg-[#1A2540] text-[#f2e9db] font-body text-[9.5px] font-semibold px-2 py-0.5 rounded-full shadow-md border border-[#f2e9db] pointer-events-none">
+                        <div className="absolute -bottom-3 -right-2 bg-[#1A2540] text-[#f2e9db] font-body text-[9.5px] font-bold px-2.5 py-0.5 rounded-full shadow-md border border-[#f2e9db] pointer-events-none">
                           Urgent foster
                         </div>
                       </>
@@ -182,7 +195,7 @@ export default function WaitingBoard() {
                     {selectedAnimal.number}
                   </div>
                   <div>
-                    <h3 className="font-heading text-2xl text-[#1A2540] leading-tight">
+                    <h3 className="font-heading text-2xl text-[#1A2540] leading-tight font-black">
                       {selectedAnimal.name}
                     </h3>
                     <div className="font-body text-xs text-[#cc2b3f] font-semibold mt-0.5">
@@ -193,7 +206,7 @@ export default function WaitingBoard() {
                 <button
                   type="button"
                   onClick={() => setSelectedAnimal(null)}
-                  className="w-8 h-8 rounded-full border border-[#1A2540]/30 text-[#1A2540] flex items-center justify-center font-heading text-sm hover:bg-[#1A2540] hover:text-[#f2e9db] transition-colors"
+                  className="w-8 h-8 rounded-full border border-[#1A2540]/30 text-[#1A2540] flex items-center justify-center font-heading text-sm hover:bg-[#1A2540] hover:text-[#f2e9db] transition-colors cursor-pointer"
                 >
                   X
                 </button>
