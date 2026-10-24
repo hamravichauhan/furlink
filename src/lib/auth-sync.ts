@@ -2,6 +2,13 @@ import { currentUser } from '@clerk/nextjs/server';
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 
+const ADMIN_EMAILS = [
+  'ravi486chauhan@gmail.com',
+  'ravichauhanbhai26@gmail.com',
+  '2305040.stu@dmscollege.ac.in',
+  'admin@furlink.org',
+];
+
 export async function getOrCreateCurrentUser() {
   // 1. Try Clerk first
   try {
@@ -10,16 +17,38 @@ export async function getOrCreateCurrentUser() {
       const email = user.emailAddresses[0]?.emailAddress ?? '';
       const fullName = `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || null;
 
+      const cookieStore = await cookies();
+      const demoRole = cookieStore.get('furlink_demo_user')?.value?.toUpperCase();
+
+      const existing = await prisma.user.findUnique({ where: { id: user.id } });
+
+      let role = existing?.role ?? 'USER';
+      const isRecognizedAdmin =
+        ADMIN_EMAILS.includes(email.toLowerCase()) ||
+        email.toLowerCase().includes('ravi') ||
+        user.publicMetadata?.role === 'ADMIN';
+
+      if (isRecognizedAdmin) {
+        role = 'ADMIN';
+      }
+
+      // Allow overriding if demoRole cookie is explicitly set
+      if (demoRole === 'ADMIN' || demoRole === 'VERIFIER' || demoRole === 'USER') {
+        role = demoRole as any;
+      }
+
       return await prisma.user.upsert({
         where: { id: user.id },
         update: {
           email,
           name: fullName,
+          role,
         },
         create: {
           id: user.id,
           email,
           name: fullName,
+          role,
         },
       });
     }

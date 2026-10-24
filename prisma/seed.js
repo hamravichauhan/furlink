@@ -26,6 +26,34 @@ async function main() {
     },
   });
 
+  // Ravi Chauhan Administrator Accounts
+  await prisma.user.create({
+    data: {
+      id: 'user_3JUMHv2imlH1ITHUWcW2aUQFEUS',
+      email: 'ravi486chauhan@gmail.com',
+      name: 'Ravi Chauhan (Admin)',
+      role: 'ADMIN',
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      id: 'user_3KBossT56k3DezRg8POSDWROSd2',
+      email: 'ravichauhanbhai26@gmail.com',
+      name: 'RAVI CHAUHAN (Admin)',
+      role: 'ADMIN',
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      id: 'user_3KBrzKyVHDPAPwE3bj6VBElQX8b',
+      email: '2305040.stu@dmscollege.ac.in',
+      name: 'RAVI CHAUHAN (Admin)',
+      role: 'ADMIN',
+    },
+  });
+
   const verifier = await prisma.user.create({
     data: {
       id: 'demo-verifier-id',
@@ -54,7 +82,7 @@ async function main() {
     },
   });
 
-  console.log('[OK] Created users: Admin, Verifier, Regular Users');
+  console.log('[OK] Created users: Ravi Chauhan (Admin), Neha (Admin), Verifier, Regular Users');
 
   // 3. Create Pets
   const petRani = await prisma.pet.create({

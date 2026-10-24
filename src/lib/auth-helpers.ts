@@ -28,14 +28,14 @@ export async function requireUser() {
 export async function requireVerifier() {
   const user = await getOrCreateCurrentUser();
   if (!user) redirect('/sign-in');
-  if (!hasRole(user, 'VERIFIER')) redirect('/sterilization');
+  if (!hasRole(user, 'VERIFIER')) redirect('/');
   return user;
 }
 
 export async function requireAdmin() {
   const user = await getOrCreateCurrentUser();
   if (!user) redirect('/sign-in');
-  if (!hasRole(user, 'ADMIN')) redirect('/sterilization');
+  if (!hasRole(user, 'ADMIN')) redirect('/');
   return user;
 }
 

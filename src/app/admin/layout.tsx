@@ -12,7 +12,7 @@ export default async function AdminLayout({
 }) {
   const user = await getOrCreateCurrentUser();
   if (!user) redirect("/sign-in");
-  if (!hasRole(user, "ADMIN")) redirect("/sterilization");
+  if (!hasRole(user, "ADMIN")) redirect("/");
 
   return (
     <div className="min-h-screen bg-[#f3c9d5] text-[#1A2540]">
