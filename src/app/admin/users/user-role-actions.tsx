@@ -66,7 +66,7 @@ export default function UserRoleActions({ userId, currentRole }: Props) {
               role === currentRole ? "bg-gray-50 font-medium" : ""
             }`}
           >
-            {role === currentRole ? `✓ ${role}` : `Set to ${role}`}
+            {role === currentRole ? `[Active] ${role}` : `Set to ${role}`}
           </button>
         ))}
 

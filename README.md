@@ -1,8 +1,34 @@
-# 🐾 FurLink
+#  FurLink – Rescue, Adopt & Care
 
-**A production-ready animal welfare platform connecting rescuers, adopters, and donors with community animals that need care.**
+**A centralized animal welfare platform connecting rescuers, adopters, donors, and veterinarians.**
 
-FurLink combines real-time rescue reporting, a verified pet adoption catalog, humane sterilization (TNVR) tracking with certificate verification, community recovery stories, and transparent donation handling — all on a modern Next.js + Prisma + Supabase stack.
+FurLink combines real-time rescue reporting, a verified pet adoption catalog, humane sterilization (TNVR) tracking with certificate verification, community recovery stories (FurStories), transparent donation handling with Razorpay, and comprehensive administrative analytics with interactive charts.
+
+---
+
+##  Quick Start (100% Offline Ready)
+
+FurLink is configured to run completely offline with zero external cloud dependencies required for local testing, evaluation, and viva presentations:
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Seed realistic demo data (pets, rescues, sterilization requests, stories, donations)
+npm run seed
+
+# 3. Start development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+> [!TIP]
+> **One-Click Role Switcher**: At the top of every page, a Demo Role bar lets you instantly switch between:
+> - [Admin] **Admin** (`admin@furlink.org`) — Access full Admin Console & Analytics
+> - [Verifier] **Verifier** (`verifier@furlink.org`) — Review & verify sterilization certificates
+> - [User] **User** (`user@furlink.org`) — Submit requests, apply for adoption, donate
+> - [Guest] **Guest** — Public visitor browsing experience
 
 ---
 
@@ -35,14 +61,14 @@ FurLink combines real-time rescue reporting, a verified pet adoption catalog, hu
 
 ## Features
 
-### 🆘 Rescue Reporting
+### [Emergency] Rescue Reporting
 
 - Geolocation-enabled rescue reports with photos
 - Public feed of active and resolved cases
 - Status lifecycle: `REPORTED → IN_PROGRESS → RESCUED → CLOSED`
 - Admin status management
 
-### 🐾 Pet Adoption
+###  Pet Adoption
 
 - Adoption catalog with species filters and status tabs
 - Individual pet profiles with photo galleries
@@ -50,7 +76,7 @@ FurLink combines real-time rescue reporting, a verified pet adoption catalog, hu
 - Admin review queue: approve or reject applications
 - Auto-updates pet status when an application is approved
 
-### 💉 Sterilization & Vaccination (TNVR)
+### [Medical] Sterilization & Vaccination (TNVR)
 
 - Rate-limited request submission (3/day, 30-min cooldown, 5-pending cap)
 - Duplicate detection by location
@@ -59,21 +85,21 @@ FurLink combines real-time rescue reporting, a verified pet adoption catalog, hu
 - **Certificate-based verification workflow** — rescuers upload proof, verified users approve
 - Public verification timeline with full audit trail
 
-### 📖 FurStories
+### [Stories] FurStories
 
 - Community-published recovery stories with multi-photo support
 - Search, sort, and "my stories" filtering
 - Owner-editable, admin-moderatable
 - Paginated feed
 
-### ❤️ Donations
+### [Donations] Donations
 
 - Razorpay-powered checkout (INR, custom amounts)
 - Server-side signature verification
 - Idempotent donation recording
 - Public transparency: total raised, recent supporters
 
-### ⚙️ Admin Console
+### [Settings] Admin Console
 
 - Role-based access control: `USER`, `VERIFIER`, `ADMIN`
 - User management with promote/demote
@@ -178,9 +204,9 @@ npm install
    - **Transaction pooler** URI (port `6543`) → this is your `DATABASE_URL`
    - **Session pooler** URI (port `5432`) → this is your `DIRECT_URL`
 
-⚠️ **Important:** On newer Supabase projects, the `db.<ref>.supabase.co` direct host may not resolve. Use the **session pooler** on `5432` for `DIRECT_URL` instead — it handles migrations correctly.
+Warning: **Important:** On newer Supabase projects, the `db.<ref>.supabase.co` direct host may not resolve. Use the **session pooler** on `5432` for `DIRECT_URL` instead — it handles migrations correctly.
 
-⚠️ **Important:** If your DB password contains special characters (`@`, `:`, `/`, `?`, `#`, `&`, `%`), you must URL-encode them:
+Warning: **Important:** If your DB password contains special characters (`@`, `:`, `/`, `?`, `#`, `&`, `%`), you must URL-encode them:
 
 - `@` → `%40`
 - `:` → `%3A`
@@ -294,7 +320,7 @@ const c = new Client({
 });
 c.connect()
  .then(() => c.query(sql))
- .then(() => { console.log('✅ Schema applied'); return c.end(); })
+ .then(() => { console.log('[OK] Schema applied'); return c.end(); })
  .catch(e => { console.error(e.message); process.exit(1); });
 "
 ```
@@ -510,13 +536,13 @@ The sterilization module uses a three-party trust model:
 └──────┬─────┘      └──────┬─────┘      └──────┬─────┘
        │                   │                    │
        │ submit request    │                    │
-       ├──────────────────▶│                    │
+       ├──────────────────->│                    │
        │                   │ accept             │
-       │                   ├──────────────────▶ │
+       │                   ├──────────────────-> │
        │                   │                    │
        │                   │ do work + upload   │
        │                   │ certificate        │
-       │                   ├──────────────────▶ │
+       │                   ├──────────────────-> │
        │                   │                    │
        │                   │                    │ verify or
        │                   │                    │ dispute
@@ -563,7 +589,7 @@ const c = new Client({
 });
 c.connect()
  .then(() => c.query(sql))
- .then(() => { console.log('✅ Applied'); return c.end(); })
+ .then(() => { console.log('[OK] Applied'); return c.end(); })
  .catch(e => { console.error(e.code, e.message); process.exit(1); });
 "
 ```
@@ -914,4 +940,4 @@ Issues and PRs welcome. For major changes, open an issue first to discuss.
 
 Built with care for the animals who can't ask for help.
 
-🐾
+

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createDonationOrder } from "@/actions/donation";
+import { createDonationOrder, createOfflineTestDonation } from "@/actions/donation";
 
 declare global {
   interface Window {
@@ -27,8 +27,10 @@ export default function CheckoutForm() {
     s.src = "https://checkout.razorpay.com/v1/checkout.js";
     s.async = true;
     s.onload = () => setScriptReady(true);
-    s.onerror = () =>
-      setErrorMsg("Failed to load payment gateway. Check your connection.");
+    s.onerror = () => {
+      // Don't crash if offline, allow offline simulation
+      setScriptReady(false);
+    };
     document.body.appendChild(s);
   }, []);
 
@@ -36,10 +38,6 @@ export default function CheckoutForm() {
 
   const handlePay = async () => {
     setErrorMsg("");
-    if (!scriptReady) {
-      setErrorMsg("Payment gateway still loading, please wait a moment.");
-      return;
-    }
     if (!Number.isFinite(effectiveAmount) || effectiveAmount < 1) {
       setErrorMsg("Please enter a valid amount.");
       return;
@@ -54,6 +52,12 @@ export default function CheckoutForm() {
 
     if (!order.success) {
       setErrorMsg(order.error);
+      setLoading(false);
+      return;
+    }
+
+    if (!window.Razorpay) {
+      setErrorMsg("Razorpay SDK not loaded. You can use 'Simulate Test Donation' below.");
       setLoading(false);
       return;
     }
@@ -102,6 +106,27 @@ export default function CheckoutForm() {
     rzp.open();
   };
 
+  const handleDemoPay = async () => {
+    setErrorMsg("");
+    if (!Number.isFinite(effectiveAmount) || effectiveAmount < 1) {
+      setErrorMsg("Please enter a valid amount.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await createOfflineTestDonation(effectiveAmount);
+      if (res.success) {
+        window.location.href = `/donate/success?id=${res.donationId}`;
+      } else {
+        setErrorMsg(res.error || "Failed to process test donation.");
+        setLoading(false);
+      }
+    } catch {
+      setErrorMsg("Error creating test donation.");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-white border rounded-lg p-6 shadow-sm">
       <h2 className="text-lg font-semibold mb-4">Make a Donation</h2>
@@ -146,22 +171,28 @@ export default function CheckoutForm() {
         />
       </div>
 
-      <button
-        type="button"
-        onClick={handlePay}
-        disabled={loading || !scriptReady}
-        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-md transition disabled:opacity-50 text-sm"
-      >
-        {loading
-          ? "Processing..."
-          : !scriptReady
-            ? "Loading gateway..."
-            : `Donate ₹${effectiveAmount || 0}`}
-      </button>
+      <div className="space-y-2">
+        <button
+          type="button"
+          onClick={handlePay}
+          disabled={loading}
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50 text-sm shadow-sm"
+        >
+          {loading ? "Processing..." : `Pay ₹${effectiveAmount || 0} via Razorpay`}
+        </button>
 
-      <p className="text-xs text-gray-500 mt-3">
-        Payments are processed securely by Razorpay. FurLink never stores your
-        card details.
+        <button
+          type="button"
+          onClick={handleDemoPay}
+          disabled={loading}
+          className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-full transition disabled:opacity-50 text-xs font-semibold border border-slate-200"
+        >
+          Simulate Test Donation (Offline / Demo Mode)
+        </button>
+      </div>
+
+      <p className="text-xs text-gray-500 mt-3 text-center">
+        Payments are processed securely by Razorpay. Test mode is fully supported for offline evaluation.
       </p>
     </div>
   );

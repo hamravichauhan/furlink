@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { deleteStory } from "@/actions/story";
+import Link from "next/link";
 
 export default function StoryActions({ storyId }: { storyId: string }) {
   const [confirming, setConfirming] = useState(false);
@@ -23,28 +24,32 @@ export default function StoryActions({ storyId }: { storyId: string }) {
 
   return (
     <div className="flex items-center gap-2">
-      {error && <span className="text-xs text-red-600 mr-2">{error}</span>}
+      {error && (
+        <span className="font-mono text-xs uppercase tracking-wide text-[#314CB6] mr-2">
+          {error}
+        </span>
+      )}
 
-      <a
+      <Link
         href={`/stories/${storyId}/edit`}
-        className="text-sm border rounded-md px-3 py-1.5 hover:bg-gray-50"
+        className="font-mono text-[10px] uppercase tracking-[0.14em] font-bold border-[1.5px] border-[#101124] px-3 py-1 hover:bg-[#101124] hover:text-[#FAF8FC] transition-colors"
       >
-        Edit
-      </a>
+        Edit Case
+      </Link>
 
       {confirming ? (
         <>
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="text-sm bg-red-600 hover:bg-red-700 text-white rounded-md px-3 py-1.5 disabled:opacity-50"
+            className="font-mono text-[10px] uppercase tracking-[0.14em] font-bold bg-[#101124] text-white border-[1.5px] border-[#101124] px-3 py-1 disabled:opacity-50 transition-colors"
           >
-            {deleting ? "Deleting…" : "Confirm delete"}
+            {deleting ? "Purging..." : "Confirm Purge"}
           </button>
           <button
             onClick={() => setConfirming(false)}
             disabled={deleting}
-            className="text-sm border rounded-md px-3 py-1.5 hover:bg-gray-50"
+            className="font-mono text-[10px] uppercase tracking-[0.14em] font-bold border-[1.5px] border-[#101124] bg-white px-3 py-1 hover:bg-[#FAF8FC] transition-colors"
           >
             Cancel
           </button>
@@ -52,9 +57,9 @@ export default function StoryActions({ storyId }: { storyId: string }) {
       ) : (
         <button
           onClick={() => setConfirming(true)}
-          className="text-sm border border-red-200 text-red-600 rounded-md px-3 py-1.5 hover:bg-red-50"
+          className="font-mono text-[10px] uppercase tracking-[0.14em] font-bold border-[1.5px] border-[#101124]/40 text-[#101124]/70 px-3 py-1 hover:border-[#101124] hover:text-[#101124] transition-colors"
         >
-          Delete
+          Purge Log
         </button>
       )}
     </div>

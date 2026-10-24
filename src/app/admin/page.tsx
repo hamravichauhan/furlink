@@ -53,7 +53,7 @@ export default async function AdminOverviewPage() {
             )}
             {stats.rescues.open > 0 && (
               <li>
-                <Link href="/rescues" className="hover:underline">
+                <Link href="/admin/rescues" className="hover:underline">
                   → {stats.rescues.open} open rescue
                   {stats.rescues.open === 1 ? "" : "s"}
                 </Link>
@@ -84,21 +84,21 @@ export default async function AdminOverviewPage() {
           label="Sterilizations"
           value={stats.sterilization.total}
           sub={`${stats.sterilization.verified} verified · ${stats.sterilization.pending + stats.sterilization.scheduled} active`}
-          href="/sterilization"
+          href="/admin/sterilization"
           tone="emerald"
         />
         <MetricTile
           label="Rescues"
           value={stats.rescues.total}
           sub={`${stats.rescues.open} open · ${stats.rescues.inProgress} in progress`}
-          href="/rescues"
+          href="/admin/rescues"
           tone="amber"
         />
         <MetricTile
           label="Donations"
           value={`₹${stats.donations.total.toLocaleString("en-IN")}`}
           sub={`${stats.donations.count} donation${stats.donations.count === 1 ? "" : "s"}`}
-          href="/donate"
+          href="/admin/donations"
           tone="rose"
         />
       </div>
@@ -185,26 +185,56 @@ export default async function AdminOverviewPage() {
         </div>
       </div>
 
-      <div className="border rounded-lg bg-white p-6">
-        <h2 className="font-semibold mb-3">Quick actions</h2>
-        <div className="flex flex-wrap gap-3">
+      <div className="border border-slate-200 rounded-2xl bg-white p-6 shadow-soft">
+        <h2 className="font-heading font-bold text-slate-900 mb-3">Quick Management Portals</h2>
+        <div className="flex flex-wrap gap-2 text-xs font-semibold">
+          <Link
+            href="/admin/analytics"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full transition shadow-2xs"
+          >
+            Analytics & Charts
+          </Link>
+          <Link
+            href="/admin/rescues"
+            className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-full transition shadow-2xs"
+          >
+            Manage Rescues
+          </Link>
+          <Link
+            href="/admin/adoptions"
+            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+          >
+            Review Adoptions
+          </Link>
+          <Link
+            href="/admin/sterilization"
+            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+          >
+            Sterilization Pipeline
+          </Link>
+          <Link
+            href="/admin/donations"
+            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+          >
+            Donation Records
+          </Link>
+          <Link
+            href="/admin/stories"
+            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+          >
+            Moderate Stories
+          </Link>
           <Link
             href="/admin/users"
-            className="bg-gray-900 text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800"
+            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
           >
-            Manage user roles
+            User Roles
           </Link>
           <Link
             href="/verify"
-            className="border px-4 py-2 rounded-md text-sm hover:bg-gray-50"
+            className="border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 px-4 py-2 rounded-full transition"
           >
-            Verification queue
-          </Link>
-          <Link
-            href="/sterilization"
-            className="border px-4 py-2 rounded-md text-sm hover:bg-gray-50"
-          >
-            Sterilization feed
+            Verification Queue
           </Link>
         </div>
       </div>

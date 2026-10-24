@@ -43,13 +43,13 @@ export const STATUS_LABELS: Record<string, string> = {
 };
 
 export const STATUS_ICONS: Record<string, string> = {
-  PENDING: '🕐',
-  SCHEDULED: '🩺',
-  PROOF_SUBMITTED: '📄',
-  VERIFIED: '✅',
-  DISPUTED: '⚠️',
-  CANCELLED: '✕',
-  COMPLETED: '✅',
+  PENDING: '•',
+  SCHEDULED: '•',
+  PROOF_SUBMITTED: '•',
+  VERIFIED: 'OK',
+  DISPUTED: '!',
+  CANCELLED: '×',
+  COMPLETED: 'OK',
 };
 
 // ─── Filter tabs for the feed ──────────────────────────────────────────────

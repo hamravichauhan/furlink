@@ -5,7 +5,6 @@ import { prisma } from "@/lib/prisma";
 import { getOrCreateCurrentUser } from "@/lib/auth-sync";
 import { hasRole } from "@/lib/auth-helpers";
 import {
-  STATUS_COLORS,
   STATUS_LABELS,
   STATUS_ICONS,
   PROGRESS_STEPS,
@@ -69,340 +68,337 @@ export default async function SterilizationDetailPage({
   const stepIndex = getStepIndex(request.status);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <Link
-        href="/sterilization"
-        className="text-sm text-gray-500 hover:underline mb-6 inline-block"
-      >
-        ← Back to requests
-      </Link>
-
-      <div className="flex items-start justify-between gap-4 mb-4 flex-wrap">
-        <div>
-          <h1 className="text-2xl font-bold">{request.location}</h1>
-          <p className="text-sm text-gray-600 mt-1">
-            {request.animalType} · Estimated count: {request.count}
-          </p>
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-4xl mx-auto space-y-8">
+        <div className="border-b-[1.5px] border-[#101124] pb-4 flex items-center justify-between">
+          <Link
+            href="/sterilization"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline underline-offset-4"
+          >
+            &larr; Back to Pipeline Registry
+          </Link>
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60">
+            Case Ref: {request.id.slice(-6).toUpperCase()}
+          </span>
         </div>
-        <span
-          className={`text-xs font-semibold px-3 py-1.5 rounded-full border uppercase tracking-wider ${
-            STATUS_COLORS[request.status] || "bg-gray-100"
-          }`}
-        >
-          {STATUS_ICONS[request.status]}{" "}
-          {STATUS_LABELS[request.status] || request.status}
-        </span>
-      </div>
 
-      {request.notes && (
-        <div className="bg-gray-50 border rounded-md p-4 mb-6">
-          <div className="text-xs font-medium text-gray-500 mb-1">
-            Requester observations
-          </div>
-          <p className="text-sm text-gray-800 italic">
-            &ldquo;{request.notes}&rdquo;
-          </p>
-        </div>
-      )}
-
-      {request.latitude !== null && request.longitude !== null && (
-        <div className="border rounded-lg bg-white p-4 mb-6">
-          <div className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">
-            Location on map
-          </div>
-          <MiniMap
-            latitude={request.latitude}
-            longitude={request.longitude}
-            label={request.location}
-          />
-          <p className="text-xs text-gray-500 mt-2">
-            📍 {request.latitude.toFixed(4)}°N, {request.longitude.toFixed(4)}°E
-          </p>
-        </div>
-      )}
-
-      {stepIndex !== -1 && (
-        <div className="border rounded-lg bg-white p-6 mb-6">
-          <div className="text-xs font-medium text-gray-500 mb-4 uppercase tracking-wide">
-            Progress
-          </div>
-          <div className="flex items-center">
-            {PROGRESS_STEPS.map((step, i) => {
-              const done = i <= stepIndex;
-              const isLast = i === PROGRESS_STEPS.length - 1;
-              return (
-                <div
-                  key={step.key}
-                  className={`flex items-center ${isLast ? "" : "flex-1"}`}
-                >
-                  <div className="flex flex-col items-center gap-1">
-                    <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold border-2 ${
-                        done
-                          ? "bg-emerald-500 border-emerald-500 text-white"
-                          : "bg-white border-gray-300 text-gray-400"
-                      }`}
-                    >
-                      {done ? "✓" : i + 1}
-                    </div>
-                    <span
-                      className={`text-[10px] whitespace-nowrap ${
-                        done ? "text-emerald-700 font-medium" : "text-gray-400"
-                      }`}
-                    >
-                      {step.label}
-                    </span>
-                  </div>
-                  {!isLast && (
-                    <div
-                      className={`flex-1 h-0.5 mx-2 ${
-                        i < stepIndex ? "bg-emerald-500" : "bg-gray-200"
-                      }`}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Certificate + verification block */}
-      {(request.completionCertificateUrl ||
-        request.status === "VERIFIED" ||
-        request.status === "PROOF_SUBMITTED" ||
-        request.status === "DISPUTED") && (
-        <div className="border rounded-lg bg-white p-5 mb-6">
-          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-              Certificate
+        <div className="flex items-start justify-between gap-4 flex-wrap border-b-[1.5px] border-[#101124] pb-6">
+          <div>
+            <div className="inline-block border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] font-bold mb-2">
+              Surgical Dossier
             </div>
-            {request.status === "VERIFIED" && request.verifiedBy && (
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full border bg-emerald-100 text-emerald-800 border-emerald-200">
-                ✅ Verified by {request.verifiedBy.name ?? "a verifier"}
-                {request.verifiedAt
-                  ? ` · ${new Date(request.verifiedAt).toLocaleDateString()}`
-                  : ""}
-              </span>
-            )}
-            {request.status === "PROOF_SUBMITTED" && (
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full border bg-purple-100 text-purple-800 border-purple-200">
-                🕐 Awaiting verification
-              </span>
-            )}
-            {request.status === "DISPUTED" && (
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full border bg-rose-100 text-rose-800 border-rose-200">
-                ⚠️ Disputed
-              </span>
-            )}
-          </div>
-
-          {request.completionCertificateUrl && (
-            <a
-              href={request.completionCertificateUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block relative w-full h-72 rounded-md overflow-hidden border bg-gray-50 mb-3"
-            >
-              <Image
-                src={request.completionCertificateUrl}
-                alt="Sterilization certificate"
-                fill
-                sizes="(max-width: 768px) 100vw, 768px"
-                className="object-contain"
-              />
-            </a>
-          )}
-
-          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-            {request.clinicName && (
-              <div>
-                <dt className="text-xs text-gray-500">Clinic / ABC center</dt>
-                <dd className="text-gray-900">{request.clinicName}</dd>
-              </div>
-            )}
-            {request.veterinarianName && (
-              <div>
-                <dt className="text-xs text-gray-500">Veterinarian</dt>
-                <dd className="text-gray-900">{request.veterinarianName}</dd>
-              </div>
-            )}
-            {request.proofSubmittedAt && (
-              <div>
-                <dt className="text-xs text-gray-500">Submitted</dt>
-                <dd className="text-gray-900">
-                  {new Date(request.proofSubmittedAt).toLocaleString()}
-                </dd>
-              </div>
-            )}
-            {request.verifiedAt && (
-              <div>
-                <dt className="text-xs text-gray-500">Verified</dt>
-                <dd className="text-gray-900">
-                  {new Date(request.verifiedAt).toLocaleString()}
-                </dd>
-              </div>
-            )}
-          </dl>
-
-          {request.completionNotes && (
-            <div className="mt-4 pt-3 border-t">
-              <div className="text-xs font-medium text-gray-500 mb-1">
-                Rescuer notes
-              </div>
-              <p className="text-sm text-gray-800 whitespace-pre-line">
-                {request.completionNotes}
-              </p>
-            </div>
-          )}
-
-          {request.verificationNote && (
-            <div className="mt-4 pt-3 border-t">
-              <div className="text-xs font-medium text-emerald-700 mb-1">
-                Verifier note
-              </div>
-              <p className="text-sm text-gray-800 whitespace-pre-line">
-                {request.verificationNote}
-              </p>
-            </div>
-          )}
-
-          {request.disputeReason && (
-            <div className="mt-4 pt-3 border-t">
-              <div className="text-xs font-medium text-rose-700 mb-1">
-                Dispute reason
-                {request.disputedBy?.name && ` · ${request.disputedBy.name}`}
-              </div>
-              <p className="text-sm text-gray-800 whitespace-pre-line">
-                {request.disputeReason}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {request.status === "CANCELLED" && (
-        <div className="border border-rose-200 bg-rose-50 rounded-lg p-4 mb-6">
-          <div className="text-xs font-semibold text-rose-800 uppercase tracking-wide mb-1">
-            Cancelled
-          </div>
-          <p className="text-sm text-rose-900">
-            {request.cancelledAt
-              ? `This request was cancelled on ${new Date(
-                  request.cancelledAt,
-                ).toLocaleDateString()}.`
-              : "This request was cancelled."}
-          </p>
-          {request.cancellationNote && (
-            <p className="text-xs text-rose-700 mt-2 italic">
-              &ldquo;{request.cancellationNote}&rdquo;
+            <h1 className="font-display uppercase text-3xl sm:text-5xl tracking-tight text-[#101124] leading-tight">
+              {request.location}
+            </h1>
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#101124]/70 mt-2">
+              Classification: {request.animalType} / Census: {request.count} {request.count === 1 ? "Subject" : "Subjects"}
             </p>
-          )}
+          </div>
+          <span className="font-mono text-[10.5px] font-bold px-3.5 py-1.5 border-[1.5px] border-[#101124] uppercase tracking-[0.16em] bg-white text-[#101124]">
+            [{STATUS_ICONS[request.status]}] {STATUS_LABELS[request.status] || request.status}
+          </span>
         </div>
-      )}
 
-      <div className="border rounded-lg bg-white p-6 mb-6">
-        <h2 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
-          Timeline
-        </h2>
-        <ol className="space-y-4">
-          <TimelineItem
-            label="Requested"
-            who={request.user.name || "Community Member"}
-            when={request.createdAt}
-            color="amber"
-          />
+        {request.notes && (
+          <div className="bg-white border-[1.5px] border-[#101124] p-5">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60 mb-1.5 font-bold">
+              Field Intake Observations
+            </div>
+            <p className="font-body text-sm text-[#101124]/85 italic leading-relaxed">
+              &ldquo;{request.notes}&rdquo;
+            </p>
+          </div>
+        )}
 
-          {request.rescuer && (
-            <TimelineItem
-              label="Accepted by rescuer"
-              who={request.rescuer.name || "Rescuer"}
-              when={request.updatedAt}
-              color="blue"
-              extra={
-                request.scheduledAt
-                  ? `Planned for ${new Date(
-                      request.scheduledAt,
-                    ).toLocaleDateString()}`
-                  : undefined
-              }
+        {request.latitude !== null && request.longitude !== null && (
+          <div className="border-[1.5px] border-[#101124] bg-white p-5">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60 mb-3 font-bold">
+              Grid Cartography
+            </div>
+            <MiniMap
+              latitude={request.latitude}
+              longitude={request.longitude}
+              label={request.location}
             />
-          )}
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#314CB6] mt-3 font-bold">
+              GPS Position: {request.latitude.toFixed(4)} N, {request.longitude.toFixed(4)} E
+            </p>
+          </div>
+        )}
 
-          {request.proofSubmittedAt && (
-            <TimelineItem
-              label="Proof submitted"
-              who={request.rescuer?.name || "Rescuer"}
-              when={request.proofSubmittedAt}
-              color="rose"
-            />
-          )}
+        {stepIndex !== -1 && (
+          <div className="border-[1.5px] border-[#101124] bg-white p-6">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60 mb-5 font-bold">
+              Clinical Step Progression
+            </div>
+            <div className="flex items-center">
+              {PROGRESS_STEPS.map((step, i) => {
+                const done = i <= stepIndex;
+                const isLast = i === PROGRESS_STEPS.length - 1;
+                return (
+                  <div
+                    key={step.key}
+                    className={`flex items-center ${isLast ? "" : "flex-1"}`}
+                  >
+                    <div className="flex flex-col items-center gap-1.5">
+                      <div
+                        className={`w-7 h-7 border-[1.5px] border-[#101124] flex items-center justify-center font-mono text-[11px] font-bold ${
+                          done
+                            ? "bg-[#314CB6] text-white"
+                            : "bg-white text-[#101124]/40"
+                        }`}
+                      >
+                        {done ? "OK" : i + 1}
+                      </div>
+                      <span
+                        className={`font-mono text-[9px] uppercase tracking-[0.14em] whitespace-nowrap ${
+                          done ? "text-[#101124] font-bold" : "text-[#101124]/40"
+                        }`}
+                      >
+                        {step.label}
+                      </span>
+                    </div>
+                    {!isLast && (
+                      <div
+                        className={`flex-1 h-[2px] mx-3 ${
+                          i < stepIndex ? "bg-[#314CB6]" : "bg-[#101124]/20"
+                        }`}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
-          {request.verifiedAt && request.verifiedBy && (
-            <TimelineItem
-              label="Verified"
-              who={request.verifiedBy.name || "Verifier"}
-              when={request.verifiedAt}
-              color="emerald"
+        {/* Certificate + Verification Plate */}
+        {(request.completionCertificateUrl ||
+          request.status === "VERIFIED" ||
+          request.status === "PROOF_SUBMITTED" ||
+          request.status === "DISPUTED") && (
+          <div className="border-[1.5px] border-[#101124] bg-white p-6 space-y-4">
+            <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-3 flex-wrap gap-2">
+              <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124]/60 font-bold">
+                Veterinary Surgical Certificate
+              </div>
+              {request.status === "VERIFIED" && request.verifiedBy && (
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] font-bold px-3 py-1 border-[1.5px] border-[#101124] bg-[#0A81D1]/20 text-[#101124]">
+                  Audited by {request.verifiedBy.name ?? "Clinical Verifier"}
+                  {request.verifiedAt
+                    ? ` · ${new Date(request.verifiedAt).toLocaleDateString("en-IN")}`
+                    : ""}
+                </span>
+              )}
+              {request.status === "PROOF_SUBMITTED" && (
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] font-bold px-3 py-1 border-[1.5px] border-[#101124] bg-[#6461A0]/20 text-[#101124]">
+                  Awaiting Verifier Seal
+                </span>
+              )}
+              {request.status === "DISPUTED" && (
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] font-bold px-3 py-1 border-[1.5px] border-[#101124] bg-[#EFBDEB]/50 text-[#101124]">
+                  Audit Hold Active
+                </span>
+              )}
+            </div>
+
+            {request.completionCertificateUrl && (
+              <a
+                href={request.completionCertificateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block relative w-full h-80 border-[1.5px] border-[#101124] bg-[#FAF8FC] overflow-hidden"
+              >
+                <Image
+                  src={request.completionCertificateUrl}
+                  alt="Veterinary surgical certificate"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 768px"
+                  className="object-contain"
+                />
+              </a>
+            )}
+
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs uppercase tracking-wide border-t-[1.5px] border-[#101124] pt-4">
+              {request.clinicName && (
+                <div>
+                  <dt className="text-[10px] text-[#101124]/50">Clinic / ABC Facility</dt>
+                  <dd className="font-bold text-[#101124] mt-0.5">{request.clinicName}</dd>
+                </div>
+              )}
+              {request.veterinarianName && (
+                <div>
+                  <dt className="text-[10px] text-[#101124]/50">Operating Surgeon</dt>
+                  <dd className="font-bold text-[#101124] mt-0.5">{request.veterinarianName}</dd>
+                </div>
+              )}
+              {request.proofSubmittedAt && (
+                <div>
+                  <dt className="text-[10px] text-[#101124]/50">Lodged Timestamp</dt>
+                  <dd className="text-[#101124] mt-0.5">
+                    {new Date(request.proofSubmittedAt).toLocaleString("en-IN")}
+                  </dd>
+                </div>
+              )}
+              {request.verifiedAt && (
+                <div>
+                  <dt className="text-[10px] text-[#101124]/50">Audit Timestamp</dt>
+                  <dd className="text-[#101124] mt-0.5">
+                    {new Date(request.verifiedAt).toLocaleString("en-IN")}
+                  </dd>
+                </div>
+              )}
+            </dl>
+
+            {request.completionNotes && (
+              <div className="mt-4 pt-3 border-t border-[#101124]/15">
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#101124]/60 mb-1">
+                  Rescuer / Handler Observations
+                </div>
+                <p className="font-body text-xs text-[#101124]/85 whitespace-pre-line leading-relaxed">
+                  {request.completionNotes}
+                </p>
+              </div>
+            )}
+
+            {request.verificationNote && (
+              <div className="mt-4 pt-3 border-t border-[#101124]/15">
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#0A81D1] mb-1 font-bold">
+                  Verifier Remarks
+                </div>
+                <p className="font-body text-xs text-[#101124]/85 whitespace-pre-line leading-relaxed">
+                  {request.verificationNote}
+                </p>
+              </div>
+            )}
+
+            {request.disputeReason && (
+              <div className="mt-4 pt-3 border-t border-[#101124]/15">
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#314CB6] mb-1 font-bold">
+                  Audit Exception Note
+                  {request.disputedBy?.name && ` · ${request.disputedBy.name}`}
+                </div>
+                <p className="font-body text-xs text-[#101124]/85 whitespace-pre-line leading-relaxed">
+                  {request.disputeReason}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {request.status === "CANCELLED" && (
+          <div className="border-[1.5px] border-[#101124] bg-white p-5">
+            <div className="font-mono text-[10.5px] font-bold text-[#101124] uppercase tracking-[0.16em] mb-1">
+              Case Withdrawn / Cancelled
+            </div>
+            <p className="font-body text-xs text-[#101124]/75">
+              {request.cancelledAt
+                ? `Docket cancelled on ${new Date(request.cancelledAt).toLocaleDateString("en-IN")}.`
+                : "This docket has been cancelled."}
+            </p>
+            {request.cancellationNote && (
+              <p className="font-body text-xs text-[#101124]/75 mt-2 italic">
+                &ldquo;{request.cancellationNote}&rdquo;
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Timeline */}
+        <div className="border-[1.5px] border-[#101124] bg-white p-6 space-y-4">
+          <h2 className="font-mono text-[10.5px] font-bold text-[#101124] uppercase tracking-[0.18em] border-b-[1.5px] border-[#101124] pb-3">
+            Case Chronology Log
+          </h2>
+          <ol className="space-y-4 pt-2">
+            <TimelineRow
+              label="Intake Registered"
+              who={request.user.name || "Community Member"}
+              when={request.createdAt}
             />
-          )}
-        </ol>
+
+            {request.rescuer && (
+              <TimelineRow
+                label="Dispatch Unit Assigned"
+                who={request.rescuer.name || "Field Officer"}
+                when={request.updatedAt}
+                extra={
+                  request.scheduledAt
+                    ? `Planned execution for ${new Date(
+                        request.scheduledAt,
+                      ).toLocaleDateString("en-IN")}`
+                    : undefined
+                }
+              />
+            )}
+
+            {request.proofSubmittedAt && (
+              <TimelineRow
+                label="Clinical Certification Filed"
+                who={request.rescuer?.name || "Field Officer"}
+                when={request.proofSubmittedAt}
+              />
+            )}
+
+            {request.verifiedAt && request.verifiedBy && (
+              <TimelineRow
+                label="Audit Verification Approved"
+                who={request.verifiedBy.name || "Clinical Auditor"}
+                when={request.verifiedAt}
+              />
+            )}
+          </ol>
+        </div>
+
+        <RequestActions
+          requestId={request.id}
+          canAccept={canAccept}
+          canSubmitProof={canSubmitProof}
+          canVerify={canVerify}
+          canDispute={canDispute}
+          canResolve={canResolve}
+          canCancel={canCancel}
+          isRescuer={!!isRescuer}
+          status={request.status}
+        />
+
+        {!isSignedIn && (
+          <div className="border-[1.5px] border-[#101124] bg-white p-5 font-mono text-xs text-center uppercase tracking-wide">
+            <Link href="/sign-in" className="text-[#314CB6] hover:underline font-bold">
+              Sign In
+            </Link>{" "}
+            with authorized credentials to interact with this docket.
+          </div>
+        )}
       </div>
-
-      <RequestActions
-        requestId={request.id}
-        canAccept={canAccept}
-        canSubmitProof={canSubmitProof}
-        canVerify={canVerify}
-        canDispute={canDispute}
-        canResolve={canResolve}
-        canCancel={canCancel}
-        isRescuer={!!isRescuer}
-        status={request.status}
-      />
-
-      {!isSignedIn && (
-        <div className="border rounded-lg bg-gray-50 p-4 text-sm text-gray-600 text-center">
-          <Link href="/sign-in" className="text-emerald-600 hover:underline">
-            Sign in
-          </Link>{" "}
-          to interact with this request.
-        </div>
-      )}
     </div>
   );
 }
 
-function TimelineItem({
+function TimelineRow({
   label,
   who,
   when,
-  color,
   extra,
 }: {
   label: string;
   who: string;
   when: Date;
-  color: "amber" | "blue" | "emerald" | "rose";
   extra?: string;
 }) {
-  const colorMap = {
-    amber: "bg-amber-500",
-    blue: "bg-blue-500",
-    emerald: "bg-emerald-500",
-    rose: "bg-rose-500",
-  } as const;
-
   return (
     <li className="flex gap-3">
-      <div className={`w-2 h-2 rounded-full mt-2 ${colorMap[color]}`} />
+      <div className="w-2.5 h-2.5 border-[1.5px] border-[#101124] bg-[#314CB6] mt-1.5 shrink-0" />
       <div className="flex-1">
-        <div className="text-sm font-medium text-gray-900">{label}</div>
-        <div className="text-xs text-gray-600">
-          {who} · {new Date(when).toLocaleString()}
+        <div className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#101124]">
+          {label}
+        </div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#101124]/60 mt-0.5">
+          {who} · {new Date(when).toLocaleString("en-IN")}
         </div>
         {extra && (
-          <div className="text-xs text-gray-500 mt-1 italic">{extra}</div>
+          <div className="font-mono text-[10px] text-[#314CB6] mt-1 uppercase tracking-wide">
+            {extra}
+          </div>
         )}
       </div>
     </li>

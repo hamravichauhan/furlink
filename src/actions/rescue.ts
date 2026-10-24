@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
 import { revalidatePath } from 'next/cache';
+import { RescueStatus } from '@prisma/client';
 
 export type CreateRescueResult =
   | { success: true; rescueId: string }
@@ -28,7 +29,6 @@ export async function createRescueReport(
     };
   }
 
-  // ← THE FIX: validate that imageUrl is a real absolute URL
   if (!imageUrl) {
     return {
       success: false,
@@ -36,11 +36,11 @@ export async function createRescueReport(
     };
   }
 
-  if (!/^https?:\/\/.+/i.test(imageUrl)) {
+  if (!/^(https?:\/\/|data:image\/).+/i.test(imageUrl)) {
     return {
       success: false,
       error:
-        'Invalid image URL. Please upload a photo through the form instead of pasting a link.',
+        'Invalid image URL. Please upload a photo through the form.',
     };
   }
 
@@ -78,6 +78,7 @@ export async function createRescueReport(
 
     revalidatePath('/rescues');
     revalidatePath('/admin/rescues');
+    revalidatePath('/admin');
     return { success: true, rescueId: rescue.id };
   } catch (err) {
     console.error('[createRescueReport]', err);
@@ -85,5 +86,53 @@ export async function createRescueReport(
       success: false,
       error: 'Failed to submit report. Please try again.',
     };
+  }
+}
+
+export async function updateRescueStatus(
+  rescueId: string,
+  status: RescueStatus
+) {
+  const dbUser = await getOrCreateCurrentUser();
+  if (!dbUser) return { success: false, error: 'Please sign in.' };
+  if (dbUser.role !== 'ADMIN' && dbUser.role !== 'VERIFIER') {
+    return { success: false, error: 'Only admins or verifiers can update rescue status.' };
+  }
+
+  try {
+    await prisma.rescueReport.update({
+      where: { id: rescueId },
+      data: { status },
+    });
+
+    revalidatePath('/rescues');
+    revalidatePath('/admin/rescues');
+    revalidatePath('/admin');
+    return { success: true };
+  } catch (err) {
+    console.error('[updateRescueStatus]', err);
+    return { success: false, error: 'Failed to update rescue status.' };
+  }
+}
+
+export async function deleteRescueReport(rescueId: string) {
+  const dbUser = await getOrCreateCurrentUser();
+  if (!dbUser) return { success: false, error: 'Please sign in.' };
+  if (dbUser.role !== 'ADMIN') {
+    return { success: false, error: 'Only admins can delete rescue reports.' };
+  }
+
+  try {
+    await prisma.rescueReport.delete({
+      where: { id: rescueId },
+    });
+
+    revalidatePath('/rescues');
+    revalidatePath('/admin/rescues');
+    revalidatePath('/admin');
+    return { success: true };
+  } catch (err) {
+    console.error('[deleteRescueReport]', err);
+    return { success: false, error: 'Failed to delete rescue report.' };
   }
 }

@@ -9,10 +9,10 @@ import {
 
 export const dynamic = "force-dynamic";
 
-const ANIMAL_ICONS: Record<string, string> = {
-  "Street Dog": "🐕",
-  "Feral Cat": "🐈",
-  Other: "🐾",
+const ANIMAL_TAGS: Record<string, string> = {
+  "Street Dog": "[CANINE]",
+  "Feral Cat": "[FELINE]",
+  Other: "[COMMUNITY]",
 };
 
 function timeAgo(date: Date): string {
@@ -133,16 +133,16 @@ export default async function VerifyPage({ searchParams }: PageProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="p-12 text-center border rounded-xl bg-gray-50">
-          <div className="text-4xl mb-3">✨</div>
-          <p className="text-gray-600 text-sm font-medium">
+        <div className="p-12 text-center border border-slate-200 bg-white rounded-2xl shadow-soft">
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full inline-block mb-3">Queue Clear</span>
+          <p className="text-slate-700 text-sm font-medium">
             {statusFilter === "DISPUTED"
-              ? "No open disputes. Nice work."
+              ? "No open disputes. All reviews cleared."
               : statusFilter === "PROOF_SUBMITTED"
                 ? "No proofs awaiting review."
                 : "All caught up — nothing to verify."}
           </p>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-slate-500 mt-2">
             New submissions will appear here automatically.
           </p>
         </div>
@@ -152,39 +152,39 @@ export default async function VerifyPage({ searchParams }: PageProps) {
             <Link
               key={item.id}
               href={`/verify/${item.id}`}
-              className="block bg-white rounded-xl border shadow-sm hover:shadow-md hover:border-gray-300 transition overflow-hidden"
+              className="block bg-white border border-slate-200 rounded-2xl hover:border-emerald-500 shadow-soft transition overflow-hidden"
             >
               <div className="flex">
                 <div
-                  className={`w-1 shrink-0 ${
-                    item.status === "DISPUTED" ? "bg-rose-400" : "bg-purple-400"
+                  className={`w-1.5 shrink-0 ${
+                    item.status === "DISPUTED" ? "bg-rose-500" : "bg-emerald-600"
                   }`}
                 />
                 <div className="flex-1 p-4">
                   <div className="flex justify-between items-start gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        <span className="text-lg leading-none">
-                          {ANIMAL_ICONS[item.animalType] || "🐾"}
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          {ANIMAL_TAGS[item.animalType] || "[CASE]"}
                         </span>
-                        <span className="font-semibold text-gray-900 text-sm">
+                        <span className="font-semibold text-slate-900 text-sm">
                           {item.animalType}
                         </span>
-                        <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-medium">
+                        <span className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-medium">
                           {item.count} {item.count === 1 ? "animal" : "animals"}
                         </span>
                         {item.status === "DISPUTED" && (
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border bg-rose-100 text-rose-800 border-rose-200 uppercase tracking-wider">
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-rose-200 text-rose-700 bg-rose-50 uppercase tracking-wider">
                             Disputed
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-700 break-words line-clamp-1">
-                        📍 {item.location}
+                      <p className="text-xs text-slate-700 break-words line-clamp-1 font-mono">
+                        Location: {item.location}
                       </p>
                       {item.clinicName && (
-                        <p className="text-xs text-gray-600 mt-1">
-                          🏥 {item.clinicName}
+                        <p className="text-xs text-gray-600 mt-1 font-mono">
+                          Clinic: {item.clinicName}
                           {item.veterinarianName &&
                             ` · ${item.veterinarianName}`}
                         </p>

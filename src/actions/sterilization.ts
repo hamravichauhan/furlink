@@ -213,7 +213,7 @@ export async function createSterilizationRequest(
   const duplicate = await prisma.sterilizationRequest.findFirst({
     where: {
       userId: dbUser.id,
-      location: { equals: location, mode: 'insensitive' },
+      location: { equals: location },
       createdAt: { gte: duplicateCutoff },
     },
     select: { id: true },

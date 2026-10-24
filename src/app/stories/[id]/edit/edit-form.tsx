@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { updateStory } from "@/actions/story";
 import MultiImageUpload from "@/components/multi-image-upload";
 
@@ -43,54 +44,60 @@ export default function EditStoryForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 bg-white p-6 rounded-lg border shadow-sm"
+      className="bg-white border-[1.5px] border-[#101124] p-6 sm:p-8 space-y-6"
     >
       {errorMsg && (
-        <div className="p-3 text-sm text-red-700 bg-red-100 rounded border border-red-200">
+        <div className="p-4 border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 font-mono text-xs uppercase tracking-[0.12em] text-[#101124]">
           {errorMsg}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium mb-1">Story Title</label>
+        <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+          Case Title
+        </label>
         <input
           name="title"
           required
           defaultValue={initialTitle}
-          className="w-full border rounded-md p-2 text-sm"
+          className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] focus:outline-hidden focus:border-[#314CB6]"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Photos</label>
+        <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+          Photographic Plates
+        </label>
         <MultiImageUpload value={images} onChange={setImages} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Your Story</label>
+        <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+          Narrative Observations
+        </label>
         <textarea
           name="content"
           rows={8}
           required
           defaultValue={initialContent}
-          className="w-full border rounded-md p-2 text-sm leading-relaxed"
+          className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] leading-relaxed focus:outline-hidden focus:border-[#314CB6]"
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-3 pt-2">
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-md transition disabled:opacity-50 text-sm"
+          className="flex-1 py-3.5 bg-[#314CB6] hover:bg-[#0A81D1] text-white font-mono text-[11px] uppercase tracking-[0.18em] font-bold border-[1.5px] border-[#101124] transition-colors disabled:opacity-50 cursor-pointer"
         >
-          {loading ? "Saving…" : "Save changes"}
+          {loading ? "Saving Amendments..." : "Commit Amendments"}
         </button>
-        <a
+        <Link
           href={`/stories/${storyId}`}
-          className="flex-1 border rounded-md py-2 text-center text-sm hover:bg-gray-50"
+          className="py-3.5 px-6 border-[1.5px] border-[#101124] bg-white hover:bg-[#FAF8FC] text-center font-mono text-[11px] uppercase tracking-[0.18em] font-bold text-[#101124] transition-colors"
         >
           Cancel
-        </a>
+        </Link>
       </div>
     </form>
   );

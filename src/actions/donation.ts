@@ -64,7 +64,7 @@ export async function createDonationOrder(
     console.error('[createDonationOrder]', err);
     return {
       success: false,
-      error: 'Could not initiate payment. Please try again.',
+      error: 'Could not initiate payment. You can also use Demo Test Donation.',
     };
   }
 }
@@ -126,9 +126,44 @@ export async function verifyDonationPayment(input: {
     });
 
     revalidatePath('/donate');
+    revalidatePath('/admin/donations');
+    revalidatePath('/admin');
     return { success: true, donationId: donation.id };
   } catch (err) {
     console.error('[verifyDonationPayment]', err);
     return { success: false, error: 'Failed to record donation.' };
+  }
+}
+
+// ─── Demo / Offline Test Donation ──────────────────────────────────────────
+export async function createOfflineTestDonation(amountRupees: number) {
+  if (!Number.isFinite(amountRupees) || amountRupees < 1) {
+    return { success: false, error: 'Invalid donation amount.' };
+  }
+
+  const dbUser = await getOrCreateCurrentUser();
+  const timestamp = Date.now();
+  const paymentId = `pay_offline_${timestamp}`;
+  const orderId = `order_offline_${timestamp}`;
+
+  try {
+    const donation = await prisma.donation.create({
+      data: {
+        userId: dbUser?.id ?? null,
+        amount: Math.round(amountRupees),
+        currency: 'INR',
+        paymentId,
+        orderId,
+        status: 'SUCCESS',
+      },
+    });
+
+    revalidatePath('/donate');
+    revalidatePath('/admin/donations');
+    revalidatePath('/admin');
+    return { success: true, donationId: donation.id };
+  } catch (err) {
+    console.error('[createOfflineTestDonation]', err);
+    return { success: false, error: 'Failed to record offline donation.' };
   }
 }

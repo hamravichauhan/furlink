@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { createStory } from "@/actions/story";
 import MultiImageUpload from "@/components/multi-image-upload";
 
@@ -29,59 +30,80 @@ export default function NewStoryPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto py-10 px-4">
-      <h1 className="text-2xl font-bold mb-2">Share a FurStory</h1>
-      <p className="text-gray-600 mb-6 text-sm">
-        Tell the community about a rescue milestone, pet recovery, or adoption
-        experience.
-      </p>
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-2xl mx-auto space-y-8">
+        <div className="border-b-[1.5px] border-[#101124] pb-6 flex items-center justify-between">
+          <Link
+            href="/stories"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline underline-offset-4"
+          >
+            &larr; Back to Case Archive
+          </Link>
+          <span className="border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] font-bold">
+            Field Recovery Entry
+          </span>
+        </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 bg-white p-6 rounded-lg border shadow-sm"
-      >
+        <div>
+          <h1 className="font-display uppercase text-4xl sm:text-5xl tracking-tight text-[#101124] leading-none">
+            Document Recovery Record
+          </h1>
+          <p className="font-body text-sm text-[#101124]/75 mt-3 leading-relaxed">
+            Record the journey from acute trauma or stray condition into clinical stabilization, foster, or adoptive custody.
+          </p>
+        </div>
+
         {errorMsg && (
-          <div className="p-3 text-sm text-red-700 bg-red-100 rounded border border-red-200">
+          <div className="p-4 border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 font-mono text-xs uppercase tracking-[0.12em] text-[#101124]">
             {errorMsg}
           </div>
         )}
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Story Title</label>
-          <input
-            name="title"
-            required
-            placeholder="e.g., Bruno's Recovery: From Street Stray to Family Champion"
-            className="w-full border rounded-md p-2 text-sm"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Photos (Optional)
-          </label>
-          <MultiImageUpload value={images} onChange={setImages} />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">Your Story</label>
-          <textarea
-            name="content"
-            rows={8}
-            required
-            placeholder="Describe what happened, how the animal was cared for, and how they are doing now..."
-            className="w-full border rounded-md p-2 text-sm leading-relaxed"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-md transition disabled:opacity-50 text-sm"
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white border-[1.5px] border-[#101124] p-6 sm:p-8 space-y-6"
         >
-          {loading ? "Publishing Story…" : "Publish FurStory"}
-        </button>
-      </form>
+          <div>
+            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+              Case / Story Headline
+            </label>
+            <input
+              name="title"
+              required
+              placeholder="e.g. Case #B-209: Bruno's Orthopedic Recovery and Adoption"
+              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] focus:outline-hidden focus:border-[#314CB6]"
+            />
+          </div>
+
+          <div>
+            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+              Photographic Plates
+            </label>
+            <MultiImageUpload value={images} onChange={setImages} />
+          </div>
+
+          <div>
+            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+              Clinical Narrative & Outcome
+            </label>
+            <textarea
+              name="content"
+              rows={8}
+              required
+              placeholder="Detail the day of discovery, veterinary interventions administered, weeks spent in recovery, and present living situation..."
+              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] leading-relaxed focus:outline-hidden focus:border-[#314CB6]"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-4 bg-[#314CB6] hover:bg-[#0A81D1] text-white font-mono text-[11px] uppercase tracking-[0.18em] font-bold border-[1.5px] border-[#101124] transition-colors disabled:opacity-50 cursor-pointer"
+          >
+            {loading ? "Recording Case File..." : "Register Recovery Dossier"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

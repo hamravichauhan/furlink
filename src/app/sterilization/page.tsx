@@ -8,63 +8,56 @@ export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 10;
 
-const ANIMAL_ICON: Record<string, string> = {
-  "Street Dog": "🐕",
-  "Feral Cat": "🐈",
-  Other: "🐾",
+const ANIMAL_TAG: Record<string, string> = {
+  "Street Dog": "CANINE",
+  "Feral Cat": "FELINE",
+  Other: "COMMUNITY",
 };
 
 const STATUS_STYLE: Record<
   string,
-  { dot: string; text: string; bg: string; border: string; label: string }
+  { label: string; bg: string; text: string; border: string }
 > = {
   PENDING: {
-    dot: "bg-amber-500",
-    text: "text-amber-700",
-    bg: "bg-amber-50",
-    border: "border-amber-200",
-    label: "Awaiting rescuer",
+    bg: "bg-[#EFBDEB]/30",
+    text: "text-[#101124]",
+    border: "border-[#101124]",
+    label: "Awaiting Dispatch",
   },
   SCHEDULED: {
-    dot: "bg-blue-500",
-    text: "text-blue-700",
-    bg: "bg-blue-50",
-    border: "border-blue-200",
+    bg: "bg-[#314CB6]/20",
+    text: "text-[#101124]",
+    border: "border-[#101124]",
     label: "Scheduled",
   },
   PROOF_SUBMITTED: {
-    dot: "bg-purple-500",
-    text: "text-purple-700",
-    bg: "bg-purple-50",
-    border: "border-purple-200",
-    label: "In review",
+    bg: "bg-[#6461A0]/25",
+    text: "text-[#101124]",
+    border: "border-[#101124]",
+    label: "In Review",
   },
   VERIFIED: {
-    dot: "bg-emerald-500",
-    text: "text-emerald-700",
-    bg: "bg-emerald-50",
-    border: "border-emerald-200",
-    label: "Verified",
+    bg: "bg-[#0A81D1]/25",
+    text: "text-[#101124]",
+    border: "border-[#101124]",
+    label: "Verified ABC",
   },
   COMPLETED: {
-    dot: "bg-emerald-500",
-    text: "text-emerald-700",
-    bg: "bg-emerald-50",
-    border: "border-emerald-200",
-    label: "Verified",
+    bg: "bg-[#0A81D1]/25",
+    text: "text-[#101124]",
+    border: "border-[#101124]",
+    label: "Completed",
   },
   DISPUTED: {
-    dot: "bg-rose-500",
-    text: "text-rose-700",
-    bg: "bg-rose-50",
-    border: "border-rose-200",
-    label: "Disputed",
+    bg: "bg-[#EFBDEB]/60",
+    text: "text-[#101124]",
+    border: "border-[#101124]",
+    label: "Audit Hold",
   },
   CANCELLED: {
-    dot: "bg-gray-400",
-    text: "text-gray-600",
-    bg: "bg-gray-50",
-    border: "border-gray-200",
+    bg: "bg-white",
+    text: "text-[#101124]/50",
+    border: "border-[#101124]/30",
     label: "Cancelled",
   },
 };
@@ -148,15 +141,15 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
     (counts.find((c) => c.status === "COMPLETED")?._count._all ?? 0);
 
   const tabs = [
-    { key: "ALL", label: "All", count: countMap.ALL },
-    { key: "PENDING", label: "Awaiting rescuer", count: countMap.PENDING },
+    { key: "ALL", label: "All Cases", count: countMap.ALL },
+    { key: "PENDING", label: "Awaiting Dispatch", count: countMap.PENDING },
     { key: "SCHEDULED", label: "Scheduled", count: countMap.SCHEDULED },
     {
       key: "PROOF_SUBMITTED",
-      label: "In review",
+      label: "Clinical Review",
       count: countMap.PROOF_SUBMITTED,
     },
-    { key: "VERIFIED", label: "Verified", count: countMap.VERIFIED },
+    { key: "VERIFIED", label: "Verified ABC", count: countMap.VERIFIED },
   ] as const;
 
   const buildHref = (opts: { status?: string; page?: number }) => {
@@ -170,123 +163,124 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-10 px-4">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-          Sterilization &amp; Vaccination
-        </h1>
-        <p className="text-gray-600 text-sm mt-1 max-w-2xl">
-          Report unsterilized community animals. Verified rescuers coordinate
-          with local ABC centers and upload certificates.
-        </p>
-      </div>
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-6xl mx-auto space-y-12">
+        {/* Header */}
+        <div className="border-b-[1.5px] border-[#101124] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="inline-block border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] font-bold">
+              Humane Animal Birth Control (ABC / TNVR)
+            </div>
+            <h1 className="font-display uppercase text-4xl sm:text-6xl tracking-tight text-[#101124] mt-4 leading-none">
+              Sterilization &amp; Vaccination
+            </h1>
+            <p className="font-body text-sm sm:text-base text-[#101124]/75 max-w-xl mt-3 leading-relaxed">
+              Systematic street animal birth control registry. Rescuers and civic centers coordinate safe capture,
+              sterile surgery, anti-rabies vaccination, ear-notch marking, and territory release.
+            </p>
+          </div>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left: form */}
-        <aside className="lg:col-span-1">
-          <div className="bg-white rounded-xl border shadow-sm lg:sticky lg:top-6">
-            <div className="px-5 pt-5 pb-4 border-b">
-              <h2 className="font-semibold text-gray-900">
-                Request assistance
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          {/* Left: Request Form */}
+          <aside className="lg:col-span-1">
+            <div className="bg-white border-[1.5px] border-[#101124] lg:sticky lg:top-8">
+              <div className="px-5 pt-5 pb-4 border-b-[1.5px] border-[#101124]">
+                <h2 className="font-display uppercase text-2xl text-[#101124]">
+                  Lodge Field Request
+                </h2>
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#101124]/60 mt-1">
+                  Report unsterilized packs in your municipal sector.
+                </p>
+              </div>
+              <div className="p-5">
+                {!dbUser ? (
+                  <div className="text-center py-6 space-y-4">
+                    <p className="font-body text-xs text-[#101124]/70">
+                      Operator authentication required to record surgical dispatch coordinates.
+                    </p>
+                    <Link
+                      href="/sign-in"
+                      className="inline-block font-mono text-[10.5px] uppercase tracking-[0.16em] font-bold px-5 py-2.5 bg-[#314CB6] text-white border-[1.5px] border-[#101124]"
+                    >
+                      Authenticate Session &rarr;
+                    </Link>
+                  </div>
+                ) : quota ? (
+                  <SterilizationForm
+                    quota={{
+                      remainingToday: quota.remainingToday,
+                      dailyLimit: quota.dailyLimit,
+                      canSubmit: quota.canSubmit,
+                      reason: quota.reason,
+                    }}
+                  />
+                ) : (
+                  <div className="font-mono text-xs text-[#101124]/60 py-6 text-center uppercase tracking-wide">
+                    Loading dispatch allowance...
+                  </div>
+                )}
+              </div>
+            </div>
+          </aside>
+
+          {/* Right: Feed */}
+          <section className="lg:col-span-2 space-y-6">
+            <div className="flex items-baseline justify-between border-b-[1.5px] border-[#101124] pb-3">
+              <h2 className="font-display uppercase text-2xl text-[#101124]">
+                Surgical Pipeline Registry
               </h2>
-              <p className="text-xs text-gray-500 mt-1">
-                Report unsterilized strays in your area.
-              </p>
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] font-bold">
+                {total} {total === 1 ? "Record" : "Records"}
+              </span>
             </div>
-            <div className="p-5">
-              {!dbUser ? (
-                <div className="text-center py-6">
-                  <p className="text-sm text-gray-600 mb-4">
-                    Sign in to submit a request.
-                  </p>
+
+            {/* Tabs */}
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {tabs.map((tab) => {
+                const isActive =
+                  (tab.key === "ALL" && !statusFilter) ||
+                  statusFilter === tab.key;
+                const href = buildHref({
+                  status: tab.key === "ALL" ? undefined : tab.key,
+                  page: 1,
+                });
+                return (
                   <Link
-                    href="/sign-in"
-                    className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md text-sm font-medium transition"
-                  >
-                    Sign in
-                  </Link>
-                </div>
-              ) : quota ? (
-                <SterilizationForm
-                  quota={{
-                    remainingToday: quota.remainingToday,
-                    dailyLimit: quota.dailyLimit,
-                    canSubmit: quota.canSubmit,
-                    reason: quota.reason,
-                  }}
-                />
-              ) : (
-                <div className="text-sm text-gray-500 py-6 text-center">
-                  Loading…
-                </div>
-              )}
-            </div>
-          </div>
-        </aside>
-
-        {/* Right: feed */}
-        <section className="lg:col-span-2">
-          <div className="flex items-baseline justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Community drive status
-            </h2>
-            <span className="text-xs text-gray-400 tabular-nums">
-              {total} {total === 1 ? "request" : "requests"}
-            </span>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex gap-1.5 mb-4 overflow-x-auto pb-1">
-            {tabs.map((tab) => {
-              const isActive =
-                (tab.key === "ALL" && !statusFilter) ||
-                statusFilter === tab.key;
-              const href = buildHref({
-                status: tab.key === "ALL" ? undefined : tab.key,
-                page: 1,
-              });
-              return (
-                <Link
-                  key={tab.key}
-                  href={href}
-                  className={`text-xs font-medium px-3 py-1.5 rounded-lg whitespace-nowrap border transition-colors ${
-                    isActive
-                      ? "bg-emerald-600 text-white border-emerald-600"
-                      : "bg-white text-gray-700 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                  }`}
-                >
-                  {tab.label}
-                  <span
-                    className={`ml-1.5 tabular-nums ${
-                      isActive ? "text-emerald-100" : "text-gray-400"
+                    key={tab.key}
+                    href={href}
+                    className={`font-mono text-[10.5px] uppercase tracking-[0.14em] px-3.5 py-1.5 whitespace-nowrap border-[1.5px] border-[#101124] transition-colors ${
+                      isActive
+                        ? "bg-[#101124] text-[#FAF8FC] font-bold"
+                        : "bg-white text-[#101124] hover:bg-[#FAF8FC]"
                     }`}
                   >
-                    {tab.count}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* List */}
-          {requests.length === 0 ? (
-            <div className="text-center py-16 border rounded-xl bg-gray-50">
-              <div className="text-4xl mb-3">🐾</div>
-              <p className="text-sm font-medium text-gray-700 mb-1">
-                {statusFilter
-                  ? "No requests with this status"
-                  : "No requests yet"}
-              </p>
-              <p className="text-xs text-gray-500 max-w-sm mx-auto">
-                {statusFilter
-                  ? "Try a different filter."
-                  : "Be the first to report a stray in your neighborhood."}
-              </p>
+                    {tab.label}
+                    <span className="ml-1.5 opacity-60">({tab.count})</span>
+                  </Link>
+                );
+              })}
             </div>
-          ) : (
-            <>
-              <div className="bg-white rounded-xl border shadow-sm divide-y">
+
+            {/* List */}
+            {requests.length === 0 ? (
+              <div className="text-center py-16 border-[1.5px] border-dashed border-[#101124]/40 bg-white p-8">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60 block mb-2">
+                  No Matching Registry Entries
+                </span>
+                <p className="font-display uppercase text-xl text-[#101124]">
+                  {statusFilter
+                    ? "Zero cases found with active filter"
+                    : "No cases registered in municipal sector"}
+                </p>
+                <p className="font-body text-xs text-[#101124]/70 max-w-sm mx-auto mt-2">
+                  {statusFilter
+                    ? "Select another tab to inspect different stage dockets."
+                    : "Lodge a request in the form to register an unsterilized pack."}
+                </p>
+              </div>
+            ) : (
+              <div className="bg-white border-[1.5px] border-[#101124] divide-y-[1.5px] divide-[#101124]">
                 {requests.map((item) => {
                   const style =
                     STATUS_STYLE[item.status] ?? STATUS_STYLE.PENDING;
@@ -294,111 +288,73 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
                     <Link
                       key={item.id}
                       href={`/sterilization/${item.id}`}
-                      className="block px-5 py-4 hover:bg-gray-50 transition-colors first:rounded-t-xl last:rounded-b-xl"
+                      className="block p-5 hover:bg-[#FAF8FC] transition-colors"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-lg shrink-0">
-                          {ANIMAL_ICON[item.animalType] ?? "🐾"}
+                        <div className="w-16 h-12 border-[1.5px] border-[#101124] bg-[#FAF8FC] flex items-center justify-center font-mono text-[10px] uppercase font-bold text-[#101124] shrink-0">
+                          {ANIMAL_TAG[item.animalType] ?? "INDIE"}
                         </div>
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-3 flex-wrap">
                             <div className="min-w-0 flex-1">
                               <div className="flex items-baseline gap-2 flex-wrap">
-                                <span className="font-semibold text-gray-900">
+                                <span className="font-display uppercase text-lg text-[#101124]">
                                   {item.animalType}
                                 </span>
-                                <span className="text-xs text-gray-500 tabular-nums">
-                                  · {item.count}{" "}
-                                  {item.count === 1 ? "animal" : "animals"}
+                                <span className="font-mono text-[10.5px] text-[#101124]/60 uppercase tracking-[0.12em]">
+                                  / {item.count} {item.count === 1 ? "Subject" : "Subjects"}
                                 </span>
                               </div>
 
-                              <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                                📍 {item.location}
+                              <p className="font-mono text-xs text-[#101124] mt-1 truncate uppercase tracking-wide">
+                                Sector: {item.location}
                               </p>
 
-                              <div className="mt-1.5 text-xs text-gray-500 flex flex-wrap gap-x-3 gap-y-1">
-                                {item.status === "SCHEDULED" &&
-                                  item.rescuer && (
-                                    <>
-                                      <span>
-                                        Assigned to{" "}
-                                        <span className="text-gray-700 font-medium">
-                                          {item.rescuer.name || "a rescuer"}
-                                        </span>
-                                      </span>
-                                      {item.scheduledAt && (
-                                        <span>
-                                          Planned {formatDate(item.scheduledAt)}
-                                        </span>
-                                      )}
-                                    </>
-                                  )}
-
-                                {item.status === "PROOF_SUBMITTED" && (
+                              <div className="mt-2 font-mono text-[10px] text-[#101124]/70 uppercase tracking-[0.14em] flex flex-wrap gap-x-3 gap-y-1">
+                                {item.status === "SCHEDULED" && item.rescuer && (
                                   <span>
-                                    Proof submitted
-                                    {item.proofSubmittedAt && (
-                                      <> {timeAgo(item.proofSubmittedAt)}</>
-                                    )}{" "}
-                                    · awaiting verifier
+                                    Assigned: {item.rescuer.name || "Field Officer"}
+                                    {item.scheduledAt && ` · Target ${formatDate(item.scheduledAt)}`}
                                   </span>
                                 )}
 
-                                {(item.status === "VERIFIED" ||
-                                  item.status === "COMPLETED") && (
-                                  <>
-                                    <span className="text-emerald-700">
-                                      Verified
-                                      {item.verifiedAt || item.completedAt ? (
-                                        <>
-                                          {" "}
-                                          {formatDate(
-                                            item.verifiedAt ||
-                                              item.completedAt!,
-                                          )}
-                                        </>
-                                      ) : null}
-                                    </span>
-                                    {item.rescuer && (
-                                      <span>
-                                        · {item.rescuer.name || "rescuer"}
-                                      </span>
-                                    )}
-                                  </>
+                                {item.status === "PROOF_SUBMITTED" && (
+                                  <span>
+                                    Clinical certificate uploaded {item.proofSubmittedAt ? timeAgo(item.proofSubmittedAt) : ""} · Under Review
+                                  </span>
                                 )}
 
-                                {item.status === "DISPUTED" &&
-                                  item.disputedAt && (
-                                    <span className="text-rose-700">
-                                      Disputed {timeAgo(item.disputedAt)} ·
-                                      under review
-                                    </span>
-                                  )}
+                                {(item.status === "VERIFIED" || item.status === "COMPLETED") && (
+                                  <span className="text-[#0A81D1] font-bold">
+                                    Surgery Verified {formatDate(item.verifiedAt || item.completedAt || item.createdAt)}
+                                    {item.rescuer ? ` by ${item.rescuer.name}` : ""}
+                                  </span>
+                                )}
 
-                                {item.status === "CANCELLED" &&
-                                  item.cancelledAt && (
-                                    <span>
-                                      Cancelled {formatDate(item.cancelledAt)}
-                                    </span>
-                                  )}
+                                {item.status === "DISPUTED" && (
+                                  <span className="text-[#314CB6] font-bold">
+                                    Disputed {item.disputedAt ? timeAgo(item.disputedAt) : ""} · Audit Pending
+                                  </span>
+                                )}
+
+                                {item.status === "CANCELLED" && (
+                                  <span>
+                                    Withdrawn {item.cancelledAt ? formatDate(item.cancelledAt) : ""}
+                                  </span>
+                                )}
                               </div>
                             </div>
 
                             <span
-                              className={`shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-1 rounded-md border ${style.bg} ${style.text} ${style.border}`}
+                              className={`shrink-0 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 border-[1.5px] ${style.border} ${style.bg} ${style.text}`}
                             >
-                              <span
-                                className={`w-1.5 h-1.5 rounded-full ${style.dot}`}
-                              />
                               {style.label}
                             </span>
                           </div>
 
-                          <div className="mt-2 text-[11px] text-gray-400 flex flex-wrap gap-x-3">
-                            <span>{item.user.name || "Community Member"}</span>
-                            <span>·</span>
+                          <div className="mt-3 pt-2 border-t border-[#101124]/15 font-mono text-[10px] tracking-[0.14em] uppercase text-[#101124]/50 flex justify-between">
+                            <span>Reporter: {item.user.name || "Community Watch"}</span>
                             <span>{timeAgo(item.createdAt)}</span>
                           </div>
                         </div>
@@ -407,113 +363,34 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
                   );
                 })}
               </div>
+            )}
 
-              {/* ─── Pagination ─────────────────────────────── */}
-              {totalPages > 1 && (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  buildHref={buildHref}
-                />
-              )}
-            </>
-          )}
-        </section>
-      </div>
-    </div>
-  );
-}
-
-// ─── Pagination component ────────────────────────────────────────────────
-
-function Pagination({
-  currentPage,
-  totalPages,
-  buildHref,
-}: {
-  currentPage: number;
-  totalPages: number;
-  buildHref: (opts: { page: number }) => string;
-}) {
-  const pages: (number | "…")[] = [];
-
-  // Always show first, last, current, and one on either side
-  const window = 1;
-  const range: (number | "…")[] = [];
-  for (let i = 1; i <= totalPages; i++) {
-    if (
-      i === 1 ||
-      i === totalPages ||
-      (i >= currentPage - window && i <= currentPage + window)
-    ) {
-      range.push(i);
-    } else if (range[range.length - 1] !== "…") {
-      range.push("…");
-    }
-  }
-  pages.push(...range);
-
-  return (
-    <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
-      <div className="text-xs text-gray-500">
-        Page <span className="font-medium text-gray-700">{currentPage}</span> of{" "}
-        <span className="font-medium text-gray-700">{totalPages}</span>
-      </div>
-
-      <div className="flex items-center gap-1">
-        {/* Prev */}
-        {currentPage > 1 ? (
-          <Link
-            href={buildHref({ page: currentPage - 1 })}
-            className="text-xs font-medium px-3 py-1.5 rounded-lg border bg-white text-gray-700 hover:bg-gray-50 transition"
-          >
-            ← Previous
-          </Link>
-        ) : (
-          <span className="text-xs font-medium px-3 py-1.5 rounded-lg border bg-gray-50 text-gray-300 cursor-not-allowed">
-            ← Previous
-          </span>
-        )}
-
-        {/* Page numbers */}
-        <div className="hidden sm:flex items-center gap-1 mx-2">
-          {pages.map((p, i) =>
-            p === "…" ? (
-              <span
-                key={`ellipsis-${i}`}
-                className="text-xs text-gray-400 px-1.5"
-              >
-                …
-              </span>
-            ) : (
-              <Link
-                key={p}
-                href={buildHref({ page: p })}
-                className={`text-xs font-medium min-w-[32px] text-center px-2 py-1.5 rounded-lg border transition ${
-                  p === currentPage
-                    ? "bg-emerald-600 text-white border-emerald-600"
-                    : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
-                }`}
-              >
-                {p}
-              </Link>
-            ),
-          )}
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="pt-6 border-t-[1.5px] border-[#101124] flex items-center justify-between font-mono text-[10.5px] uppercase tracking-[0.16em]">
+                <Link
+                  href={buildHref({ page: currentPage - 1 })}
+                  className={`px-4 py-2 border-[1.5px] border-[#101124] bg-white text-[#101124] ${
+                    currentPage <= 1 ? "pointer-events-none opacity-30" : "hover:bg-[#FAF8FC]"
+                  }`}
+                >
+                  &larr; Previous Page
+                </Link>
+                <span className="text-[#101124]/60 font-bold">
+                  Sheet {currentPage} / {totalPages}
+                </span>
+                <Link
+                  href={buildHref({ page: currentPage + 1 })}
+                  className={`px-4 py-2 border-[1.5px] border-[#101124] bg-white text-[#101124] ${
+                    currentPage >= totalPages ? "pointer-events-none opacity-30" : "hover:bg-[#FAF8FC]"
+                  }`}
+                >
+                  Next Page &rarr;
+                </Link>
+              </div>
+            )}
+          </section>
         </div>
-
-        {/* Next */}
-        {currentPage < totalPages ? (
-          <Link
-            href={buildHref({ page: currentPage + 1 })}
-            className="text-xs font-medium px-3 py-1.5 rounded-lg border bg-white text-gray-700 hover:bg-gray-50 transition"
-          >
-            Next →
-          </Link>
-        ) : (
-          <span className="text-xs font-medium px-3 py-1.5 rounded-lg border bg-gray-50 text-gray-300 cursor-not-allowed">
-            Next →
-          </span>
-        )}
       </div>
     </div>
   );

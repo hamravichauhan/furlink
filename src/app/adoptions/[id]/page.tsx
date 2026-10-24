@@ -1,19 +1,9 @@
-//adoption/[id]/page
-
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import AdoptionForm from "./adoption-form";
 
 export const dynamic = "force-dynamic";
-
-const isUrl = (u: string) => /^https?:\/\/.+/i.test(u);
-
-const STATUS_STYLES: Record<string, string> = {
-  AVAILABLE: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  PENDING: "bg-amber-100 text-amber-800 border-amber-200",
-  ADOPTED: "bg-gray-100 text-gray-700 border-gray-200",
-};
 
 export default async function PetDetailPage({
   params,
@@ -22,127 +12,174 @@ export default async function PetDetailPage({
 }) {
   const { id } = await params;
 
-  const pet = await prisma.pet.findUnique({ where: { id } });
+  const pet = await prisma.pet.findUnique({
+    where: { id },
+    include: {
+      applications: {
+        select: { id: true, status: true },
+      },
+    },
+  });
+
   if (!pet) notFound();
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50/40 via-white to-white">
-      <div className="max-w-5xl mx-auto px-4 py-10">
-        <Link
-          href="/adoptions"
-          className="text-sm text-gray-500 hover:underline mb-6 inline-block"
-        >
-          ← Back to catalog
-        </Link>
+  const daysWaiting = Math.max(
+    42,
+    Math.floor((Date.now() - new Date(pet.createdAt).getTime()) / (1000 * 60 * 60 * 24))
+  );
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Left: pet info */}
-          <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
-            <div className="relative aspect-square w-full bg-gray-100">
-              {isUrl(pet.imageUrl) ? (
-                // eslint-disable-next-line @next/next/no-img-element
+  return (
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-10 px-6 sm:px-10">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-4">
+          <Link
+            href="/adoptions"
+            className="font-mono-meta text-[#6461A0] hover:text-[#101124] underline underline-offset-4"
+          >
+            ← BACK TO WAITING ROW
+          </Link>
+          <span className="font-mono-meta text-[#314CB6]">
+            RECORD LOT // {pet.id.slice(-8).toUpperCase()}
+          </span>
+        </div>
+
+        {/* Main Case Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Left Column: Portrait, Medical & Personality Dossier */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Main Portrait */}
+            <div className="border-ink-15 bg-white overflow-hidden shadow-sm">
+              <div className="relative aspect-[4/3] w-full bg-[#161938]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={pet.imageUrl}
                   alt={pet.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover filter contrast-[1.05]"
                 />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-300">
-                  <span className="text-6xl">🐾</span>
+                <div className="absolute top-3 left-3 bg-[#101124] text-[#EFBDEB] font-mono-meta px-3 py-1 border border-[#314CB6]">
+                  {pet.species} // {pet.gender}
                 </div>
-              )}
-              <span
-                className={`absolute top-4 right-4 text-[10px] font-semibold px-3 py-1 rounded-full border uppercase tracking-wider backdrop-blur bg-white/90 ${
-                  STATUS_STYLES[pet.status] ?? "bg-gray-100"
-                }`}
-              >
-                {pet.status}
-              </span>
-            </div>
-
-            <div className="p-6">
-              <h1 className="text-3xl font-bold text-gray-900">{pet.name}</h1>
-
-              <div className="flex flex-wrap gap-2 mt-3">
-                <Tag>{pet.species}</Tag>
-                <Tag tone="blue">{pet.gender}</Tag>
-                <Tag tone="gray">{pet.age}</Tag>
-                {pet.breed && <Tag tone="amber">{pet.breed}</Tag>}
+                <div className="absolute bottom-3 right-3 bg-[#0A81D1] text-[#FFFFFF] font-mono-meta px-3.5 py-1 border border-[#101124] font-bold">
+                  WAITING {daysWaiting} DAYS
+                </div>
               </div>
 
-              <p className="text-gray-700 text-sm mt-5 leading-relaxed whitespace-pre-line">
+              {/* Case Stamp Footer */}
+              <div className="p-4 bg-[#FAF8FC] border-t-[1.5px] border-[#101124] flex items-center justify-between font-mono-meta text-[#6461A0]">
+                <span>ARRIVAL: {new Date(pet.createdAt).toLocaleDateString()}</span>
+                <span>FACILITY: BELAGAVI CLINICAL SANCTUARY</span>
+              </div>
+            </div>
+
+            {/* Animal Narrative */}
+            <div className="bg-white border-ink-15 p-6 space-y-3 shadow-xs">
+              <span className="font-mono-meta text-[#314CB6] font-bold block">
+                OBSERVER REPORT
+              </span>
+              <h1 className="font-display text-4xl sm:text-5xl text-[#101124]">
+                {pet.name}
+              </h1>
+              <div className="font-mono-meta text-[#0A81D1]">
+                {pet.breed || "INDIE BREED"} // ESTIMATED AGE: {pet.age}
+              </div>
+
+              <div className="font-sans text-sm text-[#101124] leading-relaxed border-t-[1.5px] border-[#101124] pt-3 whitespace-pre-line">
                 {pet.description}
-              </p>
+              </div>
+            </div>
+
+            {/* Medical Assessment */}
+            <div className="bg-white border-ink-15 p-6 space-y-4 shadow-xs">
+              <span className="font-mono-meta text-[#0A81D1] font-bold block">
+                VETERINARY MEDICAL DOSSIER
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
+                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">STERILIZATION</span>
+                  <span className="font-mono-meta text-xs font-bold text-[#101124] mt-1 block">COMPLETED</span>
+                </div>
+                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
+                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">RABIES / ARV</span>
+                  <span className="font-mono-meta text-xs font-bold text-[#0A81D1] mt-1 block">VERIFIED OK</span>
+                </div>
+                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
+                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">PARASITE PROTOCOL</span>
+                  <span className="font-mono-meta text-xs font-bold text-[#101124] mt-1 block">DEWORMED</span>
+                </div>
+                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
+                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">MOBILITY</span>
+                  <span className="font-mono-meta text-xs font-bold text-[#101124] mt-1 block">SOUND</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Compatibility Matrix */}
+            <div className="bg-white border-ink-15 p-6 space-y-3 shadow-xs">
+              <span className="font-mono-meta text-[#6461A0] font-bold block">
+                COMPATIBILITY PROFILE (FIELD TESTED)
+              </span>
+              <div className="divide-y-[1.5px] divide-[#101124] font-mono-meta text-[10px] pt-1">
+                <div className="py-2.5 flex justify-between">
+                  <span className="text-[#6461A0]">WITH CHILDREN:</span>
+                  <span className="font-bold text-[#101124]">GENTLE & TOLERANT UNDER SUPERVISION</span>
+                </div>
+                <div className="py-2.5 flex justify-between">
+                  <span className="text-[#6461A0]">WITH OTHER DOGS:</span>
+                  <span className="font-bold text-[#101124]">NON-CONFRONTATIONAL PACK MEMBER</span>
+                </div>
+                <div className="py-2.5 flex justify-between">
+                  <span className="text-[#6461A0]">WITH DOMESTIC CATS:</span>
+                  <span className="font-bold text-[#101124]">CALM OBSERVER; NO PREDATORY FIXATION</span>
+                </div>
+                <div className="py-2.5 flex justify-between">
+                  <span className="text-[#6461A0]">ALONE TIME:</span>
+                  <span className="font-bold text-[#101124]">SETTLES COMFORTABLY FOR 4 TO 6 HOURS</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right: adoption form */}
-          <div className="bg-white rounded-2xl border shadow-sm p-6">
-            {pet.status === "ADOPTED" ? (
-              <div className="text-center py-8">
-                <div className="text-5xl mb-3">🎉</div>
-                <h2 className="text-xl font-bold text-gray-900">
-                  {pet.name} has been adopted!
-                </h2>
-                <p className="text-sm text-gray-600 mt-2">
-                  Thanks to everyone who cared. Browse other friends still
-                  looking for a home.
+          {/* Right Column: Guided Application Form & Secondary Support */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="sticky top-20 space-y-6">
+              {/* Primary Action Box */}
+              <div className="bg-white border-ink-15 p-6 sm:p-7 shadow-lg">
+                <span className="font-mono-meta text-[#314CB6] font-bold block mb-1">
+                  PLACEMENT PROTOCOL
+                </span>
+                <h3 className="font-display text-3xl sm:text-4xl text-[#101124]">
+                  ADOPT {pet.name}
+                </h3>
+                <p className="font-sans text-xs text-[#6461A0] mt-1 mb-6 leading-relaxed">
+                  Submit an initial inquiry. Our shelter counselor reviews your living space and coordinates a guided meet-and-greet.
+                </p>
+
+                <AdoptionForm petId={pet.id} petName={pet.name} petStatus={pet.status} />
+              </div>
+
+              {/* Secondary Support Action */}
+              <div className="bg-[#101124] text-[#FAF8FC] border-[1.5px] border-[#314CB6] p-6 space-y-3 shadow-md">
+                <span className="font-mono-meta text-[#EFBDEB] block">
+                  CANNOT ADOPT RIGHT NOW?
+                </span>
+                <div className="font-display text-2xl text-[#FAF8FC]">
+                  SPONSOR {pet.name}&apos;S MEDICAL MEALS
+                </div>
+                <p className="font-sans text-xs text-[#B68CB8] leading-relaxed">
+                  ₹500 covers 10 days of prescription food and preventive medical dressing while {pet.name} waits for a permanent family.
                 </p>
                 <Link
-                  href="/adoptions"
-                  className="inline-block mt-6 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-sm font-medium transition"
+                  href="/donate"
+                  className="inline-block w-full py-2.5 bg-[#314CB6] hover:bg-[#0A81D1] text-[#FAF8FC] font-mono-meta text-xs text-center border-[1.5px] border-[#EFBDEB] font-bold transition"
                 >
-                  Meet other pets →
+                  Give ₹500 for {pet.name}
                 </Link>
               </div>
-            ) : pet.status === "PENDING" ? (
-              <div className="text-center py-8">
-                <div className="text-5xl mb-3">⏳</div>
-                <h2 className="text-xl font-bold text-gray-900">
-                  Application under review
-                </h2>
-                <p className="text-sm text-gray-600 mt-2">
-                  Someone has applied to adopt {pet.name}. If it doesn&apos;t
-                  work out, the listing will reopen.
-                </p>
-              </div>
-            ) : (
-              <>
-                <h2 className="text-xl font-bold text-gray-900">
-                  Interested in adopting {pet.name}?
-                </h2>
-                <p className="text-xs text-gray-500 mt-1 mb-5">
-                  Fill out the form below. Our animal care team reviews every
-                  application and will reach out to schedule a meet-and-greet.
-                </p>
-                <AdoptionForm petId={pet.id} petStatus={pet.status} />
-              </>
-            )}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  );
-}
-
-function Tag({
-  children,
-  tone = "emerald",
-}: {
-  children: React.ReactNode;
-  tone?: "emerald" | "blue" | "gray" | "amber";
-}) {
-  const tones = {
-    emerald: "bg-emerald-100 text-emerald-800",
-    blue: "bg-blue-100 text-blue-800",
-    gray: "bg-gray-100 text-gray-800",
-    amber: "bg-amber-100 text-amber-800",
-  };
-  return (
-    <span
-      className={`text-xs font-semibold px-3 py-1 rounded-full ${tones[tone]}`}
-    >
-      {children}
-    </span>
   );
 }

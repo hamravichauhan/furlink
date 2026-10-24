@@ -32,37 +32,37 @@ export default function StoriesFilter({ isSignedIn }: { isSignedIn: boolean }) {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-3 mb-6">
-      <form onSubmit={handleSearchSubmit} className="flex-1 min-w-[200px]">
+    <div className="flex flex-wrap items-center gap-3 mb-8">
+      <form onSubmit={handleSearchSubmit} className="flex-1 min-w-[240px]">
         <input
           type="text"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search stories…"
-          className="w-full border rounded-md px-3 py-2 text-sm"
+          placeholder="Filter recovery cases by title or treatment..."
+          className="w-full border-[1.5px] border-[#101124] bg-white px-3.5 py-2.5 font-mono text-xs uppercase tracking-[0.14em] text-[#101124] focus:outline-hidden"
         />
       </form>
 
       <select
         value={sort}
         onChange={(e) => updateParam("sort", e.target.value)}
-        className="border rounded-md px-3 py-2 text-sm bg-white"
+        className="border-[1.5px] border-[#101124] bg-white px-3.5 py-2.5 font-mono text-xs uppercase tracking-[0.14em] text-[#101124] focus:outline-hidden"
       >
-        <option value="newest">Newest first</option>
-        <option value="oldest">Oldest first</option>
+        <option value="newest">Chronological: Newest</option>
+        <option value="oldest">Chronological: Oldest</option>
       </select>
 
       {isSignedIn && (
         <button
           type="button"
           onClick={() => updateParam("mine", mine ? null : "true")}
-          className={`border rounded-md px-3 py-2 text-sm transition ${
+          className={`border-[1.5px] border-[#101124] px-4 py-2.5 font-mono text-xs uppercase tracking-[0.14em] font-bold transition-colors ${
             mine
-              ? "bg-emerald-600 text-white border-emerald-600"
-              : "bg-white hover:bg-gray-50"
+              ? "bg-[#101124] text-[#FAF8FC]"
+              : "bg-white text-[#101124] hover:bg-[#FAF8FC]"
           }`}
         >
-          {mine ? "Showing mine" : "My stories"}
+          {mine ? "Showing Personal Logs" : "Filter My Logs"}
         </button>
       )}
     </div>

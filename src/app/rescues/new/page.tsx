@@ -2,37 +2,38 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createRescueReport } from "@/actions/rescue";
 import ImageUpload from "@/components/image-upload";
 
 export default function NewRescuePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
-    null,
-  );
   const [imageUrl, setImageUrl] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
   const [locating, setLocating] = useState(false);
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
-      setErrorMsg("Geolocation is not supported by your browser.");
+      setErrorMsg("Geolocation is not supported by your current browser.");
       return;
     }
     setLocating(true);
+    setErrorMsg("");
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setCoords({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
         setLocating(false);
       },
-      () => {
-        setErrorMsg(
-          "Unable to retrieve your location. Please grant permission and try again.",
-        );
+      (err) => {
+        setErrorMsg("Unable to retrieve GPS coordinates: " + err.message);
         setLocating(false);
       },
-      { enableHighAccuracy: true, timeout: 10000 },
+      { enableHighAccuracy: true, timeout: 12000 }
     );
   };
 
@@ -42,97 +43,103 @@ export default function NewRescuePage() {
     setErrorMsg("");
 
     try {
-      const formData = new FormData(e.currentTarget);
-      if (coords) {
-        formData.set("latitude", coords.lat.toString());
-        formData.set("longitude", coords.lng.toString());
-      }
-      if (imageUrl) formData.set("imageUrl", imageUrl);
-
-      const res: any = await createRescueReport(formData);
-
-      // Support both return shapes: { success: boolean } or throwing
-      if (res && res.success === false) {
-        setErrorMsg(res.error ?? "Failed to submit report.");
+      const fd = new FormData(e.currentTarget);
+      if (!imageUrl) {
+        setErrorMsg("Please upload or provide an incident photograph.");
         setLoading(false);
         return;
       }
+      fd.set("imageUrl", imageUrl);
+      if (coords) {
+        fd.set("latitude", String(coords.lat));
+        fd.set("longitude", String(coords.lng));
+      }
 
+      await createRescueReport(fd);
       router.push("/rescues");
       router.refresh();
-    } catch (err: unknown) {
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to submit emergency dispatch report.");
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50/40 via-white to-white">
-      <div className="max-w-xl mx-auto py-10 px-4">
-        <div className="text-center mb-8">
-          <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-200">
-            🆘 New rescue report
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-2xl mx-auto space-y-8">
+        <div className="border-b-[1.5px] border-[#101124] pb-6 flex items-center justify-between">
+          <Link
+            href="/rescues"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline underline-offset-4"
+          >
+            &larr; Back to Incident Feed
+          </Link>
+          <span className="border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] font-bold">
+            Emergency Dispatch Intake
           </span>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight">
-            Report an animal in need
+        </div>
+
+        <div>
+          <h1 className="font-display uppercase text-4xl sm:text-5xl tracking-tight text-[#101124] leading-none">
+            Report Animal in Distress
           </h1>
-          <p className="mt-2 text-gray-600 text-sm max-w-md mx-auto">
-            Clear photos and accurate location help nearby rescuers reach the
-            animal faster. Every minute matters.
+          <p className="font-body text-sm text-[#101124]/75 mt-3 leading-relaxed">
+            Provide precise visual and street coordinate data. Our field ambulances prepare clinical equipment,
+            splints, and transport carriers based on your intake entry.
           </p>
         </div>
 
         {errorMsg && (
-          <div className="p-3 mb-4 text-sm text-red-700 bg-red-50 rounded-lg border border-red-200">
+          <div className="p-4 border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 font-mono text-xs uppercase tracking-[0.12em] text-[#101124]">
             {errorMsg}
           </div>
         )}
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 bg-white p-6 rounded-2xl border shadow-sm"
+          className="bg-white border-[1.5px] border-[#101124] p-6 sm:p-8 space-y-6"
         >
-          {/* Species */}
+          {/* Classification */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
-              What kind of animal?
+            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+              Animal Classification
             </label>
             <select
               name="animalType"
               required
-              className="w-full border rounded-lg p-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-mono text-xs text-[#101124] uppercase tracking-[0.12em] focus:outline-hidden focus:border-[#314CB6]"
             >
-              <option value="Dog">🐕 Dog</option>
-              <option value="Cat">🐈 Cat</option>
-              <option value="Cattle">🐄 Cattle / Cow</option>
-              <option value="Bird">🐦 Bird</option>
-              <option value="Other">🐾 Other</option>
+              <option value="Dog">Canine (Indie / Dog)</option>
+              <option value="Cat">Feline (Cat)</option>
+              <option value="Cattle">Bovine (Cattle / Cow)</option>
+              <option value="Bird">Avian (Bird)</option>
+              <option value="Other">Other Community Animal</option>
             </select>
           </div>
 
           {/* Location */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
-              Where did you see them?
+            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+              Incident Location & Road Landmarks
             </label>
             <input
               name="location"
-              placeholder="e.g., Near City Market bus stop, Panaji"
+              placeholder="e.g. Near Tilakwadi 3rd Railway Gate, opposite tea stall, Belagavi"
               required
-              className="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] focus:outline-hidden focus:border-[#314CB6]"
             />
-            <div className="mt-2 flex items-center gap-3 flex-wrap">
+            <div className="mt-3 flex items-center gap-3 flex-wrap">
               <button
                 type="button"
                 onClick={handleGetLocation}
                 disabled={locating}
-                className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1.5 px-3 rounded-lg border transition disabled:opacity-60"
+                className="font-mono text-[10.5px] uppercase tracking-[0.16em] font-bold border-[1.5px] border-[#101124] bg-white hover:bg-[#FAF8FC] text-[#101124] py-2 px-4 transition-colors disabled:opacity-50 cursor-pointer"
               >
-                {locating ? "📍 Locating…" : "📍 Attach exact GPS location"}
+                {locating ? "Acquiring GPS Signal..." : "Lock Current GPS Coordinates"}
               </button>
               {coords && (
-                <span className="text-xs text-emerald-700 font-medium flex items-center gap-1">
-                  ✓ {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#314CB6] font-bold">
+                  Lock: {coords.lat.toFixed(4)} N, {coords.lng.toFixed(4)} E
                 </span>
               )}
             </div>
@@ -140,8 +147,8 @@ export default function NewRescuePage() {
 
           {/* Photo */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
-              Photo of the animal
+            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+              Incident Photographic Record
             </label>
             <ImageUpload
               value={imageUrl}
@@ -149,37 +156,32 @@ export default function NewRescuePage() {
               onRemove={() => setImageUrl("")}
             />
             <input type="hidden" name="imageUrl" value={imageUrl} />
-            <p className="text-[11px] text-gray-500 mt-1">
-              A clear photo helps rescuers assess the situation before arriving.
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#101124]/60 mt-2">
+              Visual records determine whether an orthopedic crate or trauma saline pack is required.
             </p>
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
-              What&apos;s happening?
+            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+              Injury Presentation & Observations
             </label>
             <textarea
               name="description"
-              rows={5}
-              placeholder="Describe the animal's condition, injuries, behaviour, or immediate risk. For example: 'Limping, visible wound on right leg, friendly but scared.'"
+              rows={4}
+              placeholder="Record observable fractures, bleeding, responsiveness, or territorial aggressiveness..."
               required
-              className="w-full border rounded-lg p-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] leading-relaxed focus:outline-hidden focus:border-[#314CB6]"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 rounded-xl transition disabled:opacity-50 text-sm shadow-lg shadow-rose-600/20"
+            className="w-full py-4 bg-[#314CB6] hover:bg-[#0A81D1] text-white font-mono text-[11px] uppercase tracking-[0.18em] font-bold border-[1.5px] border-[#101124] transition-colors disabled:opacity-50 cursor-pointer"
           >
-            {loading ? "Submitting report…" : "🆘 Submit rescue request"}
+            {loading ? "Dispatching Emergency Log..." : "Transmit Emergency Dispatch Log"}
           </button>
-
-          <p className="text-[11px] text-gray-500 text-center">
-            By submitting, your report appears on the public rescue feed and
-            alerts nearby volunteers.
-          </p>
         </form>
       </div>
     </div>

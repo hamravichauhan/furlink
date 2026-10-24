@@ -213,9 +213,9 @@ export default function LocationPicker({
             <p className="text-xs text-gray-500 mt-1">Loading map…</p>
           )}
           {value.latitude !== null && value.longitude !== null ? (
-            <div className="mt-2 flex items-center justify-between text-xs">
+            <div className="mt-2 flex items-center justify-between text-xs font-mono">
               <span className="text-gray-600">
-                📍 {value.latitude.toFixed(4)}°N, {value.longitude.toFixed(4)}°E
+                GPS: {value.latitude.toFixed(4)}°N, {value.longitude.toFixed(4)}°E
               </span>
               <button
                 type="button"

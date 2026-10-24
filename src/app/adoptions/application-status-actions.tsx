@@ -44,14 +44,14 @@ export default function ApplicationStatusActions({
           disabled={loading}
           className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-md disabled:opacity-50"
         >
-          {loading ? "…" : "✓ Approve"}
+          {loading ? "…" : "Approve"}
         </button>
         <button
           onClick={() => handle("REJECTED")}
           disabled={loading}
           className="border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs px-3 py-1.5 rounded-md disabled:opacity-50"
         >
-          ✗ Reject
+          Reject
         </button>
       </div>
     );

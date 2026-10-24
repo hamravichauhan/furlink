@@ -2,79 +2,117 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Show, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignInButton, UserButton } from "@clerk/nextjs";
 
 const NAV_ITEMS = [
-  { href: "/rescues", label: "Report Rescue" },
-  { href: "/adoptions", label: "Adopt" },
-  { href: "/sterilization", label: "Sterilization" },
-  { href: "/donate", label: "Donate" },
-  { href: "/stories", label: "FurStories" },
+  { href: "/adoptions", label: "Waiting Row" },
+  { href: "/stories", label: "Field Journals" },
+  { href: "/rescues", label: "Dispatch Feed" },
+  { href: "/sterilization", label: "TNVR Pipeline" },
 ];
 
 interface Props {
   isVerifier: boolean;
   isAdmin: boolean;
+  user: {
+    id: string;
+    name: string | null;
+    email: string;
+    role: string;
+  } | null;
 }
 
-export default function NavbarClientLinks({ isVerifier, isAdmin }: Props) {
+export default function NavbarClientLinks({ isVerifier, isAdmin, user }: Props) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-center gap-6 text-sm font-medium">
-      {NAV_ITEMS.map((item) => {
-        const active =
-          pathname === item.href || pathname.startsWith(item.href + "/");
-        return (
+    <nav className="flex items-center gap-6">
+      <div className="hidden lg:flex items-center gap-5">
+        {NAV_ITEMS.map((item) => {
+          const active =
+            pathname === item.href || pathname.startsWith(item.href + "/");
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`font-mono-meta transition ${
+                active
+                  ? "text-[#314CB6] font-bold border-b-[1.5px] border-[#314CB6] pb-0.5"
+                  : "text-[#6461A0] hover:text-[#101124]"
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
+
+        {isVerifier && (
           <Link
-            key={item.href}
-            href={item.href}
-            className={`transition ${
-              active ? "text-emerald-600" : "hover:text-emerald-600"
+            href="/verify"
+            className={`font-mono-meta transition ${
+              pathname.startsWith("/verify")
+                ? "text-[#0A81D1] font-bold border-b-[1.5px] border-[#0A81D1]"
+                : "text-[#6461A0] hover:text-[#101124]"
             }`}
           >
-            {item.label}
+            Review Queue
           </Link>
-        );
-      })}
+        )}
 
-      {isVerifier && (
+        {isAdmin && (
+          <Link
+            href="/admin"
+            className={`font-mono-meta transition ${
+              pathname.startsWith("/admin")
+                ? "text-[#314CB6] font-bold border-b-[1.5px] border-[#314CB6]"
+                : "text-[#B68CB8] hover:text-[#101124]"
+            }`}
+          >
+            Admin Registry
+          </Link>
+        )}
+      </div>
+
+      <div className="flex items-center gap-3">
         <Link
-          href="/verify"
-          className={`transition font-semibold ${
-            pathname.startsWith("/verify")
-              ? "text-blue-600"
-              : "text-blue-600/80 hover:text-blue-600"
-          }`}
+          href="/donate"
+          className="font-mono-meta px-3.5 py-1.5 border-[1.5px] border-[#101124] text-[#101124] hover:bg-[#101124] hover:text-[#EFBDEB] transition"
         >
-          🔍 Verify
+          Sponsor
         </Link>
-      )}
-
-      {isAdmin && (
         <Link
-          href="/admin"
-          className={`transition font-semibold ${
-            pathname.startsWith("/admin")
-              ? "text-red-600"
-              : "text-red-600/80 hover:text-red-600"
-          }`}
+          href="/adoptions"
+          className="font-mono-meta px-4 py-1.5 bg-[#314CB6] hover:bg-[#101124] text-[#FAF8FC] hover:text-[#EFBDEB] border-[1.5px] border-[#101124] transition font-bold"
         >
-          ⚙️ Admin
+          Adopt
         </Link>
-      )}
 
-      <Show when="signed-out">
-        <SignInButton mode="modal">
-          <button className="bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition">
-            Sign In
-          </button>
-        </SignInButton>
-      </Show>
-
-      <Show when="signed-in">
-        <UserButton />
-      </Show>
+        {user ? (
+          <div className="flex items-center gap-2 pl-2 border-l-[1.5px] border-[#101124]">
+            <Link
+              href="/profile"
+              className={`font-mono-meta px-2 py-1 transition ${
+                pathname === "/profile"
+                  ? "text-[#314CB6] font-bold"
+                  : "text-[#6461A0] hover:text-[#101124]"
+              }`}
+            >
+              [{user.name?.split(" ")[0] || "Dossier"}]
+            </Link>
+            <div className="scale-90">
+              <UserButton />
+            </div>
+          </div>
+        ) : (
+          <div className="pl-1">
+            <SignInButton mode="modal">
+              <button className="font-mono-meta text-[#6461A0] hover:text-[#101124] px-2 py-1">
+                Log In
+              </button>
+            </SignInButton>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }

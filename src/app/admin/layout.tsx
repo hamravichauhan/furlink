@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getOrCreateCurrentUser } from "@/lib/auth-sync";
 import { hasRole } from "@/lib/auth-helpers";
+import AdminNavTabs from "./admin-nav-tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -15,42 +15,31 @@ export default async function AdminLayout({
   if (!hasRole(user, "ADMIN")) redirect("/sterilization");
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-xs font-semibold px-2 py-1 rounded bg-red-100 text-red-800 border border-red-200 uppercase tracking-wider">
-              Admin
-            </span>
+    <div className="min-h-screen bg-[#FAF8FC] text-[#101124]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-10">
+        <div className="mb-8 pb-6 border-b-[1.5px] border-[#101124] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="border-[1.5px] border-[#101124] bg-[#101124] text-[#FAF8FC] font-mono text-[9.5px] uppercase tracking-[0.18em] px-2.5 py-0.5 font-bold">
+                Master Administration
+              </span>
+              <span className="font-mono text-[10.5px] text-[#101124]/60 uppercase tracking-[0.14em]">
+                Operator: {user.name || user.email}
+              </span>
+            </div>
+            <h1 className="font-display uppercase text-3xl sm:text-5xl tracking-tight text-[#101124] leading-tight">
+              System Administration
+            </h1>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Console</h1>
+          <div className="font-mono text-[10.5px] text-[#101124]/60 uppercase tracking-[0.16em]">
+            Clinical Records / Field Logistics / Surgical Audits
+          </div>
         </div>
 
-        <nav className="flex gap-1 mb-8 border-b overflow-x-auto">
-          <AdminNavLink href="/admin">Overview</AdminNavLink>
-          <AdminNavLink href="/admin/users">Users</AdminNavLink>
-          <AdminNavLink href="/admin/verifications">Verifications</AdminNavLink>
-        </nav>
+        <AdminNavTabs />
 
-        {children}
+        <div className="mt-8">{children}</div>
       </div>
     </div>
-  );
-}
-
-function AdminNavLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300 whitespace-nowrap transition"
-    >
-      {children}
-    </Link>
   );
 }

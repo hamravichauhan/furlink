@@ -92,7 +92,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               onClick={() => setMode("verify")}
               className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md text-sm"
             >
-              ✓ Verify this proof
+              Verify this proof
             </button>
           )}
           {isDisputed && (
@@ -108,7 +108,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               onClick={() => setMode("dispute")}
               className="border border-amber-300 text-amber-700 hover:bg-amber-50 px-4 py-2 rounded-md text-sm"
             >
-              ⚠ File dispute
+              File dispute
             </button>
           )}
         </div>
@@ -253,7 +253,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               }}
               className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md text-sm disabled:opacity-50"
             >
-              {loading ? "Processing…" : "✓ Approve — mark verified"}
+              {loading ? "Processing…" : "Approve — mark verified"}
             </button>
             <button
               type="button"
@@ -268,7 +268,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               }}
               className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-md text-sm disabled:opacity-50"
             >
-              ✗ Reject — send back
+              Reject — send back
             </button>
             <button
               type="button"

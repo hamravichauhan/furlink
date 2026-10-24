@@ -532,7 +532,7 @@ function ResolveForm({
                 : "bg-white hover:bg-gray-50"
             }`}
           >
-            ✓ Approve — mark verified
+            Approve — mark verified
           </button>
           <button
             type="button"
@@ -543,7 +543,7 @@ function ResolveForm({
                 : "bg-white hover:bg-gray-50"
             }`}
           >
-            ✗ Reject — send back
+            Reject — send back
           </button>
         </div>
       </Field>

@@ -23,7 +23,7 @@ export default async function AdminVerificationsPage() {
 
       {queue.length === 0 ? (
         <div className="border rounded-lg bg-white p-10 text-center">
-          <div className="text-4xl mb-3">✨</div>
+          <div className="font-mono text-xs uppercase tracking-widest text-moss font-semibold mb-3">[QUEUE ALL CLEAR]</div>
           <p className="text-sm font-medium text-gray-700">
             All caught up — nothing in the queue.
           </p>

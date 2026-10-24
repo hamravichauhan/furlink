@@ -1,28 +1,15 @@
 import { prisma } from "@/lib/prisma";
-import CheckoutForm from "./checkout-form";
-import { ShieldCheck, Heart, Users, Sparkles, TrendingUp } from "lucide-react";
+import ImpactDonationBlock from "@/components/impact-donation-block";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
-
-function timeAgo(date: Date): string {
-  const s = Math.floor((Date.now() - date.getTime()) / 1000);
-  if (s < 60) return "just now";
-  if (s < 3600) return `${Math.floor(s / 60)}m ago`;
-  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
-  if (s < 604800) return `${Math.floor(s / 86400)}d ago`;
-  return date.toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 export default async function DonatePage() {
   const [recent, totalRaised, donorCount] = await Promise.all([
     prisma.donation.findMany({
       where: { status: "SUCCESS" },
       orderBy: { createdAt: "desc" },
-      take: 5,
+      take: 6,
     }),
     prisma.donation.aggregate({
       where: { status: "SUCCESS" },
@@ -32,159 +19,96 @@ export default async function DonatePage() {
   ]);
 
   const raised = totalRaised._sum.amount ?? 0;
-  const avg = donorCount > 0 ? Math.round(raised / donorCount) : 0;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6">
-      {/* Header */}
-      <div className="max-w-2xl mb-10">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4 border border-emerald-100">
-          <Heart className="w-3.5 h-3.5 fill-emerald-600 text-emerald-600" />
-          <span>100% Direct Impact</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-          Support FurLink
-        </h1>
-        <p className="text-gray-600 text-sm sm:text-base mt-2.5 leading-relaxed">
-          Every rupee directly funds emergency rescues, medical care, and
-          sterilization drives for animals in need.
-        </p>
-      </div>
-
-      {/* Two-column layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left: stats + form */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-4">
-            <StatCard
-              icon={<TrendingUp className="w-4 h-4" />}
-              value={`₹${raised.toLocaleString("en-IN")}`}
-              label="Total raised"
-            />
-            <StatCard
-              icon={<Users className="w-4 h-4" />}
-              value={donorCount}
-              label={donorCount === 1 ? "Supporter" : "Supporters"}
-            />
-            <StatCard
-              icon={<Sparkles className="w-4 h-4" />}
-              value={`₹${avg.toLocaleString("en-IN")}`}
-              label="Average gift"
-            />
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-6xl mx-auto space-y-12">
+        {/* Masthead */}
+        <div className="border-b-[1.5px] border-[#101124] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="inline-block border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] font-bold">
+              Direct Clinical Emergency Fund
+            </div>
+            <h1 className="font-display uppercase text-4xl sm:text-6xl tracking-tight text-[#101124] mt-4 leading-none">
+              Where Your Rupee Goes
+            </h1>
+            <p className="font-body text-sm sm:text-base text-[#101124]/75 max-w-xl mt-3 leading-relaxed">
+              We operate without executive salaries, administrative retainers, or agency overhead.
+              Every rupee is translated directly into surgical sterile sets, antibiotics, and daily
+              nourishment for recovering animals.
+            </p>
           </div>
 
-          {/* Checkout */}
-          <div className="bg-white border rounded-2xl p-6 sm:p-8 shadow-sm">
-            <CheckoutForm />
-            <div className="mt-6 pt-5 border-t flex items-center justify-center gap-2 text-xs text-gray-500">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>
-                Encrypted 256-bit payment processed securely via Razorpay
+          <div className="flex items-center gap-6 border-[1.5px] border-[#101124] bg-white p-4">
+            <div>
+              <div className="font-mono text-[10px] text-[#101124]/60 uppercase tracking-[0.18em]">
+                Direct Mobilized
+              </div>
+              <div className="font-display uppercase text-2xl sm:text-3xl text-[#101124] mt-0.5">
+                INR {raised.toLocaleString("en-IN")}
+              </div>
+            </div>
+            <div className="border-l-[1.5px] border-[#101124] pl-6">
+              <div className="font-mono text-[10px] text-[#101124]/60 uppercase tracking-[0.18em]">
+                Casework Sponsors
+              </div>
+              <div className="font-display uppercase text-2xl sm:text-3xl text-[#314CB6] mt-0.5">
+                {donorCount}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* The Concrete Impact Allocation Engine */}
+        <ImpactDonationBlock />
+
+        {/* Transparency Ledger */}
+        <div className="border-[1.5px] border-[#101124] bg-white p-6 sm:p-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[1.5px] border-[#101124] pb-4">
+            <div>
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#6461A0] font-bold">
+                Clinical Transparency Ledger
               </span>
+              <h2 className="font-display uppercase text-2xl text-[#101124] tracking-tight mt-1">
+                Recent Direct Dispatches
+              </h2>
             </div>
+            <Link
+              href="/admin/donations"
+              className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline underline-offset-4"
+            >
+              Examine Full Public Ledger &rarr;
+            </Link>
           </div>
-        </div>
 
-        {/* Right: recent supporters sidebar */}
-        <aside className="lg:col-span-1">
-          <div className="lg:sticky lg:top-6 space-y-4">
-            <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
-              <div className="px-5 py-4 border-b flex items-center justify-between">
-                <h2 className="text-sm font-bold text-gray-900">
-                  Recent supporters
-                </h2>
-                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              </div>
-
-              {recent.length === 0 ? (
-                <div className="px-5 py-10 text-center">
-                  <div className="text-3xl mb-2">🌱</div>
-                  <p className="text-xs text-gray-500 leading-relaxed">
-                    Be the first to support FurLink. Your name could be here.
-                  </p>
-                </div>
-              ) : (
-                <ul className="divide-y">
-                  {recent.map((d) => (
-                    <li
-                      key={d.id}
-                      className="flex items-center gap-3 px-5 py-3"
-                    >
-                      <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-                        <Heart className="w-3.5 h-3.5 fill-emerald-100" />
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs font-semibold text-gray-900 truncate">
-                          Anonymous supporter
-                        </div>
-                        <div className="text-[11px] text-gray-400">
-                          {timeAgo(d.createdAt)}
-                        </div>
-                      </div>
-
-                      <div className="text-xs font-bold text-emerald-800 tabular-nums shrink-0">
-                        ₹{d.amount.toLocaleString("en-IN")}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {donorCount > 5 && (
-                <div className="px-5 py-3 border-t bg-gray-50/60 text-center">
-                  <span className="text-[11px] text-gray-500">
-                    and {donorCount - 5} more supporter
-                    {donorCount - 5 === 1 ? "" : "s"}
-                  </span>
-                </div>
-              )}
+          {recent.length === 0 ? (
+            <div className="py-10 text-center font-mono text-xs uppercase tracking-[0.14em] text-[#101124]/60 border border-dashed border-[#101124]/30">
+              No recent ledger entries today. Allocate the first clinical ration.
             </div>
-
-            {/* Trust badge card */}
-            <div className="bg-emerald-50/60 border border-emerald-100 rounded-2xl p-4">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
-                  <ShieldCheck className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-emerald-900">
-                    Transparent by design
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {recent.map((d) => (
+                <div
+                  key={d.id}
+                  className="border-[1.5px] border-[#101124] bg-[#FAF8FC] p-4 flex flex-col justify-between"
+                >
+                  <div className="flex items-baseline justify-between">
+                    <span className="font-mono text-[11px] font-bold text-[#101124] uppercase tracking-[0.12em]">
+                      Clinical Patron
+                    </span>
+                    <span className="font-display text-xl text-[#314CB6]">
+                      INR {d.amount.toLocaleString("en-IN")}
+                    </span>
                   </div>
-                  <p className="text-[11px] text-emerald-800 mt-1 leading-relaxed">
-                    Every donation is logged. Every sterilization certificate is
-                    verified by a trusted reviewer.
-                  </p>
+                  <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#101124]/60 mt-3 pt-2 border-t border-[#101124]/20 flex justify-between">
+                    <span>{new Date(d.createdAt).toLocaleDateString("en-IN")}</span>
+                    <span>{d.paymentId ? "Verified Voucher" : "Direct Medical Credit"}</span>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          </div>
-        </aside>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({
-  icon,
-  value,
-  label,
-}: {
-  icon: React.ReactNode;
-  value: string | number;
-  label: string;
-}) {
-  return (
-    <div className="bg-gradient-to-b from-gray-50 to-white border rounded-2xl p-4 sm:p-5 text-center">
-      <div className="flex justify-center mb-1 text-emerald-600 sm:hidden">
-        {icon}
-      </div>
-      <div className="text-xl sm:text-3xl font-extrabold text-gray-900 tabular-nums tracking-tight">
-        {value}
-      </div>
-      <div className="mt-1 text-[11px] uppercase tracking-wider text-gray-500 font-semibold">
-        {label}
+          )}
+        </div>
       </div>
     </div>
   );

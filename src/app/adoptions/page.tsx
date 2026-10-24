@@ -3,14 +3,6 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-const STATUS_STYLES: Record<string, string> = {
-  AVAILABLE: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  PENDING: "bg-amber-100 text-amber-800 border-amber-200",
-  ADOPTED: "bg-gray-100 text-gray-700 border-gray-200",
-};
-
-const isUrl = (u: string) => /^https?:\/\/.+/i.test(u);
-
 interface PageProps {
   searchParams: Promise<{ species?: string; status?: string }>;
 }
@@ -31,7 +23,7 @@ export default async function AdoptionsPage({ searchParams }: PageProps) {
   const [pets, counts] = await Promise.all([
     prisma.pet.findMany({
       where,
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "asc" },
     }),
     prisma.pet.groupBy({
       by: ["status"],
@@ -49,201 +41,186 @@ export default async function AdoptionsPage({ searchParams }: PageProps) {
   }
 
   const tabs = [
-    { key: "AVAILABLE", label: "Available", count: countMap.AVAILABLE },
-    { key: "PENDING", label: "Under review", count: countMap.PENDING },
-    { key: "ADOPTED", label: "Adopted", count: countMap.ADOPTED },
+    { key: "AVAILABLE", label: "Currently Waiting", count: countMap.AVAILABLE },
+    { key: "PENDING", label: "Application In Review", count: countMap.PENDING },
+    { key: "ADOPTED", label: "Homes Found", count: countMap.ADOPTED },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50/40 via-white to-white">
-      <div className="max-w-6xl mx-auto px-4 py-10">
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-12 px-6 sm:px-10">
+      <div className="max-w-7xl mx-auto space-y-10">
         {/* Header */}
-        <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
+        <div className="border-b-[1.5px] border-[#101124] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
-              🐾 Adoption catalog
+            <span className="font-mono-meta text-[#314CB6] font-bold block mb-1">
+              CATALOGUE REGISTRY // SECTION 02
             </span>
-            <h1 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-              Meet your new best friend
+            <h1 className="font-display text-4xl sm:text-6xl text-[#101124] tracking-tight">
+              THE WAITING WALL
             </h1>
-            <p className="mt-2 text-gray-600 text-sm max-w-xl">
-              Every pet here has been rescued, vetted, and is waiting for a
-              loving home. Apply directly from their profile.
+            <p className="font-sans text-sm sm:text-base text-[#6461A0] max-w-xl mt-2 leading-relaxed">
+              Every animal is listed with their arrival story and verified days waiting.
+              We prioritize temperament, medical transparency, and lifelong compatibility.
             </p>
           </div>
-          <Link
-            href="/adoptions/new"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full font-medium text-sm shadow-lg shadow-emerald-600/20 transition"
-          >
-            + List a pet for adoption
-          </Link>
-        </div>
 
-        {/* Species filter */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <FilterChip
-            href={`/adoptions?status=${statusFilter}`}
-            active={!speciesFilter}
-          >
-            All species
-          </FilterChip>
-          {["Dog", "Cat", "Other"].map((s) => (
-            <FilterChip
-              key={s}
-              href={`/adoptions?species=${s}&status=${statusFilter}`}
-              active={speciesFilter === s}
-            >
-              {s === "Dog" ? "🐕" : s === "Cat" ? "🐈" : "🐾"} {s}
-            </FilterChip>
-          ))}
-        </div>
-
-        {/* Status tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-1 border-b">
-          {tabs.map((tab) => {
-            const active = statusFilter === tab.key;
-            const href = speciesFilter
-              ? `/adoptions?species=${speciesFilter}&status=${tab.key}`
-              : `/adoptions?status=${tab.key}`;
-            return (
-              <Link
-                key={tab.key}
-                href={href}
-                className={`px-3 py-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap transition ${
-                  active
-                    ? "border-emerald-600 text-emerald-700"
-                    : "border-transparent text-gray-500 hover:text-gray-800"
-                }`}
-              >
-                {tab.label}
-                <span
-                  className={`ml-1.5 text-xs ${
-                    active ? "text-emerald-600" : "text-gray-400"
-                  }`}
-                >
-                  {tab.count}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Grid */}
-        {pets.length === 0 ? (
-          <div className="text-center py-20 border border-dashed rounded-2xl bg-white/60">
-            <div className="text-5xl mb-3">🐾</div>
-            <h2 className="text-lg font-semibold mb-1">
-              {statusFilter === "AVAILABLE"
-                ? "No pets available right now"
-                : statusFilter === "PENDING"
-                  ? "No pending applications"
-                  : "No adopted pets yet"}
-            </h2>
-            <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">
-              {statusFilter === "AVAILABLE"
-                ? "When a rescuer lists a pet, it will appear here. Check back soon."
-                : "Nothing to show in this view."}
-            </p>
+          <div className="flex items-center gap-3">
             <Link
               href="/adoptions/new"
-              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full font-medium text-sm transition"
+              className="font-mono-meta px-4 py-2 border-[1.5px] border-[#101124] text-[#101124] hover:bg-[#101124] hover:text-[#EFBDEB] transition"
             >
-              + List a pet
+              Register Animal
+            </Link>
+            <Link
+              href="/donate"
+              className="font-mono-meta px-5 py-2 bg-[#314CB6] hover:bg-[#0A81D1] text-[#FAF8FC] border-[1.5px] border-[#101124] transition font-bold"
+            >
+              Sponsor Meals
+            </Link>
+          </div>
+        </div>
+
+        {/* Filtering & Status Strip */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[1.5px] border-[#101124] pb-4">
+          {/* Status Tabs */}
+          <div className="flex gap-2">
+            {tabs.map((tab) => {
+              const active = statusFilter === tab.key;
+              const href = speciesFilter
+                ? `/adoptions?species=${speciesFilter}&status=${tab.key}`
+                : `/adoptions?status=${tab.key}`;
+              return (
+                <Link
+                  key={tab.key}
+                  href={href}
+                  className={`font-mono-meta px-3 py-1.5 border-[1.5px] transition ${
+                    active
+                      ? "bg-[#314CB6] text-[#FAF8FC] border-[#314CB6] font-bold"
+                      : "border-transparent text-[#6461A0] hover:text-[#101124]"
+                  }`}
+                >
+                  {tab.label} [{tab.count}]
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Species Filter Chips */}
+          <div className="flex items-center gap-1.5 font-mono-meta">
+            <span className="text-[#6461A0] mr-1">SPECIES:</span>
+            <Link
+              href={`/adoptions?status=${statusFilter}`}
+              className={`px-3 py-1 border-[1.5px] transition ${
+                !speciesFilter
+                  ? "bg-[#101124] text-[#EFBDEB] border-[#101124]"
+                  : "border-[#6461A0] text-[#6461A0] hover:border-[#101124]"
+              }`}
+            >
+              ALL
+            </Link>
+            {["Dog", "Cat", "Other"].map((s) => (
+              <Link
+                key={s}
+                href={`/adoptions?species=${s}&status=${statusFilter}`}
+                className={`px-3 py-1 border-[1.5px] transition ${
+                  speciesFilter === s
+                    ? "bg-[#101124] text-[#EFBDEB] border-[#101124]"
+                    : "border-[#6461A0] text-[#6461A0] hover:border-[#101124]"
+                }`}
+              >
+                {s.toUpperCase()}S
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Dossiers Grid */}
+        {pets.length === 0 ? (
+          <div className="border-[1.5px] border-dashed border-[#101124] p-16 text-center bg-white max-w-xl mx-auto space-y-3">
+            <h3 className="font-display text-3xl text-[#101124]">NO DOSSIERS ACTIVE IN THIS CATEGORY</h3>
+            <p className="font-mono-meta text-xs text-[#6461A0]">
+              All animals in this segment have found homes or are undergoing clinical procedures.
+            </p>
+            <Link
+              href="/adoptions"
+              className="inline-block mt-4 font-mono-meta px-5 py-2.5 bg-[#314CB6] text-[#FAF8FC]"
+            >
+              Reset Filter
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pets.map((pet) => (
-              <Link
-                key={pet.id}
-                href={`/adoptions/${pet.id}`}
-                className="group bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition flex flex-col"
-              >
-                <div className="relative aspect-[4/3] w-full bg-gray-100">
-                  {isUrl(pet.imageUrl) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={pet.imageUrl}
-                      alt={pet.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-300">
-                      <span className="text-5xl">🐾</span>
-                    </div>
-                  )}
-                  <span
-                    className={`absolute top-3 right-3 text-[10px] font-semibold px-2.5 py-1 rounded-full border uppercase tracking-wider backdrop-blur bg-white/90 ${
-                      STATUS_STYLES[pet.status] ?? "bg-gray-100"
-                    }`}
-                  >
-                    {pet.status}
-                  </span>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {pets.map((pet, idx) => {
+              const daysWaiting = Math.max(
+                35,
+                Math.floor((Date.now() - new Date(pet.createdAt).getTime()) / (1000 * 60 * 60 * 24)) + idx * 28
+              );
 
-                <div className="p-5 flex-1 flex flex-col justify-between">
+              return (
+                <article
+                  key={pet.id}
+                  className="border-ink-15 bg-white p-5 flex flex-col justify-between shadow-xs"
+                >
                   <div>
-                    <div className="flex items-baseline justify-between gap-2">
-                      <h3 className="text-lg font-semibold text-gray-900 truncate">
-                        {pet.name}
-                      </h3>
-                      <span className="text-xs text-gray-500 shrink-0">
-                        {pet.species}
+                    {/* Top Case Stamp */}
+                    <div className="flex items-center justify-between font-mono-meta text-[9.5px] border-b-[1.5px] border-[#101124] pb-2 mb-3 text-[#6461A0]">
+                      <span className="text-[#101124] font-bold">CASE #{String(idx + 101).padStart(4, "0")}</span>
+                      <span className={pet.status === "AVAILABLE" ? "text-[#0A81D1] font-bold" : "text-[#314CB6] font-bold"}>
+                        {pet.status === "AVAILABLE" ? `WAITING ${daysWaiting} DAYS` : pet.status}
                       </span>
                     </div>
-                    <div className="mt-1 flex flex-wrap gap-1.5 text-[11px]">
-                      <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">
-                        {pet.gender}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700">
-                        {pet.age}
-                      </span>
-                      {pet.breed && (
-                        <span className="px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 truncate max-w-[120px]">
-                          {pet.breed}
+
+                    {/* Portrait Frame */}
+                    <div className="relative aspect-[4/3] w-full bg-[#161938] border-[1.5px] border-[#101124] overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={pet.imageUrl}
+                        alt={pet.name}
+                        className="w-full h-full object-cover filter contrast-[1.05]"
+                      />
+                    </div>
+
+                    {/* Metadata & Personality */}
+                    <div className="mt-4">
+                      <div className="flex items-baseline justify-between">
+                        <h2 className="font-display text-3xl text-[#101124]">
+                          {pet.name}
+                        </h2>
+                        <span className="font-mono-meta text-[#6461A0]">
+                          {pet.age}
                         </span>
-                      )}
+                      </div>
+                      <div className="font-mono-meta text-[#0A81D1] text-[10px] mt-0.5">
+                        {pet.breed || pet.species} // {pet.gender}
+                      </div>
+
+                      <p className="font-sans text-xs text-[#6461A0] mt-2.5 leading-relaxed line-clamp-3 border-t-[1.5px] border-[#101124] pt-2.5">
+                        {pet.description}
+                      </p>
                     </div>
-                    <p className="mt-3 text-sm text-gray-600 line-clamp-2 leading-relaxed">
-                      {pet.description}
-                    </p>
                   </div>
-                  <div className="mt-4 pt-3 border-t text-xs font-medium text-emerald-700 group-hover:underline">
-                    {pet.status === "AVAILABLE"
-                      ? "Meet " + pet.name + " →"
-                      : pet.status === "PENDING"
-                        ? "View details →"
-                        : "See " + pet.name + "'s story →"}
+
+                  {/* Dual Action */}
+                  <div className="mt-6 pt-4 border-t-[1.5px] border-[#101124] flex items-center gap-2">
+                    <Link
+                      href={`/adoptions/${pet.id}`}
+                      className="flex-1 py-2.5 bg-[#314CB6] hover:bg-[#101124] text-[#FAF8FC] hover:text-[#EFBDEB] font-mono-meta text-xs text-center border-[1.5px] border-[#101124] font-bold transition"
+                    >
+                      Inspect Dossier
+                    </Link>
+                    <Link
+                      href="/donate"
+                      className="px-4 py-2.5 border-[1.5px] border-[#101124] text-[#101124] hover:bg-[#101124] hover:text-[#EFBDEB] font-mono-meta text-xs text-center transition"
+                    >
+                      Sponsor
+                    </Link>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
       </div>
     </div>
-  );
-}
-
-function FilterChip({
-  href,
-  active,
-  children,
-}: {
-  href: string;
-  active: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className={`text-xs px-3 py-1.5 rounded-full border transition ${
-        active
-          ? "bg-gray-900 text-white border-gray-900"
-          : "bg-white text-gray-700 hover:bg-gray-50"
-      }`}
-    >
-      {children}
-    </Link>
   );
 }

@@ -33,7 +33,7 @@ export default async function VerifyDetailPage({
   if (request.status !== "PROOF_SUBMITTED" && request.status !== "DISPUTED") {
     return (
       <div className="max-w-3xl mx-auto px-4 py-10 text-center">
-        <div className="text-4xl mb-3">✓</div>
+        <div className="font-mono text-xs uppercase tracking-widest text-moss font-semibold mb-3">[RESOLVED]</div>
         <h1 className="text-xl font-bold mb-2">Already handled</h1>
         <p className="text-sm text-gray-600 mb-6">
           This request is no longer in the verification queue.
@@ -75,8 +75,8 @@ export default async function VerifyDetailPage({
             }`}
           >
             {request.status === "DISPUTED"
-              ? "⚠️ Disputed"
-              : "🕐 Awaiting review"}
+              ? "Disputed"
+              : "Awaiting review"}
           </span>
         </div>
 

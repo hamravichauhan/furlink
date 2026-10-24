@@ -65,45 +65,46 @@ export default function SterilizationForm({ quota }: { quota: QuotaProps }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {quota.canSubmit ? (
-        <div className="p-2.5 text-xs rounded border bg-emerald-50 border-emerald-200 text-emerald-800">
-          You have <strong>{quota.remainingToday}</strong> of{" "}
-          <strong>{quota.dailyLimit}</strong> requests left today.
+        <div className="p-3 border-[1.5px] border-[#101124] bg-[#EFBDEB]/20 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#101124]">
+          Quota: <strong>{quota.remainingToday}</strong> of <strong>{quota.dailyLimit}</strong> daily dispatches remaining.
         </div>
       ) : (
-        <div className="p-2.5 text-xs rounded border bg-amber-50 border-amber-200 text-amber-900">
-          {quota.reason ?? "You cannot submit right now."}
+        <div className="p-3 border-[1.5px] border-[#101124] bg-[#6461A0]/15 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#101124]">
+          {quota.reason ?? "Daily submission capacity reached."}
         </div>
       )}
 
       {errorMsg && (
-        <div className="p-2.5 text-xs text-red-700 bg-red-50 rounded border border-red-200">
+        <div className="p-3 border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 font-mono text-xs uppercase tracking-[0.12em] text-[#101124]">
           {errorMsg}
         </div>
       )}
       {success && (
-        <div className="p-2.5 text-xs text-emerald-700 bg-emerald-50 rounded border border-emerald-200">
-          Request logged! Taking you to the detail page…
+        <div className="p-3 border-[1.5px] border-[#101124] bg-[#0A81D1]/20 font-mono text-xs uppercase tracking-[0.12em] text-[#101124]">
+          Surgical request indexed. Opening clinical case sheet...
         </div>
       )}
 
       <div>
-        <label className="block text-xs font-medium mb-1">Animal Species</label>
+        <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] mb-1.5 font-bold">
+          Animal Species
+        </label>
         <select
           name="animalType"
           required
           disabled={disabled}
           defaultValue="Street Dog"
-          className="w-full border rounded-md p-2 text-sm bg-white disabled:bg-gray-100"
+          className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-2.5 font-mono text-xs uppercase tracking-[0.12em] text-[#101124] focus:outline-hidden disabled:bg-[#101124]/5"
         >
-          <option value="Street Dog">Street Dog</option>
-          <option value="Feral Cat">Feral Cat</option>
-          <option value="Other">Other</option>
+          <option value="Street Dog">Canine (Street Dog)</option>
+          <option value="Feral Cat">Feline (Feral Cat)</option>
+          <option value="Other">Other Community Species</option>
         </select>
       </div>
 
       <div>
-        <label className="block text-xs font-medium mb-1">
-          Estimated Animal Count
+        <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] mb-1.5 font-bold">
+          Pack Census / Estimated Count
         </label>
         <input
           type="number"
@@ -113,13 +114,13 @@ export default function SterilizationForm({ quota }: { quota: QuotaProps }) {
           defaultValue={1}
           required
           disabled={disabled}
-          className="w-full border rounded-md p-2 text-sm disabled:bg-gray-100"
+          className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-2.5 font-mono text-xs text-[#101124] focus:outline-hidden disabled:bg-[#101124]/5"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-medium mb-1">
-          Precise Area / Landmark
+        <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] mb-1.5 font-bold">
+          Sector Landmark & Street Grid
         </label>
         <LocationPicker
           value={location}
@@ -129,29 +130,29 @@ export default function SterilizationForm({ quota }: { quota: QuotaProps }) {
       </div>
 
       <div>
-        <label className="block text-xs font-medium mb-1">
-          Additional Observations (Optional)
+        <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] mb-1.5 font-bold">
+          Field Observations
         </label>
         <textarea
           name="notes"
           rows={2}
           maxLength={NOTES_MAX}
           disabled={disabled}
-          placeholder="e.g., Nursing mother, aggressive pack, visible mange..."
-          className="w-full border rounded-md p-2 text-sm disabled:bg-gray-100"
+          placeholder="e.g. Nursing litter, visible skin condition, docile or frightened..."
+          className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-2.5 font-body text-xs text-[#101124] leading-relaxed focus:outline-hidden disabled:bg-[#101124]/5"
         />
       </div>
 
       <button
         type="submit"
         disabled={disabled}
-        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-md transition text-sm disabled:opacity-50"
+        className="w-full py-3.5 bg-[#314CB6] hover:bg-[#0A81D1] text-white font-mono text-[10.5px] uppercase tracking-[0.18em] font-bold border-[1.5px] border-[#101124] transition-colors disabled:opacity-50 cursor-pointer"
       >
         {loading
-          ? "Submitting Request…"
+          ? "Logging Surgical Case..."
           : quota.canSubmit
-            ? "Submit Request"
-            : "Cannot submit right now"}
+            ? "Submit ABC/TNVR Dispatch"
+            : "Submission Unavailable"}
       </button>
     </form>
   );

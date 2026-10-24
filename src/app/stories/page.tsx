@@ -31,8 +31,8 @@ export default async function StoriesPage({ searchParams }: PageProps) {
   const where: any = {};
   if (q) {
     where.OR = [
-      { title: { contains: q, mode: "insensitive" } },
-      { content: { contains: q, mode: "insensitive" } },
+      { title: { contains: q } },
+      { content: { contains: q } },
     ];
   }
   if (mine && dbUser) {
@@ -70,162 +70,97 @@ export default async function StoriesPage({ searchParams }: PageProps) {
   const isFiltered = !!q || mine;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-8 gap-4 flex-wrap">
-        <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-3 border border-emerald-100">
-            <span>📖</span>
-            <span>Community stories</span>
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-6xl mx-auto space-y-12">
+        {/* Header */}
+        <div className="border-b-[1.5px] border-[#101124] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="inline-block border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] font-bold">
+              Field Documentation Archive
+            </div>
+            <h1 className="font-display uppercase text-4xl sm:text-6xl tracking-tight text-[#101124] mt-4 leading-none">
+              Stories That Ended Well
+            </h1>
+            <p className="font-body text-sm sm:text-base text-[#101124]/75 max-w-xl mt-3 leading-relaxed">
+              Documented community accounts of acute roadside admission, multi-week intensive rehabilitation,
+              and permanent adoptive bonds.
+            </p>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            FurStories
-          </h1>
-          <p className="text-gray-600 text-sm mt-1.5 max-w-xl leading-relaxed">
-            Heartwarming updates, recovery journeys, and adoption milestones
-            from our community.
-          </p>
-        </div>
-        <Link
-          href="/stories/new"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors shadow-sm"
-        >
-          + Share your story
-        </Link>
-      </div>
-
-      {/* Filters */}
-      <StoriesFilter isSignedIn={!!dbUser} />
-
-      {/* Feed */}
-      {stories.length === 0 ? (
-        <div className="text-center py-20 border border-dashed rounded-2xl bg-gray-50/60">
-          <div className="text-5xl mb-3">📖</div>
-          <h2 className="text-lg font-bold text-gray-900 mb-1">
-            {isFiltered
-              ? "No stories match your filters"
-              : "No stories published yet"}
-          </h2>
-          <p className="text-sm text-gray-500 max-w-sm mx-auto mb-6 leading-relaxed">
-            {isFiltered
-              ? "Try a different search term or clear your filters."
-              : "Be the first to share a recovery journey, adoption update, or rescue milestone."}
-          </p>
           <Link
             href="/stories/new"
-            className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+            className="font-mono text-[11px] uppercase tracking-[0.18em] font-bold px-6 py-3.5 bg-[#314CB6] hover:bg-[#0A81D1] text-white border-[1.5px] border-[#101124] transition-colors"
           >
-            + Write a FurStory
+            Lodge Recovery Record &rarr;
           </Link>
         </div>
-      ) : (
-        <>
-          <div className="flex items-baseline justify-between mb-4 px-1">
-            <span className="text-xs text-gray-500">
-              {total} {total === 1 ? "story" : "stories"}
-              {isFiltered && " matching"}
-            </span>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Filters */}
+        <StoriesFilter isSignedIn={!!dbUser} />
+
+        {/* Feed */}
+        {stories.length === 0 ? (
+          <div className="text-center py-20 border-[1.5px] border-dashed border-[#101124]/40 bg-white max-w-xl mx-auto space-y-4 p-8">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60 block">
+              Archive Index Empty
+            </span>
+            <h2 className="font-display uppercase text-2xl text-[#101124]">
+              {isFiltered
+                ? "No case files match your query parameters."
+                : "No recovery dossiers filed in this sector yet."}
+            </h2>
+            <p className="font-body text-xs text-[#101124]/70 max-w-sm mx-auto leading-relaxed">
+              {isFiltered
+                ? "Reset search criteria to inspect all recorded cases."
+                : "Record the clinical or foster journey of an animal in your care."}
+            </p>
+            <Link
+              href="/stories/new"
+              className="inline-block mt-4 font-mono text-[10.5px] uppercase tracking-[0.18em] font-bold px-5 py-2.5 bg-[#101124] text-[#FAF8FC] border-[1.5px] border-[#101124]"
+            >
+              Document Initial Case
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {stories.map((story) => (
-              <StoryCard key={story.id} story={story} />
+              <StoryCard
+                key={story.id}
+                story={{
+                  id: story.id,
+                  title: story.title,
+                  content: story.content,
+                  imageUrl: story.imageUrl || (story.images[0]?.url ?? null),
+                  createdAt: story.createdAt,
+                  user: story.user,
+                }}
+              />
             ))}
           </div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              buildHref={buildHref}
-            />
-          )}
-        </>
-      )}
-    </div>
-  );
-}
-
-// ─── Pagination ────────────────────────────────────────────────────────────
-
-function Pagination({
-  currentPage,
-  totalPages,
-  buildHref,
-}: {
-  currentPage: number;
-  totalPages: number;
-  buildHref: (opts: { page: number }) => string;
-}) {
-  const range: (number | "…")[] = [];
-  const window = 1;
-  for (let i = 1; i <= totalPages; i++) {
-    if (
-      i === 1 ||
-      i === totalPages ||
-      (i >= currentPage - window && i <= currentPage + window)
-    ) {
-      range.push(i);
-    } else if (range[range.length - 1] !== "…") {
-      range.push("…");
-    }
-  }
-
-  return (
-    <div className="mt-10 flex items-center justify-between flex-wrap gap-3">
-      <div className="text-xs text-gray-500">
-        Page <span className="font-semibold text-gray-700">{currentPage}</span>{" "}
-        of <span className="font-semibold text-gray-700">{totalPages}</span>
-      </div>
-
-      <div className="flex items-center gap-1">
-        {currentPage > 1 ? (
-          <Link
-            href={buildHref({ page: currentPage - 1 })}
-            className="text-xs font-semibold px-3 py-1.5 rounded-lg border bg-white text-gray-700 hover:bg-gray-50 transition"
-          >
-            ← Previous
-          </Link>
-        ) : (
-          <span className="text-xs font-semibold px-3 py-1.5 rounded-lg border bg-gray-50 text-gray-300 cursor-not-allowed">
-            ← Previous
-          </span>
         )}
 
-        <div className="hidden sm:flex items-center gap-1 mx-2">
-          {range.map((p, i) =>
-            p === "…" ? (
-              <span key={`e-${i}`} className="text-xs text-gray-400 px-1.5">
-                …
-              </span>
-            ) : (
-              <Link
-                key={p}
-                href={buildHref({ page: p })}
-                className={`text-xs font-semibold min-w-[32px] text-center px-2 py-1.5 rounded-lg border transition ${
-                  p === currentPage
-                    ? "bg-emerald-600 text-white border-emerald-600"
-                    : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
-                }`}
-              >
-                {p}
-              </Link>
-            ),
-          )}
-        </div>
-
-        {currentPage < totalPages ? (
-          <Link
-            href={buildHref({ page: currentPage + 1 })}
-            className="text-xs font-semibold px-3 py-1.5 rounded-lg border bg-white text-gray-700 hover:bg-gray-50 transition"
-          >
-            Next →
-          </Link>
-        ) : (
-          <span className="text-xs font-semibold px-3 py-1.5 rounded-lg border bg-gray-50 text-gray-300 cursor-not-allowed">
-            Next →
-          </span>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="pt-8 border-t-[1.5px] border-[#101124] flex items-center justify-between font-mono text-[10.5px] uppercase tracking-[0.16em]">
+            <Link
+              href={buildHref({ page: currentPage - 1 })}
+              className={`px-4 py-2 border-[1.5px] border-[#101124] bg-white text-[#101124] ${
+                currentPage <= 1 ? "pointer-events-none opacity-30" : "hover:bg-[#FAF8FC]"
+              }`}
+            >
+              &larr; Previous Dossier Sheet
+            </Link>
+            <span className="text-[#101124]/60 font-bold">
+              Index {currentPage} / {totalPages}
+            </span>
+            <Link
+              href={buildHref({ page: currentPage + 1 })}
+              className={`px-4 py-2 border-[1.5px] border-[#101124] bg-white text-[#101124] ${
+                currentPage >= totalPages ? "pointer-events-none opacity-30" : "hover:bg-[#FAF8FC]"
+              }`}
+            >
+              Next Dossier Sheet &rarr;
+            </Link>
+          </div>
         )}
       </div>
     </div>

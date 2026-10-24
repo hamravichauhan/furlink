@@ -1,153 +1,144 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getOrCreateCurrentUser } from "@/lib/auth-sync";
+import { notFound } from "next/navigation";
+import Link from "next/link";
 import StoryActions from "./story-actions";
 
 export const dynamic = "force-dynamic";
 
-const isUrl = (u: string | null | undefined): u is string =>
-  !!u && /^https?:\/\/.+/i.test(u);
-
-export default async function StoryDetailPage({
-  params,
-}: {
+interface PageProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+export default async function StoryDetailPage({ params }: PageProps) {
   const { id } = await params;
+  const dbUser = await getOrCreateCurrentUser();
 
   const story = await prisma.furStory.findUnique({
     where: { id },
     include: {
-      user: true,
+      user: { select: { id: true, name: true, email: true } },
       images: { orderBy: { order: "asc" } },
     },
   });
 
   if (!story) notFound();
 
-  const dbUser = await getOrCreateCurrentUser();
-  const canEdit =
-    !!dbUser && (story.userId === dbUser.id || dbUser.role === "ADMIN");
+  const isOwner = dbUser?.id === story.userId;
+  const isAdmin = dbUser?.role === "ADMIN";
+  const canEdit = isOwner || isAdmin;
 
-  const gallery = (
-    story.images.length > 0
-      ? story.images.map((i) => i.url)
-      : story.imageUrl
-        ? [story.imageUrl]
-        : []
-  ).filter(isUrl);
+  const authorName = story.user.name || "Field Guardian";
 
-  const initial = (story.user.name || "Anonymous").charAt(0).toUpperCase();
+  const formattedDate = new Date(story.createdAt).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <Link
-        href="/stories"
-        className="text-sm text-gray-500 hover:text-gray-800 transition inline-flex items-center gap-1 mb-8"
-      >
-        ← Back to stories
-      </Link>
+    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-4xl mx-auto space-y-10">
+        {/* Navigation */}
+        <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-4">
+          <Link
+            href="/stories"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline underline-offset-4"
+          >
+            &larr; Back to Case Archive
+          </Link>
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60">
+            Dossier No. {story.id.slice(-6).toUpperCase()}
+          </span>
+        </div>
 
-      {/* Title row */}
-      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
-        <div className="min-w-0 flex-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-3 border border-emerald-100">
-            <span>📖</span>
-            <span>FurStory</span>
+        {/* Title row */}
+        <div className="space-y-3">
+          <div className="inline-block border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] font-bold">
+            Field Recovery Log
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">
+          <h1 className="font-display uppercase text-4xl sm:text-6xl tracking-tight text-[#101124] leading-tight">
             {story.title}
           </h1>
-        </div>
-        {canEdit && <StoryActions storyId={story.id} />}
-      </div>
 
-      {/* Author row */}
-      <div className="flex items-center gap-3 pb-6 mb-8 border-b">
-        <div className="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-sm font-bold text-emerald-800 shrink-0">
-          {initial}
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-gray-900">
-            {story.user.name || "Anonymous Animal Lover"}
-          </div>
-          <div className="text-xs text-gray-500">
-            {new Date(story.createdAt).toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+          <div className="flex items-center justify-between pt-3 border-t-[1.5px] border-[#101124] font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#101124]/60">
+            <div>
+              <span className="font-bold text-[#101124]">{authorName}</span>
+              <span className="mx-2">/</span>
+              <span>Logged {formattedDate}</span>
+            </div>
+            {canEdit && <StoryActions storyId={story.id} />}
           </div>
         </div>
-      </div>
 
-      {/* Gallery */}
-      {gallery.length > 0 && (
-        <div className="mb-10 space-y-4">
-          <a
-            href={gallery[0]}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block relative w-full aspect-video rounded-2xl overflow-hidden bg-gray-100 border"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={gallery[0]}
-              alt={story.title}
-              className="w-full h-full object-cover"
-            />
-          </a>
+        {/* Primary Photographic Record */}
+        {story.imageUrl && (
+          <div className="border-[1.5px] border-[#101124] bg-[#101124] overflow-hidden">
+            <div className="relative aspect-[16/10] w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={story.imageUrl}
+                alt={story.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        )}
 
-          {gallery.length > 1 && (
-            <div className="grid grid-cols-3 gap-3">
-              {gallery.slice(1).map((url, i) => (
-                <a
-                  key={url}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 border group"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={url}
-                    alt={`${story.title} photo ${i + 2}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                  />
-                </a>
-              ))}
+        {/* Story Body Content */}
+        <article className="bg-white border-[1.5px] border-[#101124] p-6 sm:p-10 space-y-6">
+          <div className="font-body text-base sm:text-lg text-[#101124]/85 leading-relaxed whitespace-pre-line space-y-4">
+            {story.content}
+          </div>
+
+          {/* Photo Gallery If Multiple Images */}
+          {story.images.length > 1 && (
+            <div className="mt-10 pt-8 border-t-[1.5px] border-[#101124]">
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124]/60 block mb-4">
+                Clinical Progression Plate ({story.images.length} Evidence Records)
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {story.images.map((img, i) => (
+                  <div
+                    key={img.id}
+                    className="relative aspect-square border-[1.5px] border-[#101124] overflow-hidden bg-[#FAF8FC]"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img.url}
+                      alt={`Case progression record plate ${i + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
-        </div>
-      )}
+        </article>
 
-      {/* Content */}
-      <article className="prose prose-gray max-w-none">
-        <p className="text-base sm:text-lg text-gray-800 leading-relaxed whitespace-pre-line">
-          {story.content}
-        </p>
-      </article>
-
-      {/* Footer CTA */}
-      <div className="mt-12 pt-8 border-t">
-        <div className="bg-emerald-50/60 border border-emerald-100 rounded-2xl p-6 flex items-start gap-4">
-          <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0 text-xl">
-            🐾
-          </div>
-          <div className="flex-1">
-            <div className="font-bold text-emerald-900">
-              Have a story of your own?
+        {/* Dual Action Footer */}
+        <div className="p-8 border-[1.5px] border-[#101124] bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div>
+            <div className="font-display uppercase text-2xl text-[#101124]">
+              Every Recovery Begins with Immediate Intervention
             </div>
-            <p className="text-sm text-emerald-800 mt-1 leading-relaxed">
-              Share a recovery journey, adoption milestone, or rescue update
-              with the community.
+            <p className="font-body text-xs text-[#101124]/70 mt-1">
+              Provide permanent sanctuary or underwrite sterile surgical disposables for the next intake.
             </p>
+          </div>
+
+          <div className="flex gap-3">
             <Link
-              href="/stories/new"
-              className="inline-block mt-3 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
+              href="/adoptions"
+              className="px-6 py-3.5 bg-[#314CB6] hover:bg-[#0A81D1] text-white font-mono text-[10.5px] uppercase tracking-[0.16em] font-bold border-[1.5px] border-[#101124] transition-colors text-center"
             >
-              Share your story →
+              Examine Adoptions &rarr;
+            </Link>
+            <Link
+              href="/donate"
+              className="px-6 py-3.5 bg-transparent hover:bg-[#FAF8FC] text-[#101124] font-mono text-[10.5px] uppercase tracking-[0.16em] font-bold border-[1.5px] border-[#101124] transition-colors text-center"
+            >
+              Allocate Ration &rarr;
             </Link>
           </div>
         </div>
