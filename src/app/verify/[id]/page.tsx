@@ -55,12 +55,21 @@ export default async function VerifyDetailPage({
   return (
     <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-10 px-4 sm:px-6 md:px-10">
       <div className="max-w-4xl mx-auto space-y-6">
-        <Link
-          href="/verify"
-          className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline inline-block"
-        >
-          ← Back to Verification Queue
-        </Link>
+        <div className="flex items-center gap-3 flex-wrap">
+          <Link
+            href="/admin/verifications"
+            className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline inline-block"
+          >
+            ← Admin Verification Queue
+          </Link>
+          <span className="text-[#1A2540]/30 font-mono text-xs">|</span>
+          <Link
+            href="/verify"
+            className="font-mono text-xs uppercase tracking-[0.16em] text-[#1A2540]/70 font-bold hover:underline inline-block"
+          >
+            Field Verifier Queue
+          </Link>
+        </div>
 
         <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 shadow-sm">
           <div className="flex items-start justify-between gap-4 flex-wrap mb-4">

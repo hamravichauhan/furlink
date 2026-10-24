@@ -32,7 +32,7 @@ export default async function AdminOverviewPage() {
           <ul className="text-xs font-mono text-[#1A2540] mt-3 space-y-1.5 uppercase tracking-wider">
             {stats.sterilization.proofSubmitted > 0 && (
               <li>
-                <Link href="/verify" className="hover:underline font-bold text-[#cc2b3f]">
+                <Link href="/admin/verifications" className="hover:underline font-bold text-[#cc2b3f]">
                   → {stats.sterilization.proofSubmitted} proof
                   {stats.sterilization.proofSubmitted === 1 ? "" : "s"} awaiting verification
                 </Link>
@@ -41,7 +41,7 @@ export default async function AdminOverviewPage() {
             {stats.sterilization.disputed > 0 && (
               <li>
                 <Link
-                  href="/verify?status=DISPUTED"
+                  href="/admin/verifications"
                   className="hover:underline font-bold text-[#cc2b3f]"
                 >
                   → {stats.sterilization.disputed} disputed proof
@@ -226,7 +226,7 @@ export default async function AdminOverviewPage() {
             User Roles
           </Link>
           <Link
-            href="/verify"
+            href="/admin/verifications"
             className="border-2 border-[#cc2b3f] bg-white text-[#cc2b3f] hover:bg-[#cc2b3f] hover:text-white px-4 py-2 rounded-full transition"
           >
             Verification Queue

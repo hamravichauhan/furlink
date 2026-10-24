@@ -1,37 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { UserButton, useUser } from "@clerk/nextjs";
-import RoleSwitcher from "@/components/role-switcher";
-import { getActiveRoleInfo } from "@/actions/demo-auth";
 
 export default function ShelterNavbar() {
   const { isSignedIn, user } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [role, setRole] = useState<string>("USER");
-
-  useEffect(() => {
-    let isMounted = true;
-    getActiveRoleInfo().then((info) => {
-      if (isMounted) {
-        setIsAdmin(info.isAdmin);
-        if (info.role) setRole(info.role);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, [user]);
-
-  // If user metadata says ADMIN or email contains ravi, set admin immediately
-  const email = user?.primaryEmailAddress?.emailAddress?.toLowerCase() ?? "";
-  const effectiveIsAdmin =
-    isAdmin ||
-    user?.publicMetadata?.role === "ADMIN" ||
-    email.includes("ravi") ||
-    email === "admin@furlink.org";
 
   return (
     <header className="sticky top-0 z-40 bg-[#f3c9d5]/95 backdrop-blur-xs border-b-[1.5px] border-[#1A2540]/20">
@@ -64,26 +39,12 @@ export default function ShelterNavbar() {
           <Link href="/sterilization" className="hover:text-[#cc2b3f] transition-colors">
             ABC / TNVR
           </Link>
-
-          {effectiveIsAdmin && (
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#1A2540] text-[#f2e9db] hover:bg-[#cc2b3f] rounded-full font-mono text-[10.5px] uppercase tracking-wider font-bold transition-colors"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#cc2b3f]" />
-              Admin Console
-            </Link>
-          )}
         </nav>
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
-          <div className="hidden xl:block">
-            <RoleSwitcher currentRole={role} />
-          </div>
-
           {isSignedIn ? (
-            <div className="flex items-center gap-2 pl-2 border-l border-[#1A2540]/20">
+            <div className="flex items-center gap-2.5 pl-2">
               <Link
                 href="/profile"
                 className="font-body text-xs font-semibold text-[#1A2540] hover:text-[#cc2b3f] hidden sm:inline"
@@ -180,16 +141,6 @@ export default function ShelterNavbar() {
             >
               ABC / TNVR
             </Link>
-            {effectiveIsAdmin && (
-              <Link
-                href="/admin"
-                onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex items-center gap-2 py-1.5 font-mono text-xs uppercase tracking-wider font-bold text-[#cc2b3f] border-b border-[#1A2540]/10"
-              >
-                <span>→</span>
-                <span>Access Admin Console</span>
-              </Link>
-            )}
             <Link
               href="/profile"
               onClick={() => setMobileMenuOpen(false)}
@@ -199,18 +150,11 @@ export default function ShelterNavbar() {
             </Link>
           </nav>
 
-          <div className="pt-3 border-t border-[#1A2540]/20 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] uppercase font-bold text-[#1A2540]/60">
-                Active System Role
-              </span>
-              <RoleSwitcher currentRole={role} compact />
-            </div>
-
+          <div className="pt-2 border-t border-[#1A2540]/20">
             <Link
               href="/#waiting-board"
               onClick={() => setMobileMenuOpen(false)}
-              className="btn-enroll-pill w-full text-center py-2.5 text-xs font-bold shadow-sm"
+              className="btn-enroll-pill w-full text-center py-2.5 text-xs font-bold shadow-sm block"
             >
               ADOPT OR DONATE
             </Link>

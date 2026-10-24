@@ -49,6 +49,18 @@ export default async function VerifyPage({ searchParams }: PageProps) {
   return (
     <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-10 px-4 sm:px-6 md:px-10">
       <div className="max-w-5xl mx-auto space-y-8">
+        <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
+          <Link
+            href="/admin/verifications"
+            className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline"
+          >
+            ← Back to Admin Console
+          </Link>
+          <span className="font-mono text-[10px] uppercase text-[#1A2540]/60">
+            Surgical Audit Portal
+          </span>
+        </div>
+
         <div className="border-b-2 border-[#1A2540] pb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
