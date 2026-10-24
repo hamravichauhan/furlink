@@ -60,10 +60,10 @@ export default async function AdminAdoptionsPage() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-4 py-3 text-left">Pet</th>
-                  <th className="px-4 py-3 text-left">Applicant</th>
-                  <th className="px-4 py-3 text-left">Contact & Location</th>
-                  <th className="px-4 py-3 text-left">Reason / Experience</th>
+                  <th className="px-4 py-3 text-left">Pet & Caregiver</th>
+                  <th className="px-4 py-3 text-left">Applicant & Schedule</th>
+                  <th className="px-4 py-3 text-left">Direct Outreach</th>
+                  <th className="px-4 py-3 text-left">Housing & Experience</th>
                   <th className="px-4 py-3 text-left">Status</th>
                   <th className="px-4 py-3 text-right">Action</th>
                 </tr>
@@ -77,28 +77,64 @@ export default async function AdminAdoptionsPage() {
                         <img
                           src={app.petImageUrl}
                           alt={app.petName}
-                          className="w-10 h-10 rounded-lg object-cover bg-gray-100 shrink-0"
+                          className="w-12 h-12 rounded-lg object-cover bg-gray-100 shrink-0 border border-gray-200"
                         />
                         <div>
                           <Link href={`/adoptions/${app.petId}`} className="font-semibold text-gray-900 hover:underline">
                             {app.petName}
                           </Link>
                           <div className="text-xs text-gray-500">{app.petSpecies}</div>
+                          <div className="font-mono text-[10px] text-gray-400 uppercase mt-0.5">
+                            Guardian: {app.petOwnerName || 'FurLink Care Team'}
+                          </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-3">
                       <div className="font-medium text-gray-900">{app.fullName}</div>
                       <div className="text-xs text-gray-500">{app.applicantEmail}</div>
+                      <div className="mt-1 inline-block border border-amber-300 bg-amber-50 text-amber-900 font-mono text-[10px] font-bold px-2 py-0.5 rounded">
+                        Call Window: {app.preferredCallTime || 'Anytime'}
+                      </div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-600 font-mono">
-                      <div>Phone: {app.phone}</div>
-                      <div className="text-gray-500 max-w-[160px] truncate">Address: {app.address}</div>
+                    <td className="px-4 py-3 text-xs">
+                      <div className="font-mono font-medium text-gray-800">{app.phone}</div>
+                      <div className="text-gray-500 max-w-[170px] truncate text-[11px]">
+                        {app.address}
+                      </div>
+                      <div className="flex items-center gap-2 mt-2">
+                        <a
+                          href={`tel:${app.phone.replace(/\s+/g, '')}`}
+                          className="inline-flex items-center font-mono text-[10.5px] uppercase tracking-wider font-bold bg-[#1A2540] text-[#f2e9db] hover:bg-[#cc2b3f] px-2.5 py-1 rounded transition-colors"
+                        >
+                          Call
+                        </a>
+                        <a
+                          href={`https://wa.me/${app.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                            `Hi ${app.fullName}, this is FurLink regarding your adoption application for ${app.petName}. Let us coordinate your interview and visit!`
+                          )}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center font-mono text-[10.5px] uppercase tracking-wider font-bold bg-emerald-700 text-white hover:bg-emerald-800 px-2.5 py-1 rounded transition-colors"
+                        >
+                          WhatsApp
+                        </a>
+                      </div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-600 max-w-[200px]">
-                      <p className="line-clamp-2 leading-relaxed" title={app.reason}>
-                        {app.reason}
-                      </p>
+                    <td className="px-4 py-3 text-xs text-gray-600 max-w-[210px]">
+                      <div className="space-y-1">
+                        <div>
+                          <span className="font-mono text-[10px] uppercase font-bold text-gray-400">Housing: </span>
+                          <span className="text-gray-800">{app.housingType || 'Not specified'}</span>
+                        </div>
+                        <div>
+                          <span className="font-mono text-[10px] uppercase font-bold text-gray-400">Exp: </span>
+                          <span className="text-gray-800">{app.priorExperience || 'Not specified'}</span>
+                        </div>
+                        <p className="line-clamp-2 leading-relaxed text-[11px] text-gray-500 mt-1" title={app.reason}>
+                          {app.reason}
+                        </p>
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase tracking-wider ${

@@ -25,6 +25,9 @@ export interface AdminApplicationRow {
   petName: string;
   petSpecies: string;
   petImageUrl: string;
+  petOwnerName?: string | null;
+  petContactPhone?: string | null;
+  petLocation?: string | null;
   applicantName: string;
   applicantEmail: string;
   applicantId: string;
@@ -32,6 +35,9 @@ export interface AdminApplicationRow {
   phone: string;
   address: string;
   reason: string;
+  preferredCallTime?: string | null;
+  housingType?: string | null;
+  priorExperience?: string | null;
   status: ApplicationStatus;
   createdAt: Date;
 }
@@ -46,7 +52,17 @@ export async function listApplicationsForAdmin(): Promise<
     orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
     include: {
       user: { select: { id: true, name: true, email: true } },
-      pet: { select: { id: true, name: true, species: true, imageUrl: true } },
+      pet: {
+        select: {
+          id: true,
+          name: true,
+          species: true,
+          imageUrl: true,
+          ownerName: true,
+          contactPhone: true,
+          location: true,
+        },
+      },
     },
   });
 
@@ -56,6 +72,9 @@ export async function listApplicationsForAdmin(): Promise<
     petName: r.pet.name,
     petSpecies: r.pet.species,
     petImageUrl: r.pet.imageUrl,
+    petOwnerName: r.pet.ownerName,
+    petContactPhone: r.pet.contactPhone,
+    petLocation: r.pet.location,
     applicantId: r.user.id,
     applicantName: r.user.name ?? 'Applicant',
     applicantEmail: r.user.email,
@@ -63,6 +82,9 @@ export async function listApplicationsForAdmin(): Promise<
     phone: r.phone,
     address: r.address,
     reason: r.reason,
+    preferredCallTime: r.preferredCallTime,
+    housingType: r.housingType,
+    priorExperience: r.priorExperience,
     status: r.status as ApplicationStatus,
     createdAt: r.createdAt,
   }));

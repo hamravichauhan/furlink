@@ -53,21 +53,32 @@ model Pet {
   imageUrl     String
   status       AdoptionStatus        @default(AVAILABLE)
   createdAt    DateTime              @default(now())
+
+  // Guardian / Owner Contact Details
+  ownerName     String?               @default("Belagavi Sanctuary Station")
+  contactPhone  String?               @default("+91 94812 00000")
+  contactEmail  String?               @default("adoptions@furlink.org")
+  location      String?               @default("Belagavi Sanctuary Station")
+  visitingHours String?               @default("10:00 AM - 6:00 PM Daily")
+
   applications AdoptionApplication[]
 }
 
 model AdoptionApplication {
-  id        String            @id @default(cuid())
-  petId     String
-  userId    String
-  fullName  String
-  phone     String
-  address   String
-  reason    String
-  status    ApplicationStatus @default(PENDING)
-  createdAt DateTime          @default(now())
-  pet       Pet               @relation(fields: [petId], references: [id])
-  user      User              @relation(fields: [userId], references: [id])
+  id                String            @id @default(cuid())
+  petId             String
+  userId            String
+  fullName          String
+  phone             String
+  address           String
+  reason            String
+  preferredCallTime String?           @default("Anytime (10 AM - 7 PM)")
+  housingType       String?           @default("Apartment")
+  priorExperience   String?           @default("Experienced")
+  status            ApplicationStatus @default(PENDING)
+  createdAt         DateTime          @default(now())
+  pet               Pet               @relation(fields: [petId], references: [id])
+  user              User              @relation(fields: [userId], references: [id])
 }
 
 model Donation {

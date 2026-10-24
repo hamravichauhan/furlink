@@ -67,6 +67,11 @@ async function main() {
       description: 'Gentle shadow who walks with a healed paw and loves quiet morning tea. Sterilized (TNVR), fully vaccinated (7-in-1), right hind paw healed after splint.',
       imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
+      ownerName: 'Belagavi Sanctuary Station (Dr. Ramesh Sharma)',
+      contactPhone: '+91 94812 00000',
+      contactEmail: 'adoptions@furlink.org',
+      location: 'Tilakwadi Sanctuary Station, Belagavi',
+      visitingHours: '10:00 AM - 6:00 PM Daily',
     },
   });
 
@@ -80,6 +85,11 @@ async function main() {
       description: 'Rescued from a storm drain at 4 weeks. An observant, attentive listener. Sterilized, dewormed, anti-rabies certified, zero health conditions.',
       imageUrl: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
+      ownerName: 'Rahul Patil (Foster Volunteer)',
+      contactPhone: '+91 99887 66554',
+      contactEmail: 'foster.chotu@furlink.org',
+      location: 'RPD College Road, Belagavi',
+      visitingHours: '11:00 AM - 5:00 PM Weekends',
     },
   });
 
@@ -93,6 +103,11 @@ async function main() {
       description: 'Warm-hearted pup who greets every volunteer by resting her chin on your shoes. Sterilization scheduled this week, core puppy booster shots completed.',
       imageUrl: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
+      ownerName: 'Anita Kamat (Community Rescuer)',
+      contactPhone: '+91 98451 22334',
+      contactEmail: 'anita.kamat@gmail.com',
+      location: 'Tilakwadi 2nd Gate, Belagavi',
+      visitingHours: '10:00 AM - 7:00 PM Daily',
     },
   });
 
@@ -106,6 +121,11 @@ async function main() {
       description: 'Quiet guardian who sits next to the clinic gate and watches over injured puppies. Complete orthopedic clearance, sterilized, microchipped.',
       imageUrl: 'https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
+      ownerName: 'Belagavi Sanctuary Station (Dr. Sharma)',
+      contactPhone: '+91 94812 00000',
+      contactEmail: 'adoptions@furlink.org',
+      location: 'Tilakwadi Sanctuary Station, Belagavi',
+      visitingHours: '10:00 AM - 6:00 PM Daily',
     },
   });
 
@@ -119,6 +139,11 @@ async function main() {
       description: 'Hit-and-run survivor currently completing final physiotherapy with high spirits. Pins removed from hind femur, weight-bearing rehabilitation in progress.',
       imageUrl: 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
+      ownerName: 'Belagavi Animal Rescue Trust',
+      contactPhone: '+91 94812 00000',
+      contactEmail: 'adoptions@furlink.org',
+      location: 'Club Road Clinic, Belagavi',
+      visitingHours: '2:00 PM - 6:00 PM Daily',
     },
   });
 
@@ -132,6 +157,11 @@ async function main() {
       description: 'Calm window-watcher with silk fur who purrs the moment anyone enters the room. Spayed, feline leukemia negative, flea/tick cleared.',
       imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
+      ownerName: 'Anita Kamat (Foster Caregiver)',
+      contactPhone: '+91 98451 22334',
+      contactEmail: 'anita.kamat@gmail.com',
+      location: 'Tilakwadi 2nd Gate, Belagavi',
+      visitingHours: '10:00 AM - 6:00 PM Daily',
     },
   });
 
@@ -145,6 +175,11 @@ async function main() {
       description: 'Joyful sunbeam rescued near Khanapur road. Loves fetch and gentle head pats. Neutered, vaccinated, full dental clean, healthy energetic appetite.',
       imageUrl: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=800&q=80',
       status: 'AVAILABLE',
+      ownerName: 'Belagavi Sanctuary Station',
+      contactPhone: '+91 94812 00000',
+      contactEmail: 'adoptions@furlink.org',
+      location: 'Tilakwadi Sanctuary Station, Belagavi',
+      visitingHours: '10:00 AM - 6:00 PM Daily',
     },
   });
 
@@ -158,6 +193,11 @@ async function main() {
       description: 'Playful acrobat rescued from a spice warehouse. Will investigate every shoelace. Spayed, fully vaccinated, indoor litter box certified.',
       imageUrl: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80',
       status: 'PENDING',
+      ownerName: 'Belagavi Sanctuary Station (Dr. Sharma)',
+      contactPhone: '+91 94812 00000',
+      contactEmail: 'adoptions@furlink.org',
+      location: 'Tilakwadi Sanctuary Station, Belagavi',
+      visitingHours: '10:00 AM - 6:00 PM Daily',
     },
   });
 
@@ -171,10 +211,15 @@ async function main() {
       description: 'Loyal guard dog and loving companion. Fully vaccinated, neutered, and thriving in his permanent home in Mumbai.',
       imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
       status: 'ADOPTED',
+      ownerName: 'Belagavi Sanctuary Station',
+      contactPhone: '+91 94812 00000',
+      contactEmail: 'adoptions@furlink.org',
+      location: 'Mumbai Placed',
+      visitingHours: 'Placed',
     },
   });
 
-  console.log('[OK] Created 9 pets in adoption catalog with rich photos');
+  console.log('[OK] Created 9 pets in adoption catalog with rich photos and guardian contacts');
 
   // 4. Adoption Applications
   await prisma.adoptionApplication.create({
@@ -185,6 +230,9 @@ async function main() {
       phone: '+91 98451 22334',
       address: 'Plot 45, Tilakwadi 2nd Gate, Belagavi, Karnataka',
       reason: 'We are a pet-loving family of three with a secure apartment. We had a cat for 12 years and would love to give Bella a loving home.',
+      preferredCallTime: 'Afternoon (12 PM - 4 PM)',
+      housingType: 'Apartment with secure balcony netting',
+      priorExperience: '12 years experienced cat parent',
       status: 'PENDING',
     },
   });
@@ -197,6 +245,9 @@ async function main() {
       phone: '+91 99887 66554',
       address: 'House #12, RPD College Road, Belagavi',
       reason: 'Looking for a playful companion for my retired parents. Large fenced yard with someone home 24/7.',
+      preferredCallTime: 'Evening (4 PM - 7 PM)',
+      housingType: 'Independent House with compound',
+      priorExperience: 'First-time adopting a rescue dog',
       status: 'PENDING',
     },
   });
@@ -209,6 +260,9 @@ async function main() {
       phone: '+91 98451 22334',
       address: 'Plot 45, Tilakwadi 2nd Gate, Belagavi',
       reason: 'Adopted Rocky successfully last month!',
+      preferredCallTime: 'Morning (9 AM - 12 PM)',
+      housingType: 'Independent House with compound',
+      priorExperience: 'Experienced with Indies',
       status: 'APPROVED',
     },
   });

@@ -181,6 +181,66 @@ export default function NewPetPage() {
             />
           </div>
 
+          {/* Caregiver & Contact Details */}
+          <div className="border-t-2 border-[#1A2540]/20 pt-5 space-y-4">
+            <span className="font-mono text-xs uppercase tracking-wider text-[#cc2b3f] font-bold block">
+              Caregiver &amp; Direct Adoption Contact
+            </span>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                  Guardian / Shelter Name
+                </label>
+                <input
+                  name="ownerName"
+                  required
+                  placeholder="e.g. Belagavi Sanctuary Station"
+                  defaultValue="Belagavi Sanctuary Station"
+                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                  Adoption Contact Mobile
+                </label>
+                <input
+                  name="contactPhone"
+                  required
+                  placeholder="+91 94812 00000"
+                  defaultValue="+91 94812 00000"
+                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                  Facility / Foster Location
+                </label>
+                <input
+                  name="location"
+                  required
+                  placeholder="e.g. Tilakwadi, Belagavi"
+                  defaultValue="Tilakwadi, Belagavi"
+                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                  Visiting &amp; Interaction Hours
+                </label>
+                <input
+                  name="visitingHours"
+                  placeholder="e.g. 10:00 AM - 6:00 PM Daily"
+                  defaultValue="10:00 AM - 6:00 PM Daily"
+                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                />
+              </div>
+            </div>
+          </div>
+
           <button
             type="submit"
             disabled={loading}

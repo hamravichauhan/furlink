@@ -128,59 +128,157 @@ export default async function ProfilePage() {
         </div>
 
         {/* Adoption Applications Section */}
-        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 space-y-4 shadow-sm">
-          <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
-            <h2 className="font-heading uppercase text-2xl font-black text-[#1A2540]">
-              Adoption Applications ({applications.length})
-            </h2>
+        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-[#1A2540]/20 pb-4">
+            <div>
+              <h2 className="font-heading uppercase text-2xl sm:text-3xl font-black text-[#1A2540]">
+                My Adoption Dossiers ({applications.length})
+              </h2>
+              <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/60 mt-1">
+                Track status and contact assigned guardians directly
+              </p>
+            </div>
             <Link
               href="/adoptions"
-              className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
+              className="font-mono text-xs uppercase tracking-[0.16em] bg-[#1A2540] text-[#f2e9db] hover:bg-[#cc2b3f] px-4 py-2 rounded-full font-bold transition-colors self-start sm:self-auto"
             >
-              Browse Waiting Wall →
+              Browse Waiting Board →
             </Link>
           </div>
 
           {applications.length === 0 ? (
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/50 py-3">
-              No active adoption dossiers submitted.
-            </p>
+            <div className="text-center py-10 bg-white border-2 border-dashed border-[#1A2540]/30 rounded-xl">
+              <p className="font-heading uppercase text-xl font-black text-[#1A2540]">
+                No active adoption applications
+              </p>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/60 mt-1">
+                Find an animal waiting for a forever home on our waiting board.
+              </p>
+              <Link
+                href="/adoptions"
+                className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
+              >
+                Meet Animals Looking for Homes →
+              </Link>
+            </div>
           ) : (
-            <div className="space-y-2.5">
-              {applications.map((app) => (
-                <div
-                  key={app.id}
-                  className="flex items-center justify-between border-2 border-[#1A2540] rounded-xl bg-white p-3.5 text-sm"
-                >
-                  <div className="flex items-center gap-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={app.pet.imageUrl}
-                      alt={app.pet.name}
-                      className="w-12 h-12 rounded-lg object-cover border-2 border-[#1A2540] bg-[#f2e9db]"
-                    />
-                    <div>
+            <div className="space-y-4">
+              {applications.map((app) => {
+                const guardianPhone = app.pet.contactPhone || '+91 98200 12345';
+                const cleanPhone = guardianPhone.replace(/[^0-9]/g, '');
+                const guardianName = app.pet.ownerName || 'FurLink Caregiver';
+                const whatsappMsg = `Hi ${guardianName}, I submitted adoption application #APP-${app.id.slice(-6).toUpperCase()} for ${app.pet.name} on FurLink. I would love to connect about visiting!`;
+
+                return (
+                  <div
+                    key={app.id}
+                    className="border-2 border-[#1A2540] rounded-xl bg-white p-5 sm:p-6 space-y-4 shadow-sm"
+                  >
+                    {/* Top Row: Pet & Status */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-[#1A2540]/10 pb-4">
+                      <div className="flex items-center gap-4">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={app.pet.imageUrl}
+                          alt={app.pet.name}
+                          className="w-16 h-16 rounded-xl object-cover border-2 border-[#1A2540] bg-[#f2e9db] shrink-0"
+                        />
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <Link
+                              href={`/adoptions/${app.pet.id}`}
+                              className="font-heading uppercase text-2xl font-black text-[#1A2540] hover:text-[#cc2b3f] transition-colors"
+                            >
+                              {app.pet.name}
+                            </Link>
+                            <span className="font-mono text-xs text-[#1A2540]/60 uppercase">
+                              · {app.pet.species} · {app.pet.age}
+                            </span>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2 mt-1 font-mono text-[11px] text-[#1A2540]/60">
+                            <span className="font-bold text-[#1A2540]">
+                              DOCKET: APP-{app.id.slice(-6).toUpperCase()}
+                            </span>
+                            <span>·</span>
+                            <span>Filed {new Date(app.createdAt).toLocaleDateString("en-IN")}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`font-mono text-xs uppercase tracking-widest font-black px-3 py-1 rounded-full border-2 ${
+                            app.status === 'APPROVED'
+                              ? 'bg-emerald-100 text-emerald-900 border-emerald-900'
+                              : app.status === 'REJECTED'
+                              ? 'bg-rose-100 text-rose-900 border-rose-900'
+                              : 'bg-amber-100 text-amber-900 border-amber-900'
+                          }`}
+                        >
+                          Status: {app.status}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Middle Row: Guardian / Shelter Details & Applicant's Window */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#f2e9db]/50 border border-[#1A2540]/20 rounded-xl p-4">
+                      <div>
+                        <div className="font-mono text-[10px] uppercase font-bold tracking-wider text-[#1A2540]/60">
+                          Assigned Caregiver / Shelter
+                        </div>
+                        <div className="font-heading uppercase text-lg font-black text-[#1A2540] mt-0.5">
+                          {guardianName}
+                        </div>
+                        <div className="font-mono text-xs text-[#1A2540]/80 mt-1 space-y-0.5">
+                          <p>Facility: {app.pet.location || 'FurLink Care Center'}</p>
+                          <p>Direct Mobile: {guardianPhone}</p>
+                          <p>Visiting Hours: {app.pet.visitingHours || 'Mon-Sat 10:00 AM - 6:00 PM'}</p>
+                        </div>
+                      </div>
+
+                      <div className="border-t md:border-t-0 md:border-l border-[#1A2540]/20 md:pl-4 pt-3 md:pt-0">
+                        <div className="font-mono text-[10px] uppercase font-bold tracking-wider text-[#1A2540]/60">
+                          Your Stated Availability
+                        </div>
+                        <div className="mt-1 inline-block border-2 border-[#1A2540] bg-white font-mono text-xs font-bold px-2.5 py-1 text-[#1A2540]">
+                          Window: {app.preferredCallTime || 'Anytime'}
+                        </div>
+                        <p className="font-mono text-[11px] text-[#1A2540]/70 mt-2 leading-relaxed">
+                          {app.status === 'APPROVED'
+                            ? 'Your application is approved. Please call or WhatsApp the caregiver below to schedule your meet-and-greet.'
+                            : app.status === 'REJECTED'
+                            ? 'This application has concluded. Feel free to explore other waiting animals.'
+                            : 'The guardian will call you during your selected window, or you can reach out to them directly now.'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Bottom Row: Direct Actions */}
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      <a
+                        href={`tel:${guardianPhone.replace(/\s+/g, '')}`}
+                        className="inline-flex items-center font-mono text-xs uppercase tracking-wider font-bold bg-[#1A2540] text-[#f2e9db] hover:bg-[#cc2b3f] px-4 py-2.5 rounded-full transition-colors"
+                      >
+                        Call Guardian: {guardianPhone}
+                      </a>
+                      <a
+                        href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(whatsappMsg)}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center font-mono text-xs uppercase tracking-wider font-bold bg-emerald-700 text-white hover:bg-emerald-800 px-4 py-2.5 rounded-full transition-colors"
+                      >
+                        WhatsApp Guardian
+                      </a>
                       <Link
                         href={`/adoptions/${app.pet.id}`}
-                        className="font-heading uppercase text-lg font-black text-[#1A2540] hover:text-[#cc2b3f]"
+                        className="inline-flex items-center font-mono text-xs uppercase tracking-wider font-bold border-2 border-[#1A2540] text-[#1A2540] hover:bg-[#1A2540] hover:text-[#f2e9db] px-4 py-2 rounded-full transition-colors ml-auto"
                       >
-                        {app.pet.name} ({app.pet.species})
+                        View Pet Dossier →
                       </Link>
-                      <p className="font-mono text-[10.5px] uppercase tracking-wide text-[#1A2540]/60">
-                        Contact: {app.fullName} · {app.phone}
-                      </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em]">
-                    <span className="border border-[#1A2540] bg-[#f2e9db] px-2 py-0.5 font-bold">
-                      {app.status}
-                    </span>
-                    <span className="text-[#1A2540]/50">
-                      {new Date(app.createdAt).toLocaleDateString("en-IN")}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
