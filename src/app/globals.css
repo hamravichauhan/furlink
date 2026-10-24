@@ -5,132 +5,105 @@
 
 @layer base {
   :root {
-    /* Palette from user specification: */
-    /* Pink Orchid, Amethyst Smoke, Dusty Grape, Ocean Twilight, Steel Blue */
-    --orchid: #EFBDEB;
-    --amethyst: #B68CB8;
-    --grape: #6461A0;
-    --twilight: #314CB6;
-    --azure: #0A81D1;
+    /* Kiss-Cut Sticker Sheet Material System Palette */
+    --blush: #f3c9d5;
+    --navy: #1A2540;
+    --crimson: #cc2b3f;
+    --cream: #f2e9db;
+    --blossom: #EF9CC0;
 
-    /* Contrast Grounds */
-    --loam: #101124;
-    --loam-card: #161938;
-    --paper: #FAF8FC;
-    --paper-card: #FFFFFF;
-
-    /* Inks & Hairlines */
-    --ink: #101124;
-    --ink-faint: rgba(16, 17, 36, 0.34);
-    --ink-muted: #6461A0;
-    --ink-border: #101124;
-    --hairline: rgba(16, 17, 36, 0.14);
-    --hairline-light: rgba(239, 189, 235, 0.2);
-
-    /* Theme Tokens */
-    --background: #FAF8FC;
-    --foreground: #101124;
-    --card: #FFFFFF;
-    --card-foreground: #101124;
-    --primary: #314CB6;
-    --primary-foreground: #FFFFFF;
-    --secondary: #0A81D1;
-    --secondary-foreground: #FFFFFF;
-    --border: rgba(16, 17, 36, 0.16);
-
-    /* Choreography Variables (defaults) */
-    --hero-type-y: 0px;
-    --hero-type-scale: 1;
-    --hero-type-alpha: 1;
-    --manifesto-wipe: 0%;
-    --manifesto-scale: 1;
-    --rail-progress: 0;
-    --overflow-width: 0px;
-    --packet-alpha: 0;
-    --packet-enter: 38px;
-    --packet-scale: 0.78;
-    --packet-cut: 0;
-    --packet-meter: 0%;
-    --packet-copy-x: 0px;
-    --phase-index: 0;
-    --season-y: 0%;
-    --season-scale: 1.1;
-    --chapter-index: 0;
+    --background: #f3c9d5;
+    --foreground: #1A2540;
+    --card: #f2e9db;
+    --card-foreground: #1A2540;
+    --primary: #cc2b3f;
+    --primary-foreground: #f2e9db;
+    --border: #1A2540;
   }
 
   body {
-    background-color: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-sans), system-ui, sans-serif;
-    position: relative;
-    overflow-x: hidden;
+    background-color: var(--blush);
+    color: var(--navy);
+    font-family: var(--font-body), "Poppins", system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
   }
 
-  /* Display Font (Anton) */
-  .font-display {
-    font-family: var(--font-display), Impact, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: -0.03em;
-    line-height: 0.86;
+  /* Headings: League Spartan 800 */
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-heading), "League Spartan", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--navy);
   }
 
-  /* Martian Mono Metadata Furniture */
-  .font-mono-meta {
-    font-family: var(--font-mono), monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+  .font-body {
+    font-family: var(--font-body), "Poppins", system-ui, sans-serif;
   }
 }
 
-/* 1.5px Solid Ink Borders & Zero Radii per specification */
-.border-ink-15 {
-  border-width: 1.5px;
-  border-style: solid;
-  border-color: #101124;
-  border-radius: 0 !important;
+/* Material Patterns */
+
+/* Hatched peel shadow pattern in blossom pink #EF9CC0 on cream #f2e9db */
+.bg-hatch-pattern {
+  background: repeating-linear-gradient(
+    -45deg,
+    #EF9CC0,
+    #EF9CC0 2px,
+    #f2e9db 2px,
+    #f2e9db 8px
+  );
 }
 
-.border-ink-hairline {
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(16, 17, 36, 0.14);
-  border-radius: 0 !important;
+.bg-hatch-pattern-blush {
+  background: repeating-linear-gradient(
+    -45deg,
+    #EF9CC0,
+    #EF9CC0 2px,
+    #f3c9d5 2px,
+    #f3c9d5 8px
+  );
 }
 
-.radius-0 {
-  border-radius: 0 !important;
+/* Kiss-cut contours */
+.kiss-cut-ring {
+  border: 1.5px dashed #1A2540;
 }
 
-/* Staggered word animation styles */
-.word-rise {
-  display: inline-block;
-  transform: translateY(0.42em);
-  opacity: 0;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform, opacity;
+.kiss-cut-ring-pink {
+  border: 1.5px dashed #EF9CC0;
 }
 
-.word-rise.is-revealed {
-  transform: translateY(0);
-  opacity: 1;
+.kiss-cut-ring-crimson {
+  border: 1.5px dashed #cc2b3f;
 }
 
-/* Horizontal scroll bar suppression */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Smooth tactile transforms */
+.sticker-tactile {
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s ease;
 }
 
-/* Native details summary disclosure */
-details > summary {
-  list-style: none;
+.sticker-tactile:hover {
+  transform: translateY(-2px) rotate(0.5deg);
 }
-details > summary::-webkit-details-marker {
-  display: none;
+
+/* Enroll CTA Pill Button */
+.btn-enroll-pill {
+  background-color: #cc2b3f;
+  color: #f2e9db;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-enroll-pill:hover {
+  background-color: #b82537;
+  transform: scale(1.02);
+}
+
+.btn-enroll-pill:active {
+  transform: scale(0.98);
 }

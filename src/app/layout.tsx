@@ -1,33 +1,25 @@
 import type { Metadata } from "next";
-import { Anton, Inter, Martian_Mono } from "next/font/google";
+import { League_Spartan, Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import Navbar from "@/components/navbar";
-import StickyActionBar from "@/components/sticky-action-bar";
 import "./globals.css";
 
-const anton = Anton({
-  weight: "400",
+const leagueSpartan = League_Spartan({
+  weight: ["700", "800", "900"],
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-heading",
   display: "swap",
 });
 
-const inter = Inter({
+const poppins = Poppins({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const martianMono = Martian_Mono({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "FurLink — Animal Welfare, Rescue & Adoption Archive",
-  description: "A scroll-choreographed catalogue and rescue archive where every animal has a name before a number.",
+  title: "Stickercraft — The Kiss-Cut Sticker Sheet Curriculum",
+  description: "An online course whose signature is a physical, mailed kiss-cut sticker sheet curriculum. 8 modules, 9 h 20 m. Peel as you go.",
 };
 
 export default function RootLayout({
@@ -37,11 +29,9 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${anton.variable} ${inter.variable} ${martianMono.variable}`}>
-        <body className="font-sans bg-[#FAF8FC] text-[#101124] antialiased selection:bg-[#314CB6] selection:text-[#EFBDEB] min-h-screen flex flex-col">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <StickyActionBar />
+      <html lang="en" className={`${leagueSpartan.variable} ${poppins.variable}`}>
+        <body className="font-body bg-[#f3c9d5] text-[#1A2540] antialiased selection:bg-[#cc2b3f] selection:text-[#f2e9db] min-h-screen flex flex-col">
+          {children}
         </body>
       </html>
     </ClerkProvider>
