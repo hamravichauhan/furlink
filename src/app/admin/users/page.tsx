@@ -74,7 +74,7 @@ export default async function AdminUsersPage() {
                     {user.counts.verified > 0 && (
                       <>
                         {" · "}
-                        <span className="text-emerald-700 font-medium">
+                        <span className="text-[#cc2b3f] font-bold">
                           {user.counts.verified} verified
                         </span>
                       </>

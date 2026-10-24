@@ -10,14 +10,14 @@ const STATUS_BADGE: Record<string, { bg: string; text: string; border: string }>
     border: "border-[#cc2b3f]",
   },
   IN_PROGRESS: {
-    bg: "bg-amber-100",
-    text: "text-amber-800",
-    border: "border-amber-300",
+    bg: "bg-white",
+    text: "text-[#1A2540]",
+    border: "border-[#1A2540]",
   },
   RESCUED: {
-    bg: "bg-emerald-100",
-    text: "text-emerald-800",
-    border: "border-emerald-300",
+    bg: "bg-[#1A2540]",
+    text: "text-[#f2e9db]",
+    border: "border-[#1A2540]",
   },
   CLOSED: {
     bg: "bg-white",
@@ -79,7 +79,7 @@ export default async function RescuesFeedPage() {
             <span className="font-body text-[10px] text-[#1A2540]/60 uppercase font-bold tracking-wider block">
               Ambulance En Route
             </span>
-            <span className="font-heading text-3xl sm:text-4xl text-amber-700 mt-1 block">
+            <span className="font-heading text-3xl sm:text-4xl text-[#1A2540] mt-1 block">
               {inProgress}
             </span>
           </div>
@@ -87,7 +87,7 @@ export default async function RescuesFeedPage() {
             <span className="font-body text-[10px] text-[#1A2540]/60 uppercase font-bold tracking-wider block">
               Secured in Clinic
             </span>
-            <span className="font-heading text-3xl sm:text-4xl text-emerald-700 mt-1 block">
+            <span className="font-heading text-3xl sm:text-4xl text-[#1A2540] mt-1 block">
               {resolved}
             </span>
           </div>

@@ -32,18 +32,20 @@ export default async function VerifyDetailPage({
 
   if (request.status !== "PROOF_SUBMITTED" && request.status !== "DISPUTED") {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-10 text-center">
-        <div className="font-mono text-xs uppercase tracking-widest text-moss font-semibold mb-3">[RESOLVED]</div>
-        <h1 className="text-xl font-bold mb-2">Already handled</h1>
-        <p className="text-sm text-gray-600 mb-6">
-          This request is no longer in the verification queue.
-        </p>
-        <Link
-          href="/verify"
-          className="inline-block bg-gray-900 text-white px-4 py-2 rounded-md text-sm"
-        >
-          Back to queue
-        </Link>
+      <div className="bg-[#f3c9d5] text-[#1A2540] min-h-[70vh] flex items-center justify-center p-6">
+        <div className="max-w-md w-full bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-8 text-center space-y-4 shadow-sm">
+          <div className="font-mono text-xs uppercase tracking-widest text-[#1A2540] font-bold">[RESOLVED]</div>
+          <h1 className="font-heading uppercase text-2xl font-black">Audit Concluded</h1>
+          <p className="text-xs font-mono uppercase tracking-wider text-[#1A2540]/70">
+            This request is no longer in the verification queue.
+          </p>
+          <Link
+            href="/verify"
+            className="inline-block bg-[#1A2540] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold"
+          >
+            Back to Queue
+          </Link>
+        </div>
       </div>
     );
   }
@@ -51,159 +53,163 @@ export default async function VerifyDetailPage({
   const isOwnSubmission = request.rescuerId === dbUser?.id;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
-      <Link
-        href="/verify"
-        className="text-sm text-gray-500 hover:underline mb-6 inline-block"
-      >
-        ← Back to queue
-      </Link>
+    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-10 px-4 sm:px-6 md:px-10">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <Link
+          href="/verify"
+          className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline inline-block"
+        >
+          ← Back to Verification Queue
+        </Link>
 
-      <div className="mb-6">
-        <div className="flex items-start justify-between gap-4 flex-wrap mb-3">
-          <div>
-            <h1 className="text-2xl font-bold">{request.location}</h1>
-            <p className="text-sm text-gray-600 mt-1">
-              {request.animalType} · Estimated count: {request.count}
+        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 shadow-sm">
+          <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
+            <div>
+              <span className="font-mono text-[10px] text-[#1A2540]/60 font-bold uppercase tracking-widest block mb-1">
+                Field Surgical Dossier #{request.id.slice(-6).toUpperCase()}
+              </span>
+              <h1 className="font-heading uppercase text-2xl sm:text-4xl font-black tracking-tight">{request.location}</h1>
+              <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">
+                {request.animalType} · Estimated count: {request.count}
+              </p>
+            </div>
+            <span
+              className={`font-mono text-[10px] font-bold px-3 py-1 rounded-full border-2 uppercase tracking-wider ${
+                request.status === "DISPUTED"
+                  ? "bg-white text-[#cc2b3f] border-[#cc2b3f]"
+                  : "bg-white text-[#1A2540] border-[#1A2540]"
+              }`}
+            >
+              {request.status === "DISPUTED"
+                ? "Disputed"
+                : "Awaiting review"}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs bg-white rounded-xl p-4 border border-[#1A2540]/20">
+            <div>
+              <div className="text-[10px] text-[#1A2540]/60 uppercase">Requester</div>
+              <div className="font-bold text-[#1A2540]">
+                {request.user.name || "Community Member"}
+              </div>
+            </div>
+            <div>
+              <div className="text-[10px] text-[#1A2540]/60 uppercase">Rescuer</div>
+              <div className="font-bold text-[#1A2540]">
+                {request.rescuer?.name || "Unknown"}
+              </div>
+            </div>
+            <div>
+              <div className="text-[10px] text-[#1A2540]/60 uppercase">Submitted</div>
+              <div className="font-bold text-[#1A2540]">
+                {request.proofSubmittedAt
+                  ? new Date(request.proofSubmittedAt).toLocaleString("en-IN")
+                  : "—"}
+              </div>
+            </div>
+            <div>
+              <div className="text-[10px] text-[#1A2540]/60 uppercase">Clinic</div>
+              <div className="font-bold text-[#1A2540]">{request.clinicName || "—"}</div>
+            </div>
+            {request.veterinarianName && (
+              <div className="sm:col-span-2">
+                <div className="text-[10px] text-[#1A2540]/60 uppercase">Attending Veterinarian</div>
+                <div className="font-bold text-[#1A2540]">Dr. {request.veterinarianName}</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {request.status === "DISPUTED" && request.disputeReason && (
+          <div className="border-2 border-[#cc2b3f] bg-white rounded-2xl p-5 shadow-sm">
+            <div className="font-mono text-xs font-bold text-[#cc2b3f] uppercase tracking-wider mb-1">
+              Dispute Registered
+              {request.disputedBy?.name &&
+                ` · filed by ${request.disputedBy.name}`}
+            </div>
+            <p className="font-mono text-xs text-[#1A2540] whitespace-pre-line">
+              {request.disputeReason}
             </p>
           </div>
-          <span
-            className={`text-xs font-semibold px-3 py-1.5 rounded-full border uppercase tracking-wider ${
-              request.status === "DISPUTED"
-                ? "bg-rose-100 text-rose-800 border-rose-200"
-                : "bg-purple-100 text-purple-800 border-purple-200"
-            }`}
-          >
-            {request.status === "DISPUTED"
-              ? "Disputed"
-              : "Awaiting review"}
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm bg-gray-50 rounded-lg p-4">
-          <div>
-            <div className="text-xs text-gray-500">Requester</div>
-            <div className="text-gray-900">
-              {request.user.name || "Community Member"}
-            </div>
-          </div>
-          <div>
-            <div className="text-xs text-gray-500">Rescuer</div>
-            <div className="text-gray-900">
-              {request.rescuer?.name || "Unknown"}
-            </div>
-          </div>
-          <div>
-            <div className="text-xs text-gray-500">Submitted</div>
-            <div className="text-gray-900">
-              {request.proofSubmittedAt
-                ? new Date(request.proofSubmittedAt).toLocaleString()
-                : "—"}
-            </div>
-          </div>
-          <div>
-            <div className="text-xs text-gray-500">Clinic</div>
-            <div className="text-gray-900">{request.clinicName || "—"}</div>
-          </div>
-          {request.veterinarianName && (
-            <div>
-              <div className="text-xs text-gray-500">Veterinarian</div>
-              <div className="text-gray-900">{request.veterinarianName}</div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {request.status === "DISPUTED" && request.disputeReason && (
-        <div className="border border-rose-200 bg-rose-50 rounded-lg p-4 mb-6">
-          <div className="text-xs font-semibold text-rose-800 uppercase tracking-wide mb-1">
-            Dispute
-            {request.disputedBy?.name &&
-              ` · filed by ${request.disputedBy.name}`}
-          </div>
-          <p className="text-sm text-rose-900 whitespace-pre-line">
-            {request.disputeReason}
-          </p>
-        </div>
-      )}
-
-      <div className="border rounded-lg bg-white p-5 mb-6">
-        <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
-          Certificate
-        </h2>
-        {request.completionCertificateUrl ? (
-          <a
-            href={request.completionCertificateUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block relative w-full h-[480px] rounded-md overflow-hidden border bg-gray-50"
-          >
-            <Image
-              src={request.completionCertificateUrl}
-              alt="Sterilization certificate"
-              fill
-              sizes="(max-width: 1024px) 100vw, 900px"
-              className="object-contain"
-            />
-          </a>
-        ) : (
-          <p className="text-sm text-gray-500">No certificate uploaded.</p>
-        )}
-      </div>
-
-      <div className="border rounded-lg bg-white p-5 mb-6">
-        <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
-          Rescuer notes
-        </h2>
-        {request.completionNotes ? (
-          <p className="text-sm text-gray-800 whitespace-pre-line">
-            {request.completionNotes}
-          </p>
-        ) : (
-          <p className="text-sm text-gray-500">No notes provided.</p>
-        )}
-      </div>
-
-      <div className="border rounded-lg bg-white p-5 mb-6">
-        <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
-          Reported location
-        </h2>
-        {request.latitude !== null && request.longitude !== null ? (
-          <MiniMap
-            latitude={request.latitude}
-            longitude={request.longitude}
-            label={request.location}
-          />
-        ) : (
-          <p className="text-sm text-gray-500">No coordinates were provided.</p>
         )}
 
-        {request.completionLatitude !== null &&
-          request.completionLongitude !== null && (
-            <div className="mt-4">
-              <h3 className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
-                Completion location
-              </h3>
-              <MiniMap
-                latitude={request.completionLatitude}
-                longitude={request.completionLongitude}
-                label="Where the work was done"
+        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+          <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+            Surgical Certificate Proof
+          </h2>
+          {request.completionCertificateUrl ? (
+            <a
+              href={request.completionCertificateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block relative w-full h-[480px] rounded-xl overflow-hidden border-2 border-[#1A2540] bg-white"
+            >
+              <Image
+                src={request.completionCertificateUrl}
+                alt="Sterilization certificate"
+                fill
+                sizes="(max-width: 1024px) 100vw, 900px"
+                className="object-contain"
               />
-            </div>
+            </a>
+          ) : (
+            <p className="font-mono text-xs uppercase text-[#1A2540]/60">No certificate uploaded.</p>
           )}
-      </div>
-
-      {isOwnSubmission ? (
-        <div className="border border-amber-200 bg-amber-50 rounded-lg p-4 text-sm text-amber-900">
-          You cannot verify your own submission. Another verifier will handle
-          it.
         </div>
-      ) : (
-        <VerifyActions
-          requestId={request.id}
-          isDisputed={request.status === "DISPUTED"}
-        />
-      )}
+
+        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+          <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+            Rescuer Field Observations
+          </h2>
+          {request.completionNotes ? (
+            <p className="font-sans text-sm text-[#1A2540] whitespace-pre-line leading-relaxed">
+              {request.completionNotes}
+            </p>
+          ) : (
+            <p className="font-mono text-xs uppercase text-[#1A2540]/60">No notes provided.</p>
+          )}
+        </div>
+
+        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+          <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+            GPS Coordinate Verification
+          </h2>
+          {request.latitude !== null && request.longitude !== null ? (
+            <MiniMap
+              latitude={request.latitude}
+              longitude={request.longitude}
+              label={request.location}
+            />
+          ) : (
+            <p className="font-mono text-xs uppercase text-[#1A2540]/60">No coordinates were provided.</p>
+          )}
+
+          {request.completionLatitude !== null &&
+            request.completionLongitude !== null && (
+              <div className="mt-4 pt-4 border-t-2 border-[#1A2540]/20">
+                <h3 className="font-mono text-xs font-bold text-[#1A2540] mb-2 uppercase tracking-wide">
+                  Clinical Completion Location
+                </h3>
+                <MiniMap
+                  latitude={request.completionLatitude}
+                  longitude={request.completionLongitude}
+                  label="Where surgery was concluded"
+                />
+              </div>
+            )}
+        </div>
+
+        {isOwnSubmission ? (
+          <div className="border-2 border-[#cc2b3f] bg-white rounded-2xl p-4 font-mono text-xs uppercase text-[#cc2b3f] font-bold">
+            You cannot verify your own submission. Another registered verifier will audit it.
+          </div>
+        ) : (
+          <VerifyActions
+            requestId={request.id}
+            isDisputed={request.status === "DISPUTED"}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -9,14 +9,14 @@ declare global {
   }
 }
 
-const TIERS = [500, 1000, 2500, 5000];
+const TIERS = [450, 1200, 2800, 6500];
 
 export default function CheckoutForm() {
-  const [amount, setAmount] = useState<number>(1000);
+  const [amount, setAmount] = useState<number>(1200);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [scriptReady, setScriptReady] = useState(false);
+  const [, setScriptReady] = useState(false);
 
   useEffect(() => {
     if (window.Razorpay) {
@@ -66,10 +66,10 @@ export default function CheckoutForm() {
       key: order.keyId,
       amount: order.amount,
       currency: order.currency,
-      name: "FurLink",
-      description: "Support animal rescue & sterilization",
+      name: "FurLink Animal Sanctuary",
+      description: "Direct Medical & Surgical Care Ledger",
       order_id: order.orderId,
-      theme: { color: "#059669" },
+      theme: { color: "#cc2b3f" },
       handler: async (response: {
         razorpay_order_id: string;
         razorpay_payment_id: string;
@@ -128,11 +128,16 @@ export default function CheckoutForm() {
   };
 
   return (
-    <div className="bg-white border rounded-lg p-6 shadow-sm">
-      <h2 className="text-lg font-semibold mb-4">Make a Donation</h2>
+    <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 shadow-sm">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-heading uppercase text-xl font-black text-[#1A2540]">Direct Care Allocation</h2>
+        <span className="font-mono text-[10px] uppercase tracking-[0.16em] font-bold text-[#cc2b3f] border border-[#cc2b3f] bg-white px-2 py-0.5">
+          Tax Deductible 80G
+        </span>
+      </div>
 
       {errorMsg && (
-        <div className="p-3 mb-4 text-sm text-red-700 bg-red-100 rounded border border-red-200">
+        <div className="p-3 mb-4 text-xs font-mono text-[#cc2b3f] bg-white border-2 border-[#cc2b3f] rounded-xl font-bold">
           {errorMsg}
         </div>
       )}
@@ -146,53 +151,53 @@ export default function CheckoutForm() {
               setAmount(t);
               setCustomAmount("");
             }}
-            className={`border rounded-md py-2 text-sm font-medium transition ${
+            className={`border-2 rounded-xl py-3 font-mono text-xs uppercase tracking-wider font-bold transition cursor-pointer ${
               amount === t && !customAmount
-                ? "bg-emerald-600 text-white border-emerald-600"
-                : "bg-white hover:bg-gray-50"
+                ? "bg-[#cc2b3f] text-[#f2e9db] border-[#cc2b3f]"
+                : "bg-white text-[#1A2540] border-[#1A2540] hover:bg-[#FAF8FC]"
             }`}
           >
-            ₹{t}
+            ₹{t.toLocaleString("en-IN")}
           </button>
         ))}
       </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">
-          Or enter a custom amount (₹)
+      <div className="mb-5">
+        <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1.5">
+          Or Enter Custom Amount (₹)
         </label>
         <input
           type="number"
           min={1}
           value={customAmount}
           onChange={(e) => setCustomAmount(e.target.value)}
-          placeholder="e.g. 750"
-          className="w-full border rounded-md p-2 text-sm"
+          placeholder="e.g. 3500"
+          className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 font-mono text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         <button
           type="button"
           onClick={handlePay}
           disabled={loading}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50 text-sm shadow-sm"
+          className="w-full bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs uppercase tracking-[0.18em] font-bold py-4 rounded-full transition disabled:opacity-50 shadow-sm cursor-pointer"
         >
-          {loading ? "Processing..." : `Pay ₹${effectiveAmount || 0} via Razorpay`}
+          {loading ? "Processing…" : `Allocate ₹${(effectiveAmount || 0).toLocaleString("en-IN")} via Razorpay`}
         </button>
 
         <button
           type="button"
           onClick={handleDemoPay}
           disabled={loading}
-          className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-full transition disabled:opacity-50 text-xs font-semibold border border-slate-200"
+          className="w-full bg-white hover:bg-[#FAF8FC] text-[#1A2540] py-3.5 rounded-full transition disabled:opacity-50 font-mono text-xs uppercase tracking-wider font-bold border-2 border-[#1A2540] cursor-pointer"
         >
-          Simulate Test Donation (Offline / Demo Mode)
+          Simulate Test Donation (Offline / Local Mode)
         </button>
       </div>
 
-      <p className="text-xs text-gray-500 mt-3 text-center">
-        Payments are processed securely by Razorpay. Test mode is fully supported for offline evaluation.
+      <p className="font-mono text-[10px] uppercase tracking-wider text-[#1A2540]/60 mt-4 text-center">
+        Transactions encrypted via Razorpay PCI-DSS. Test mode is fully enabled for local offline verification.
       </p>
     </div>
   );

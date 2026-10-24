@@ -19,7 +19,7 @@ export default function AdminNavTabs() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex gap-1.5 border-b-[1.5px] border-[#101124] overflow-x-auto pb-0">
+    <nav className="flex gap-2 border-b-2 border-[#1A2540] overflow-x-auto pb-0">
       {TABS.map((tab) => {
         const active = tab.exact
           ? pathname === tab.href
@@ -29,13 +29,13 @@ export default function AdminNavTabs() {
           <Link
             key={tab.href}
             href={tab.href}
-            className={`px-3.5 py-2.5 transition whitespace-nowrap border-t-[1.5px] border-x-[1.5px] -mb-[1.5px] font-mono text-[10.5px] uppercase tracking-[0.14em] ${
+            className={`px-3.5 py-2.5 transition whitespace-nowrap border-t-2 border-x-2 -mb-[2px] rounded-t-xl font-mono text-[10.5px] uppercase tracking-[0.14em] ${
               active
-                ? 'border-[#101124] bg-white text-[#101124] font-bold border-b-[1.5px] border-b-white'
-                : 'border-transparent text-[#101124]/60 hover:text-[#101124] hover:bg-[#FAF8FC]'
+                ? 'border-[#1A2540] bg-[#f2e9db] text-[#1A2540] font-bold border-b-2 border-b-[#f2e9db]'
+                : 'border-transparent text-[#1A2540]/60 hover:text-[#1A2540] hover:bg-white/40'
             }`}
           >
-            <span className="text-[#314CB6] mr-1.5 font-bold">{tab.code}</span>
+            <span className="text-[#cc2b3f] mr-1.5 font-bold">{tab.code}</span>
             <span>{tab.label}</span>
           </Link>
         );

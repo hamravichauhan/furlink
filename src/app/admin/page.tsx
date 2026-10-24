@@ -8,8 +8,8 @@ export default async function AdminOverviewPage() {
 
   if (!stats) {
     return (
-      <div className="border rounded-lg bg-white p-6">
-        <p className="text-sm text-gray-600">
+      <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6">
+        <p className="text-sm font-mono text-[#1A2540]">
           You don&apos;t have admin access to this page.
         </p>
       </div>
@@ -25,18 +25,16 @@ export default async function AdminOverviewPage() {
   return (
     <div className="space-y-6">
       {attention > 0 && (
-        <div className="border border-amber-200 bg-amber-50 rounded-lg p-4">
-          <div className="font-semibold text-amber-900">
-            {attention} item{attention === 1 ? "" : "s"} need
-            {attention === 1 ? "s" : ""} attention
+        <div className="border-2 border-[#cc2b3f] bg-white rounded-2xl p-5 shadow-sm">
+          <div className="font-heading font-black uppercase tracking-wide text-[#cc2b3f] text-lg">
+            {attention} item{attention === 1 ? "" : "s"} require urgent administrative action
           </div>
-          <ul className="text-sm text-amber-800 mt-2 space-y-1">
+          <ul className="text-xs font-mono text-[#1A2540] mt-3 space-y-1.5 uppercase tracking-wider">
             {stats.sterilization.proofSubmitted > 0 && (
               <li>
-                <Link href="/verify" className="hover:underline">
+                <Link href="/verify" className="hover:underline font-bold text-[#cc2b3f]">
                   → {stats.sterilization.proofSubmitted} proof
-                  {stats.sterilization.proofSubmitted === 1 ? "" : "s"} awaiting
-                  verification
+                  {stats.sterilization.proofSubmitted === 1 ? "" : "s"} awaiting verification
                 </Link>
               </li>
             )}
@@ -44,7 +42,7 @@ export default async function AdminOverviewPage() {
               <li>
                 <Link
                   href="/verify?status=DISPUTED"
-                  className="hover:underline"
+                  className="hover:underline font-bold text-[#cc2b3f]"
                 >
                   → {stats.sterilization.disputed} disputed proof
                   {stats.sterilization.disputed === 1 ? "" : "s"}
@@ -53,17 +51,16 @@ export default async function AdminOverviewPage() {
             )}
             {stats.rescues.open > 0 && (
               <li>
-                <Link href="/admin/rescues" className="hover:underline">
-                  → {stats.rescues.open} open rescue
+                <Link href="/admin/rescues" className="hover:underline font-bold text-[#1A2540]">
+                  → {stats.rescues.open} open field rescue
                   {stats.rescues.open === 1 ? "" : "s"}
                 </Link>
               </li>
             )}
             {stats.adoptions.pendingApplications > 0 && (
               <li>
-                <Link href="/admin/adoptions" className="hover:underline">
-                  → {stats.adoptions.pendingApplications} pending adoption
-                  application
+                <Link href="/admin/adoptions" className="hover:underline font-bold text-[#1A2540]">
+                  → {stats.adoptions.pendingApplications} pending adoption dossier
                   {stats.adoptions.pendingApplications === 1 ? "" : "s"}
                 </Link>
               </li>
@@ -74,165 +71,163 @@ export default async function AdminOverviewPage() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricTile
-          label="Users"
+          label="Guardians"
           value={stats.users.total}
-          sub={`${stats.users.admins} admin · ${stats.users.verifiers} verifier · ${stats.users.regular} user`}
+          sub={`${stats.users.admins} admin · ${stats.users.verifiers} verifier`}
           href="/admin/users"
-          tone="blue"
         />
         <MetricTile
           label="Sterilizations"
           value={stats.sterilization.total}
           sub={`${stats.sterilization.verified} verified · ${stats.sterilization.pending + stats.sterilization.scheduled} active`}
           href="/admin/sterilization"
-          tone="emerald"
         />
         <MetricTile
-          label="Rescues"
+          label="Field Rescues"
           value={stats.rescues.total}
-          sub={`${stats.rescues.open} open · ${stats.rescues.inProgress} in progress`}
+          sub={`${stats.rescues.open} open · ${stats.rescues.inProgress} active`}
           href="/admin/rescues"
-          tone="amber"
         />
         <MetricTile
-          label="Donations"
+          label="Medical Donations"
           value={`₹${stats.donations.total.toLocaleString("en-IN")}`}
-          sub={`${stats.donations.count} donation${stats.donations.count === 1 ? "" : "s"}`}
+          sub={`${stats.donations.count} transaction${stats.donations.count === 1 ? "" : "s"}`}
           href="/admin/donations"
-          tone="rose"
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="border rounded-lg bg-white p-5">
-          <h2 className="font-semibold mb-4 text-sm uppercase tracking-wide text-gray-600">
-            Sterilization pipeline
+        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+          <h2 className="font-heading font-black mb-4 text-base uppercase tracking-wider text-[#1A2540]">
+            Sterilization Pipeline Status
           </h2>
           <StatusList
             items={[
               {
                 label: "Pending (awaiting rescuer)",
                 value: stats.sterilization.pending,
-                color: "text-amber-700",
+                color: "text-[#1A2540]",
               },
               {
-                label: "Scheduled",
+                label: "Scheduled with clinic",
                 value: stats.sterilization.scheduled,
-                color: "text-blue-700",
+                color: "text-[#1A2540]",
               },
               {
-                label: "Proof submitted",
+                label: "Proof submitted (pending review)",
                 value: stats.sterilization.proofSubmitted,
-                color: "text-purple-700",
+                color: "text-[#cc2b3f] font-bold",
               },
               {
-                label: "Verified",
+                label: "Verified & settled",
                 value: stats.sterilization.verified,
-                color: "text-emerald-700",
+                color: "text-[#1A2540] font-bold",
               },
               {
                 label: "Disputed",
                 value: stats.sterilization.disputed,
-                color: "text-rose-700",
+                color: "text-[#cc2b3f] font-bold",
               },
               {
                 label: "Cancelled",
                 value: stats.sterilization.cancelled,
-                color: "text-gray-500",
+                color: "text-[#1A2540]/50",
               },
             ]}
           />
         </div>
 
-        <div className="border rounded-lg bg-white p-5">
-          <h2 className="font-semibold mb-4 text-sm uppercase tracking-wide text-gray-600">
-            Operations
+        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+          <h2 className="font-heading font-black mb-4 text-base uppercase tracking-wider text-[#1A2540]">
+            Sanctuary Operations
           </h2>
           <StatusList
             items={[
               {
-                label: "Pets listed",
+                label: "Pets on registry",
                 value: stats.adoptions.pets,
-                color: "text-gray-800",
+                color: "text-[#1A2540]",
               },
               {
-                label: "Pets available",
+                label: "Animals waiting for adoption",
                 value: stats.adoptions.available,
-                color: "text-emerald-700",
+                color: "text-[#cc2b3f] font-bold",
               },
               {
-                label: "Adoption applications",
+                label: "Adoption applications logged",
                 value: stats.adoptions.applications,
-                color: "text-gray-800",
+                color: "text-[#1A2540]",
               },
               {
                 label: "Pending application review",
                 value: stats.adoptions.pendingApplications,
-                color: "text-amber-700",
+                color: "text-[#cc2b3f] font-bold",
               },
               {
-                label: "Rescues reported",
+                label: "Emergency rescues reported",
                 value: stats.rescues.total,
-                color: "text-gray-800",
+                color: "text-[#1A2540]",
               },
               {
-                label: "Rescues resolved",
+                label: "Rescues resolved safely",
                 value: stats.rescues.resolved,
-                color: "text-emerald-700",
+                color: "text-[#1A2540] font-bold",
               },
             ]}
           />
         </div>
       </div>
 
-      <div className="border border-slate-200 rounded-2xl bg-white p-6 shadow-soft">
-        <h2 className="font-heading font-bold text-slate-900 mb-3">Quick Management Portals</h2>
-        <div className="flex flex-wrap gap-2 text-xs font-semibold">
+      <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+        <h2 className="font-heading uppercase text-xl font-black text-[#1A2540] mb-4">
+          Quick Management Portals
+        </h2>
+        <div className="flex flex-wrap gap-2.5 text-xs font-mono font-bold uppercase tracking-wider">
           <Link
             href="/admin/analytics"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full transition shadow-2xs"
+            className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] px-4 py-2.5 rounded-full transition shadow-sm"
           >
-            Analytics & Charts
+            Analytics &amp; Metrics
           </Link>
           <Link
             href="/admin/rescues"
-            className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-full transition shadow-2xs"
+            className="bg-[#1A2540] hover:bg-[#2c3d64] text-[#f2e9db] px-4 py-2.5 rounded-full transition shadow-sm"
           >
             Manage Rescues
           </Link>
           <Link
             href="/admin/adoptions"
-            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+            className="border-2 border-[#1A2540] bg-white hover:bg-[#f2e9db] text-[#1A2540] px-4 py-2 rounded-full transition"
           >
             Review Adoptions
           </Link>
           <Link
             href="/admin/sterilization"
-            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+            className="border-2 border-[#1A2540] bg-white hover:bg-[#f2e9db] text-[#1A2540] px-4 py-2 rounded-full transition"
           >
             Sterilization Pipeline
           </Link>
           <Link
             href="/admin/donations"
-            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+            className="border-2 border-[#1A2540] bg-white hover:bg-[#f2e9db] text-[#1A2540] px-4 py-2 rounded-full transition"
           >
             Donation Records
           </Link>
           <Link
             href="/admin/stories"
-            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+            className="border-2 border-[#1A2540] bg-white hover:bg-[#f2e9db] text-[#1A2540] px-4 py-2 rounded-full transition"
           >
             Moderate Stories
           </Link>
           <Link
             href="/admin/users"
-            className="border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 px-4 py-2 rounded-full transition"
+            className="border-2 border-[#1A2540] bg-white hover:bg-[#f2e9db] text-[#1A2540] px-4 py-2 rounded-full transition"
           >
             User Roles
           </Link>
           <Link
             href="/verify"
-            className="border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 px-4 py-2 rounded-full transition"
+            className="border-2 border-[#cc2b3f] bg-white text-[#cc2b3f] hover:bg-[#cc2b3f] hover:text-white px-4 py-2 rounded-full transition"
           >
             Verification Queue
           </Link>
@@ -247,30 +242,22 @@ function MetricTile({
   value,
   sub,
   href,
-  tone,
 }: {
   label: string;
   value: number | string;
   sub: string;
   href: string;
-  tone: "blue" | "emerald" | "amber" | "rose";
 }) {
-  const tones = {
-    blue: "bg-blue-50 border-blue-200",
-    emerald: "bg-emerald-50 border-emerald-200",
-    amber: "bg-amber-50 border-amber-200",
-    rose: "bg-rose-50 border-rose-200",
-  };
   return (
     <Link
       href={href}
-      className={`border rounded-lg p-5 hover:shadow-md transition block ${tones[tone]}`}
+      className="border-2 border-[#1A2540] rounded-2xl p-5 bg-[#f2e9db] hover:border-[#cc2b3f] transition block shadow-sm"
     >
-      <div className="text-xs font-medium uppercase tracking-wide text-gray-600">
+      <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#1A2540]/70">
         {label}
       </div>
-      <div className="text-3xl font-bold mt-1">{value}</div>
-      <div className="text-xs text-gray-500 mt-1">{sub}</div>
+      <div className="font-heading font-black text-3xl sm:text-4xl mt-1 text-[#1A2540]">{value}</div>
+      <div className="text-[11px] font-mono text-[#1A2540]/60 mt-1 uppercase tracking-tight">{sub}</div>
     </Link>
   );
 }
@@ -281,11 +268,11 @@ function StatusList({
   items: { label: string; value: number; color: string }[];
 }) {
   return (
-    <ul className="space-y-2">
+    <ul className="space-y-2.5 font-mono text-xs uppercase tracking-wide">
       {items.map((item) => (
-        <li key={item.label} className="flex items-baseline justify-between">
-          <span className="text-sm text-gray-600">{item.label}</span>
-          <span className={`text-sm font-semibold ${item.color}`}>
+        <li key={item.label} className="flex items-baseline justify-between border-b border-[#1A2540]/10 pb-1.5">
+          <span className="text-[#1A2540]/80">{item.label}</span>
+          <span className={`text-sm ${item.color}`}>
             {item.value}
           </span>
         </li>

@@ -37,23 +37,23 @@ export default async function ProfilePage() {
   ]);
 
   return (
-    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
-      <div className="max-w-5xl mx-auto space-y-12">
+    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+      <div className="max-w-5xl mx-auto space-y-10">
         {/* User Dossier Card */}
-        <div className="bg-white border-[1.5px] border-[#101124] p-6 sm:p-8">
+        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div className="flex items-center gap-5">
-              <div className="w-16 h-16 border-[1.5px] border-[#101124] bg-[#314CB6] text-white flex items-center justify-center font-display text-3xl">
+              <div className="w-16 h-16 border-2 border-[#1A2540] rounded-2xl bg-[#cc2b3f] text-[#f2e9db] flex items-center justify-center font-heading font-black text-3xl">
                 {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
               </div>
               <div>
                 <ProfileEditor currentName={user.name} />
-                <p className="font-mono text-xs text-[#101124]/60 mt-1 uppercase tracking-wider">{user.email}</p>
+                <p className="font-mono text-xs text-[#1A2540]/60 mt-1 uppercase tracking-wider">{user.email}</p>
                 <div className="flex items-center gap-2 mt-2 font-mono text-[10px] uppercase tracking-[0.16em]">
-                  <span className="border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 text-[#101124] font-bold px-2 py-0.5">
+                  <span className="border-2 border-[#1A2540] bg-white text-[#1A2540] font-bold px-2 py-0.5">
                     Role: {user.role}
                   </span>
-                  <span className="text-[#101124]/50">
+                  <span className="text-[#1A2540]/50">
                     Member Since {new Date(user.createdAt).toLocaleDateString("en-IN")}
                   </span>
                 </div>
@@ -63,14 +63,14 @@ export default async function ProfilePage() {
             {user.role === 'ADMIN' && (
               <Link
                 href="/admin"
-                className="font-mono text-[10.5px] uppercase tracking-[0.16em] font-bold px-5 py-2.5 bg-[#101124] text-[#FAF8FC] border-[1.5px] border-[#101124] hover:bg-[#314CB6] transition-colors self-start sm:self-center"
+                className="font-mono text-xs uppercase tracking-[0.16em] font-bold px-5 py-3 bg-[#1A2540] text-[#f2e9db] rounded-full hover:bg-[#cc2b3f] transition-colors self-start sm:self-center"
               >
-                Access Admin Console &rarr;
+                Access Admin Console →
               </Link>
             )}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-8 pt-6 border-t-[1.5px] border-[#101124]">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-8 pt-6 border-t-2 border-[#1A2540]/20">
             <StatBlock label="Rescues Logged" value={rescues.length} />
             <StatBlock label="Adoption Inquiries" value={applications.length} />
             <StatBlock label="TNVR Requests" value={sterilizations.length} />
@@ -80,21 +80,21 @@ export default async function ProfilePage() {
         </div>
 
         {/* Rescues Section */}
-        <div className="bg-white border-[1.5px] border-[#101124] p-6 space-y-4">
-          <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-3">
-            <h2 className="font-display uppercase text-2xl text-[#101124]">
+        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
+            <h2 className="font-heading uppercase text-2xl font-black text-[#1A2540]">
               My Incident Reports ({rescues.length})
             </h2>
             <Link
               href="/rescues/new"
-              className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline font-bold"
+              className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
             >
               + File Incident Log
             </Link>
           </div>
 
           {rescues.length === 0 ? (
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#101124]/50 py-3">
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/50 py-3">
               No field rescue reports recorded by this account.
             </p>
           ) : (
@@ -102,22 +102,22 @@ export default async function ProfilePage() {
               {rescues.map((r) => (
                 <div
                   key={r.id}
-                  className="flex items-center justify-between border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 text-sm"
+                  className="flex items-center justify-between border-2 border-[#1A2540] rounded-xl bg-white p-3.5 text-sm"
                 >
                   <div className="min-w-0 pr-3">
-                    <span className="font-display uppercase text-base text-[#101124]">{r.animalType}</span>
-                    <span className="font-mono text-[11px] text-[#101124]/60 ml-2 uppercase">
+                    <span className="font-heading uppercase text-lg font-black text-[#1A2540]">{r.animalType}</span>
+                    <span className="font-mono text-[11px] text-[#1A2540]/60 ml-2 uppercase">
                       Sector: {r.location}
                     </span>
-                    <p className="font-body text-xs text-[#101124]/80 line-clamp-1 mt-0.5">
+                    <p className="text-xs text-[#1A2540]/80 line-clamp-1 mt-0.5">
                       {r.description}
                     </p>
                   </div>
                   <div className="flex items-center gap-3 shrink-0 font-mono text-[10px] uppercase tracking-[0.14em]">
-                    <span className="border-[1.5px] border-[#101124] bg-white px-2 py-0.5 font-bold">
+                    <span className="border border-[#1A2540] bg-[#f2e9db] px-2 py-0.5 font-bold text-[#1A2540]">
                       {r.status}
                     </span>
-                    <span className="text-[#101124]/50">
+                    <span className="text-[#1A2540]/50">
                       {new Date(r.createdAt).toLocaleDateString("en-IN")}
                     </span>
                   </div>
@@ -128,21 +128,21 @@ export default async function ProfilePage() {
         </div>
 
         {/* Adoption Applications Section */}
-        <div className="bg-white border-[1.5px] border-[#101124] p-6 space-y-4">
-          <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-3">
-            <h2 className="font-display uppercase text-2xl text-[#101124]">
+        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
+            <h2 className="font-heading uppercase text-2xl font-black text-[#1A2540]">
               Adoption Applications ({applications.length})
             </h2>
             <Link
               href="/adoptions"
-              className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline font-bold"
+              className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
             >
-              Browse Waiting Wall &rarr;
+              Browse Waiting Wall →
             </Link>
           </div>
 
           {applications.length === 0 ? (
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#101124]/50 py-3">
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/50 py-3">
               No active adoption dossiers submitted.
             </p>
           ) : (
@@ -150,32 +150,32 @@ export default async function ProfilePage() {
               {applications.map((app) => (
                 <div
                   key={app.id}
-                  className="flex items-center justify-between border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 text-sm"
+                  className="flex items-center justify-between border-2 border-[#1A2540] rounded-xl bg-white p-3.5 text-sm"
                 >
                   <div className="flex items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={app.pet.imageUrl}
                       alt={app.pet.name}
-                      className="w-12 h-12 object-cover border-[1.5px] border-[#101124] bg-[#FAF8FC]"
+                      className="w-12 h-12 rounded-lg object-cover border-2 border-[#1A2540] bg-[#f2e9db]"
                     />
                     <div>
                       <Link
                         href={`/adoptions/${app.pet.id}`}
-                        className="font-display uppercase text-lg text-[#101124] hover:text-[#314CB6]"
+                        className="font-heading uppercase text-lg font-black text-[#1A2540] hover:text-[#cc2b3f]"
                       >
                         {app.pet.name} ({app.pet.species})
                       </Link>
-                      <p className="font-mono text-[10.5px] uppercase tracking-wide text-[#101124]/60">
+                      <p className="font-mono text-[10.5px] uppercase tracking-wide text-[#1A2540]/60">
                         Contact: {app.fullName} · {app.phone}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em]">
-                    <span className="border-[1.5px] border-[#101124] bg-white px-2 py-0.5 font-bold">
+                    <span className="border border-[#1A2540] bg-[#f2e9db] px-2 py-0.5 font-bold">
                       {app.status}
                     </span>
-                    <span className="text-[#101124]/50">
+                    <span className="text-[#1A2540]/50">
                       {new Date(app.createdAt).toLocaleDateString("en-IN")}
                     </span>
                   </div>
@@ -188,38 +188,38 @@ export default async function ProfilePage() {
         {/* Sterilizations & Donations Dual Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Sterilizations */}
-          <div className="bg-white border-[1.5px] border-[#101124] p-6 space-y-4">
-            <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-3">
-              <h2 className="font-display uppercase text-xl text-[#101124]">
+          <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 space-y-4 shadow-sm">
+            <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
+              <h2 className="font-heading uppercase text-xl font-black text-[#1A2540]">
                 TNVR Field Requests ({sterilizations.length})
               </h2>
               <Link
                 href="/sterilization"
-                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline font-bold"
+                className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
               >
                 + Request
               </Link>
             </div>
             {sterilizations.length === 0 ? (
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#101124]/50 py-2">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/50 py-2">
                 No TNVR cases registered.
               </p>
             ) : (
-              <ul className="divide-y border-t border-[#101124]/15 divide-[#101124]/15">
+              <ul className="divide-y-2 divide-[#1A2540]/10 border-t-2 border-[#1A2540]/10">
                 {sterilizations.map((st) => (
                   <li key={st.id} className="py-2.5 flex items-center justify-between">
                     <div>
                       <Link
                         href={`/sterilization/${st.id}`}
-                        className="font-display uppercase text-base text-[#101124] hover:underline"
+                        className="font-heading uppercase text-base font-black text-[#1A2540] hover:underline"
                       >
                         {st.count} x {st.animalType}
                       </Link>
-                      <p className="font-mono text-[10px] uppercase tracking-wide text-[#101124]/60">
+                      <p className="font-mono text-[10px] uppercase tracking-wide text-[#1A2540]/60">
                         Sector: {st.location}
                       </p>
                     </div>
-                    <span className="border-[1.5px] border-[#101124] bg-[#FAF8FC] font-mono text-[9px] uppercase tracking-[0.14em] font-bold px-2 py-0.5">
+                    <span className="border border-[#1A2540] bg-white font-mono text-[9px] uppercase tracking-[0.14em] font-bold px-2 py-0.5">
                       {st.status.replace('_', ' ')}
                     </span>
                   </li>
@@ -229,35 +229,35 @@ export default async function ProfilePage() {
           </div>
 
           {/* Donations */}
-          <div className="bg-white border-[1.5px] border-[#101124] p-6 space-y-4">
-            <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-3">
-              <h2 className="font-display uppercase text-xl text-[#101124]">
+          <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 space-y-4 shadow-sm">
+            <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
+              <h2 className="font-heading uppercase text-xl font-black text-[#1A2540]">
                 My Clinical Allocations ({donations.length})
               </h2>
               <Link
                 href="/donate"
-                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline font-bold"
+                className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
               >
-                Allocate
+                Allocate →
               </Link>
             </div>
             {donations.length === 0 ? (
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#101124]/50 py-2">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/50 py-2">
                 No direct clinical support records found.
               </p>
             ) : (
-              <ul className="divide-y border-t border-[#101124]/15 divide-[#101124]/15">
+              <ul className="divide-y-2 divide-[#1A2540]/10 border-t-2 border-[#1A2540]/10">
                 {donations.map((d) => (
                   <li key={d.id} className="py-2.5 flex items-center justify-between">
                     <div>
-                      <span className="font-display text-lg text-[#314CB6]">
+                      <span className="font-heading text-lg font-black text-[#cc2b3f]">
                         INR {d.amount.toLocaleString('en-IN')}
                       </span>
-                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#101124]/50 ml-2">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#1A2540]/50 ml-2">
                         REF: {d.paymentId.slice(-8).toUpperCase()}
                       </span>
                     </div>
-                    <span className="font-mono text-[10.5px] text-[#101124]/60 uppercase">
+                    <span className="font-mono text-xs text-[#1A2540]/60 uppercase">
                       {new Date(d.createdAt).toLocaleDateString("en-IN")}
                     </span>
                   </li>
@@ -273,9 +273,9 @@ export default async function ProfilePage() {
 
 function StatBlock({ label, value }: { label: string; value: number }) {
   return (
-    <div className="p-3.5 border-[1.5px] border-[#101124] bg-[#FAF8FC] text-center">
-      <div className="font-display text-3xl text-[#101124]">{value}</div>
-      <div className="font-mono text-[9.5px] text-[#101124]/60 uppercase tracking-[0.16em] mt-1">
+    <div className="p-3.5 border-2 border-[#1A2540] bg-white rounded-xl text-center">
+      <div className="font-heading font-black text-3xl text-[#1A2540]">{value}</div>
+      <div className="font-mono text-[9.5px] text-[#1A2540]/60 uppercase tracking-[0.16em] mt-1 font-bold">
         {label}
       </div>
     </div>

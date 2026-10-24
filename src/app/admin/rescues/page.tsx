@@ -56,7 +56,7 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/rescues/new"
-          className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition"
+          className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-full transition shadow-sm"
         >
           + File New Rescue Report
         </Link>

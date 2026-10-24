@@ -53,13 +53,13 @@ export default async function AdminSterilizationPage({ searchParams }: PageProps
         <div className="flex items-center gap-2">
           <Link
             href="/verify"
-            className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition"
+            className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-full transition shadow-sm"
           >
             Open Verification Queue →
           </Link>
           <Link
             href="/sterilization"
-            className="border text-gray-700 hover:bg-gray-50 text-xs font-semibold px-4 py-2 rounded-lg transition"
+            className="border-2 border-[#1A2540] text-[#1A2540] bg-white hover:bg-[#FAF8FC] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full transition"
           >
             Public Feed
           </Link>

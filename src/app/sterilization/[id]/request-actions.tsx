@@ -98,11 +98,11 @@ export default function RequestActions({
     if (!hasAnyAction) return null;
 
     return (
-      <div className="border rounded-lg bg-white p-5">
-        <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
-          Actions
+      <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+        <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+          Field Operational Actions
         </h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2.5">
           {canAccept && (
             <ActionButton
               color="blue"
@@ -141,7 +141,7 @@ export default function RequestActions({
           {canCancel && (
             <button
               onClick={() => setMode("cancel")}
-              className="border border-red-200 text-red-600 hover:bg-red-50 px-4 py-2 rounded-md text-sm"
+              className="border-2 border-[#cc2b3f] text-[#cc2b3f] bg-white hover:bg-[#cc2b3f] hover:text-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition cursor-pointer"
             >
               {isRescuer ? "Back out of this request" : "Cancel request"}
             </button>
@@ -152,9 +152,9 @@ export default function RequestActions({
   }
 
   return (
-    <div className="border rounded-lg bg-white p-5">
+    <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
       {error && (
-        <div className="p-3 mb-4 text-sm text-red-700 bg-red-50 rounded border border-red-200">
+        <div className="p-3 mb-4 font-mono text-xs text-[#cc2b3f] bg-white border-2 border-[#cc2b3f] rounded-xl font-bold">
           {error}
         </div>
       )}
@@ -282,16 +282,15 @@ function ActionButton({
   onClick: () => void;
   label: string;
 }) {
-  const colors = {
-    blue: "bg-blue-600 hover:bg-blue-700",
-    emerald: "bg-emerald-600 hover:bg-emerald-700",
-    amber: "bg-amber-600 hover:bg-amber-700",
-    purple: "bg-purple-600 hover:bg-purple-700",
-  };
+  const isPrimary = color === "blue" || color === "purple" || color === "emerald";
   return (
     <button
       onClick={onClick}
-      className={`${colors[color]} text-white px-4 py-2 rounded-md text-sm`}
+      className={`font-mono text-xs uppercase tracking-wider font-bold px-5 py-2.5 rounded-full transition shadow-sm cursor-pointer ${
+        isPrimary
+          ? "bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db]"
+          : "border-2 border-[#cc2b3f] bg-white text-[#cc2b3f] hover:bg-[#cc2b3f] hover:text-white"
+      }`}
     >
       {label}
     </button>
@@ -309,9 +308,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-xs font-medium mb-1">{label}</label>
+      <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1.5">{label}</label>
       {children}
-      {hint && <p className="text-[11px] text-gray-500 mt-1">{hint}</p>}
+      {hint && <p className="font-mono text-[10px] text-[#1A2540]/60 mt-1 uppercase tracking-tight">{hint}</p>}
     </div>
   );
 }
@@ -336,15 +335,15 @@ function Shell({
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <h3 className="font-semibold text-sm">{title}</h3>
-        <p className="text-xs text-gray-600 mt-1">{hint}</p>
+        <h3 className="font-heading uppercase text-lg font-black text-[#1A2540]">{title}</h3>
+        <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">{hint}</p>
       </div>
       {children}
-      <div className="flex gap-2">
+      <div className="flex gap-2.5 pt-2">
         <button
           type="submit"
           disabled={loading}
-          className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm disabled:opacity-50"
+          className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition disabled:opacity-50 cursor-pointer shadow-sm"
         >
           {loading ? "Processing…" : (submitLabel ?? "Confirm")}
         </button>
@@ -352,7 +351,7 @@ function Shell({
           type="button"
           onClick={onCancel}
           disabled={loading}
-          className="border px-4 py-2 rounded-md text-sm hover:bg-gray-50"
+          className="border-2 border-[#1A2540] bg-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#FAF8FC] cursor-pointer"
         >
           Cancel
         </button>

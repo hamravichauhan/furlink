@@ -15,23 +15,23 @@ export default async function AdminLayout({
   if (!hasRole(user, "ADMIN")) redirect("/sterilization");
 
   return (
-    <div className="min-h-screen bg-[#FAF8FC] text-[#101124]">
+    <div className="min-h-screen bg-[#f3c9d5] text-[#1A2540]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-10">
-        <div className="mb-8 pb-6 border-b-[1.5px] border-[#101124] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="mb-8 pb-6 border-b-2 border-[#1A2540] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="border-[1.5px] border-[#101124] bg-[#101124] text-[#FAF8FC] font-mono text-[9.5px] uppercase tracking-[0.18em] px-2.5 py-0.5 font-bold">
+              <span className="border-2 border-[#1A2540] bg-[#1A2540] text-[#f2e9db] font-mono text-[9.5px] uppercase tracking-[0.18em] px-2.5 py-0.5 font-bold">
                 Master Administration
               </span>
-              <span className="font-mono text-[10.5px] text-[#101124]/60 uppercase tracking-[0.14em]">
+              <span className="font-mono text-xs text-[#1A2540]/70 uppercase tracking-[0.14em]">
                 Operator: {user.name || user.email}
               </span>
             </div>
-            <h1 className="font-display uppercase text-3xl sm:text-5xl tracking-tight text-[#101124] leading-tight">
+            <h1 className="font-heading uppercase text-3xl sm:text-5xl font-black tracking-tight text-[#1A2540] leading-tight">
               System Administration
             </h1>
           </div>
-          <div className="font-mono text-[10.5px] text-[#101124]/60 uppercase tracking-[0.16em]">
+          <div className="font-mono text-xs text-[#1A2540]/70 uppercase tracking-[0.16em]">
             Clinical Records / Field Logistics / Surgical Audits
           </div>
         </div>

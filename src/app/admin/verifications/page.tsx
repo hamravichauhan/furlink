@@ -23,7 +23,7 @@ export default async function AdminVerificationsPage() {
 
       {queue.length === 0 ? (
         <div className="border rounded-lg bg-white p-10 text-center">
-          <div className="font-mono text-xs uppercase tracking-widest text-moss font-semibold mb-3">[QUEUE ALL CLEAR]</div>
+          <div className="font-mono text-xs uppercase tracking-widest text-[#1A2540] font-bold mb-3">[QUEUE ALL CLEAR]</div>
           <p className="text-sm font-medium text-gray-700">
             All caught up — nothing in the queue.
           </p>
@@ -33,7 +33,7 @@ export default async function AdminVerificationsPage() {
           </p>
           <Link
             href="/verify"
-            className="inline-block mt-4 bg-gray-900 text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800"
+            className="inline-block mt-4 bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full transition shadow-sm"
           >
             Open verifier queue
           </Link>
@@ -98,7 +98,7 @@ export default async function AdminVerificationsPage() {
                     <td className="px-4 py-3 text-right">
                       <Link
                         href={`/verify/${item.id}`}
-                        className="text-xs border rounded-md px-3 py-1.5 hover:bg-gray-50 inline-block"
+                        className="font-mono text-xs font-bold uppercase tracking-wider border border-[#1A2540] rounded-full px-3.5 py-1.5 bg-white hover:bg-[#f2e9db] inline-block"
                       >
                         Review
                       </Link>

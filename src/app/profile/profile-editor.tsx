@@ -34,12 +34,12 @@ export default function ProfileEditor({ currentName }: Props) {
   if (!editing) {
     return (
       <div className="flex items-center gap-3">
-        <span className="font-display uppercase text-2xl text-[#101124] tracking-tight">
-          {name || 'Unnamed Operator'}
+        <span className="font-heading uppercase text-2xl font-black text-[#1A2540] tracking-tight">
+          {name || 'Registered Guardian'}
         </span>
         <button
           onClick={() => setEditing(true)}
-          className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#314CB6] hover:underline font-bold cursor-pointer"
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#cc2b3f] hover:underline font-bold cursor-pointer"
         >
           Edit Identity
         </button>
@@ -54,24 +54,24 @@ export default function ProfileEditor({ currentName }: Props) {
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
-        className="border-[1.5px] border-[#101124] bg-[#FAF8FC] px-2.5 py-1 font-body text-sm text-[#101124] focus:outline-hidden"
+        className="border-2 border-[#1A2540] bg-white rounded-lg px-3 py-1 text-sm text-[#1A2540] focus:outline-hidden"
       />
       <button
         type="submit"
         disabled={saving}
-        className="bg-[#101124] text-[#FAF8FC] border-[1.5px] border-[#101124] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] font-bold hover:bg-[#314CB6] transition-colors disabled:opacity-50 cursor-pointer"
+        className="bg-[#cc2b3f] text-[#f2e9db] rounded-lg px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] font-bold hover:bg-[#b02435] transition-colors disabled:opacity-50 cursor-pointer"
       >
         {saving ? 'Saving...' : 'Commit'}
       </button>
       <button
         type="button"
         onClick={() => setEditing(false)}
-        className="border-[1.5px] border-[#101124] bg-white text-[#101124] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] hover:bg-[#FAF8FC] transition-colors cursor-pointer"
+        className="border-2 border-[#1A2540] bg-white text-[#1A2540] rounded-lg px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] hover:bg-[#FAF8FC] transition-colors cursor-pointer"
       >
         Cancel
       </button>
       {message && (
-        <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#314CB6] ml-2">
+        <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#cc2b3f] font-bold ml-2">
           {message}
         </span>
       )}

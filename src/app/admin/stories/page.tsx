@@ -28,7 +28,7 @@ export default async function AdminStoriesPage() {
         </div>
         <Link
           href="/stories/new"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition"
+          className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-full transition shadow-sm"
         >
           + Write Story
         </Link>
