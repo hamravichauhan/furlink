@@ -29,153 +29,127 @@ export default async function PetDetailPage({
   );
 
   return (
-    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-10 px-6 sm:px-10">
+    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-10 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center justify-between border-b-[1.5px] border-[#101124] pb-4">
+        <div className="flex items-center justify-between border-b border-[#1A2540]/20 pb-4">
           <Link
             href="/adoptions"
-            className="font-mono-meta text-[#6461A0] hover:text-[#101124] underline underline-offset-4"
+            className="font-body text-xs font-semibold text-[#1A2540]/70 hover:text-[#cc2b3f] transition-colors"
           >
-            ← BACK TO WAITING ROW
+            &larr; Back to Waiting Wall
           </Link>
-          <span className="font-mono-meta text-[#314CB6]">
-            RECORD LOT // {pet.id.slice(-8).toUpperCase()}
+          <span className="font-heading text-xs uppercase tracking-wider text-[#cc2b3f] font-bold">
+            Case Ref: #{pet.id.slice(-8).toUpperCase()}
           </span>
         </div>
 
         {/* Main Case Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Portrait, Medical & Personality Dossier */}
           <div className="lg:col-span-7 space-y-6">
             {/* Main Portrait */}
-            <div className="border-ink-15 bg-white overflow-hidden shadow-sm">
-              <div className="relative aspect-[4/3] w-full bg-[#161938]">
+            <div className="bg-[#f2e9db] rounded-3xl p-5 border-[1.5px] border-[#1A2540]/25 shadow-xl">
+              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border-[1.5px] border-[#1A2540] bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={pet.imageUrl}
                   alt={pet.name}
-                  className="w-full h-full object-cover filter contrast-[1.05]"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute top-3 left-3 bg-[#101124] text-[#EFBDEB] font-mono-meta px-3 py-1 border border-[#314CB6]">
-                  {pet.species} // {pet.gender}
+                <div className="absolute top-3 left-3 bg-[#1A2540] text-[#f2e9db] font-body text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                  {pet.species} · {pet.gender}
                 </div>
-                <div className="absolute bottom-3 right-3 bg-[#0A81D1] text-[#FFFFFF] font-mono-meta px-3.5 py-1 border border-[#101124] font-bold">
-                  WAITING {daysWaiting} DAYS
+                <div className="absolute bottom-3 right-3 bg-[#cc2b3f] text-[#f2e9db] font-body text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                  Waiting {daysWaiting} Days
                 </div>
               </div>
 
               {/* Case Stamp Footer */}
-              <div className="p-4 bg-[#FAF8FC] border-t-[1.5px] border-[#101124] flex items-center justify-between font-mono-meta text-[#6461A0]">
-                <span>ARRIVAL: {new Date(pet.createdAt).toLocaleDateString()}</span>
-                <span>FACILITY: BELAGAVI CLINICAL SANCTUARY</span>
+              <div className="mt-4 pt-3 border-t border-[#1A2540]/15 flex items-center justify-between font-body text-xs text-[#1A2540]/70">
+                <span>Arrival: {new Date(pet.createdAt).toLocaleDateString("en-IN")}</span>
+                <span className="font-semibold text-[#cc2b3f]">Status: {pet.status}</span>
               </div>
             </div>
 
-            {/* Animal Narrative */}
-            <div className="bg-white border-ink-15 p-6 space-y-3 shadow-xs">
-              <span className="font-mono-meta text-[#314CB6] font-bold block">
-                OBSERVER REPORT
-              </span>
-              <h1 className="font-display text-4xl sm:text-5xl text-[#101124]">
-                {pet.name}
-              </h1>
-              <div className="font-mono-meta text-[#0A81D1]">
-                {pet.breed || "INDIE BREED"} // ESTIMATED AGE: {pet.age}
+            {/* Narrative & Temperament */}
+            <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-6">
+              <div>
+                <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+                  Individual Profile
+                </span>
+                <h1 className="font-heading text-3xl sm:text-4xl text-[#1A2540]">
+                  Meet {pet.name}
+                </h1>
+                <div className="font-body text-xs text-[#cc2b3f] font-semibold mt-1">
+                  {pet.breed} · {pet.age} · Verified No-Kill Intake
+                </div>
+                <p className="font-body text-sm text-[#1A2540] mt-4 leading-relaxed whitespace-pre-line">
+                  {pet.description}
+                </p>
               </div>
 
-              <div className="font-sans text-sm text-[#101124] leading-relaxed border-t-[1.5px] border-[#101124] pt-3 whitespace-pre-line">
-                {pet.description}
-              </div>
-            </div>
-
-            {/* Medical Assessment */}
-            <div className="bg-white border-ink-15 p-6 space-y-4 shadow-xs">
-              <span className="font-mono-meta text-[#0A81D1] font-bold block">
-                VETERINARY MEDICAL DOSSIER
-              </span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
-                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">STERILIZATION</span>
-                  <span className="font-mono-meta text-xs font-bold text-[#101124] mt-1 block">COMPLETED</span>
-                </div>
-                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
-                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">RABIES / ARV</span>
-                  <span className="font-mono-meta text-xs font-bold text-[#0A81D1] mt-1 block">VERIFIED OK</span>
-                </div>
-                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
-                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">PARASITE PROTOCOL</span>
-                  <span className="font-mono-meta text-xs font-bold text-[#101124] mt-1 block">DEWORMED</span>
-                </div>
-                <div className="p-3 border-[1.5px] border-[#101124] bg-[#FAF8FC]">
-                  <span className="font-mono-meta text-[9px] text-[#6461A0] block">MOBILITY</span>
-                  <span className="font-mono-meta text-xs font-bold text-[#101124] mt-1 block">SOUND</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Compatibility Matrix */}
-            <div className="bg-white border-ink-15 p-6 space-y-3 shadow-xs">
-              <span className="font-mono-meta text-[#6461A0] font-bold block">
-                COMPATIBILITY PROFILE (FIELD TESTED)
-              </span>
-              <div className="divide-y-[1.5px] divide-[#101124] font-mono-meta text-[10px] pt-1">
-                <div className="py-2.5 flex justify-between">
-                  <span className="text-[#6461A0]">WITH CHILDREN:</span>
-                  <span className="font-bold text-[#101124]">GENTLE & TOLERANT UNDER SUPERVISION</span>
-                </div>
-                <div className="py-2.5 flex justify-between">
-                  <span className="text-[#6461A0]">WITH OTHER DOGS:</span>
-                  <span className="font-bold text-[#101124]">NON-CONFRONTATIONAL PACK MEMBER</span>
-                </div>
-                <div className="py-2.5 flex justify-between">
-                  <span className="text-[#6461A0]">WITH DOMESTIC CATS:</span>
-                  <span className="font-bold text-[#101124]">CALM OBSERVER; NO PREDATORY FIXATION</span>
-                </div>
-                <div className="py-2.5 flex justify-between">
-                  <span className="text-[#6461A0]">ALONE TIME:</span>
-                  <span className="font-bold text-[#101124]">SETTLES COMFORTABLY FOR 4 TO 6 HOURS</span>
+              {/* Clinical Verification Grid */}
+              <div className="border-t border-[#1A2540]/15 pt-5 space-y-3">
+                <span className="font-heading text-xs uppercase tracking-wider text-[#1A2540] font-bold block">
+                  Veterinary Checklist
+                </span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-body text-xs">
+                  <div className="p-3 bg-white rounded-xl border border-[#1A2540]/15 text-[#1A2540]">
+                    <span className="font-bold text-[#cc2b3f] block text-[10px] uppercase">Sterilization</span>
+                    TNVR Certified
+                  </div>
+                  <div className="p-3 bg-white rounded-xl border border-[#1A2540]/15 text-[#1A2540]">
+                    <span className="font-bold text-[#cc2b3f] block text-[10px] uppercase">Vaccinations</span>
+                    7-in-1 + Anti-Rabies
+                  </div>
+                  <div className="p-3 bg-white rounded-xl border border-[#1A2540]/15 text-[#1A2540]">
+                    <span className="font-bold text-[#cc2b3f] block text-[10px] uppercase">Deworming</span>
+                    Current Schedule
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Guided Application Form & Secondary Support */}
+          {/* Right Column: Interactive Adoption Intake Form */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="sticky top-20 space-y-6">
-              {/* Primary Action Box */}
-              <div className="bg-white border-ink-15 p-6 sm:p-7 shadow-lg">
-                <span className="font-mono-meta text-[#314CB6] font-bold block mb-1">
-                  PLACEMENT PROTOCOL
+            <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl">
+              <div className="border-b border-[#1A2540]/20 pb-4 mb-6">
+                <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+                  Adoption Protocol
                 </span>
-                <h3 className="font-display text-3xl sm:text-4xl text-[#101124]">
-                  ADOPT {pet.name}
-                </h3>
-                <p className="font-sans text-xs text-[#6461A0] mt-1 mb-6 leading-relaxed">
-                  Submit an initial inquiry. Our shelter counselor reviews your living space and coordinates a guided meet-and-greet.
+                <h2 className="font-heading text-2xl text-[#1A2540]">
+                  Adopt {pet.name}
+                </h2>
+                <p className="font-body text-xs text-[#1A2540]/75 mt-1 leading-relaxed">
+                  Submit your home details. Our sanctuary counselor conducts a gentle phone conversation and schedules an in-person match visit.
                 </p>
-
-                <AdoptionForm petId={pet.id} petName={pet.name} petStatus={pet.status} />
               </div>
 
-              {/* Secondary Support Action */}
-              <div className="bg-[#101124] text-[#FAF8FC] border-[1.5px] border-[#314CB6] p-6 space-y-3 shadow-md">
-                <span className="font-mono-meta text-[#EFBDEB] block">
-                  CANNOT ADOPT RIGHT NOW?
+              <AdoptionForm
+                petId={pet.id}
+                petName={pet.name}
+                petStatus={pet.status}
+              />
+            </div>
+
+            {/* Medical Meal Support Alternative */}
+            <div className="bg-white rounded-2xl border-[1.5px] border-[#1A2540]/25 p-5 flex items-center justify-between gap-4 shadow-sm">
+              <div>
+                <span className="font-heading text-xs text-[#1A2540] font-bold block">
+                  Cannot adopt right now?
                 </span>
-                <div className="font-display text-2xl text-[#FAF8FC]">
-                  SPONSOR {pet.name}&apos;S MEDICAL MEALS
-                </div>
-                <p className="font-sans text-xs text-[#B68CB8] leading-relaxed">
-                  ₹500 covers 10 days of prescription food and preventive medical dressing while {pet.name} waits for a permanent family.
+                <p className="font-body text-[11px] text-[#1A2540]/70 mt-0.5">
+                  Sponsor {pet.name}&apos;s nutrition and medical care while they wait for their family.
                 </p>
-                <Link
-                  href="/donate"
-                  className="inline-block w-full py-2.5 bg-[#314CB6] hover:bg-[#0A81D1] text-[#FAF8FC] font-mono-meta text-xs text-center border-[1.5px] border-[#EFBDEB] font-bold transition"
-                >
-                  Give ₹500 for {pet.name}
-                </Link>
               </div>
+              <Link
+                href="/donate"
+                className="btn-enroll-pill px-4 py-2 text-xs font-bold shrink-0 whitespace-nowrap"
+              >
+                SPONSOR ₹450
+              </Link>
             </div>
           </div>
         </div>

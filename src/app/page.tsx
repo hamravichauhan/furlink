@@ -1,44 +1,45 @@
 import React from "react";
-import StickerNavbar from "@/components/sticker-course/navbar";
-import HeroSection from "@/components/sticker-course/hero-section";
-import CurriculumSheet from "@/components/sticker-course/curriculum-sheet";
-import MaterialLegend from "@/components/sticker-course/material-legend";
-import InstructorSection from "@/components/sticker-course/instructor-section";
-import FaqSection from "@/components/sticker-course/faq-section";
-import EnrollBand from "@/components/sticker-course/enroll-band";
-import StickerFooter from "@/components/sticker-course/footer";
+import ShelterHero from "@/components/pet-shelter/shelter-hero";
+import WaitingBoard from "@/components/pet-shelter/waiting-board";
+import AdoptionLegend from "@/components/pet-shelter/adoption-legend";
+import ConversationalMatcher from "@/components/pet-shelter/conversational-matcher";
+import TransformationReveal from "@/components/pet-shelter/transformation-reveal";
+import DonationImpactEngine from "@/components/pet-shelter/donation-impact-engine";
+import SanctuarySeal from "@/components/pet-shelter/sanctuary-seal";
+import FinalCallBand from "@/components/pet-shelter/final-call-band";
+import ShelterStickyBar from "@/components/pet-shelter/shelter-sticky-bar";
 
 export const dynamic = "force-static";
 
-export default function StickerLandingPage() {
+export default function PetAdoptionHomePage() {
   return (
-    <div className="min-h-screen bg-[#f3c9d5] text-[#1A2540] flex flex-col">
-      {/* Slim Nav */}
-      <StickerNavbar />
+    <div className="w-full">
+      {/* 1. Hero: Urgent Waiting Animal + Wall of Happy Homes Proof Exhibit */}
+      <ShelterHero />
 
-      {/* Main Content */}
-      <main className="flex-1">
-        {/* Hero with Proof Exhibit */}
-        <HeroSection />
+      {/* 2. The Waiting Board: 8 Animal Badges in Checkerboard with Lifted Corner */}
+      <WaitingBoard />
 
-        {/* The Curriculum as a Fresh Kiss-Cut Sheet */}
-        <CurriculumSheet />
+      {/* 3. Three-State Material Legend for Animal Cases */}
+      <AdoptionLegend />
 
-        {/* Three-State Material Legend */}
-        <MaterialLegend />
+      {/* 4. Find Your Match: Conversational Interactive Matcher */}
+      <ConversationalMatcher />
 
-        {/* Arced-Text Instructor Seal & Bio */}
-        <InstructorSection />
+      {/* 5. Stories That Ended Well: Draggable Before/After Transformation Reveal */}
+      <TransformationReveal />
 
-        {/* Course Material FAQs */}
-        <FaqSection />
+      {/* 6. Where Your Money Goes: Direct Medical Care Allocation Engine */}
+      <DonationImpactEngine />
 
-        {/* Full-Width Navy Enroll Band with Crimson Top Border */}
-        <EnrollBand />
-      </main>
+      {/* 7. Ethical Operating Charter: Arced-Text SVG Roundel Seal & Staff Team */}
+      <SanctuarySeal />
 
-      {/* Cream Backing Paper Footer */}
-      <StickerFooter />
+      {/* 8. Final Call: Full-Width Navy Band with Crimson Top Border & Dual Actions */}
+      <FinalCallBand />
+
+      {/* 9. Floating Sticky Action Bar on Scroll */}
+      <ShelterStickyBar />
     </div>
   );
 }

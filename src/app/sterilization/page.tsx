@@ -19,45 +19,45 @@ const STATUS_STYLE: Record<
   { label: string; bg: string; text: string; border: string }
 > = {
   PENDING: {
-    bg: "bg-[#EFBDEB]/30",
-    text: "text-[#101124]",
-    border: "border-[#101124]",
+    bg: "bg-amber-100",
+    text: "text-amber-800",
+    border: "border-amber-300",
     label: "Awaiting Dispatch",
   },
   SCHEDULED: {
-    bg: "bg-[#314CB6]/20",
-    text: "text-[#101124]",
-    border: "border-[#101124]",
+    bg: "bg-blue-100",
+    text: "text-blue-800",
+    border: "border-blue-300",
     label: "Scheduled",
   },
   PROOF_SUBMITTED: {
-    bg: "bg-[#6461A0]/25",
-    text: "text-[#101124]",
-    border: "border-[#101124]",
+    bg: "bg-purple-100",
+    text: "text-purple-800",
+    border: "border-purple-300",
     label: "In Review",
   },
   VERIFIED: {
-    bg: "bg-[#0A81D1]/25",
-    text: "text-[#101124]",
-    border: "border-[#101124]",
+    bg: "bg-emerald-100",
+    text: "text-emerald-800",
+    border: "border-emerald-300",
     label: "Verified ABC",
   },
   COMPLETED: {
-    bg: "bg-[#0A81D1]/25",
-    text: "text-[#101124]",
-    border: "border-[#101124]",
+    bg: "bg-emerald-100",
+    text: "text-emerald-800",
+    border: "border-emerald-300",
     label: "Completed",
   },
   DISPUTED: {
-    bg: "bg-[#EFBDEB]/60",
-    text: "text-[#101124]",
-    border: "border-[#101124]",
+    bg: "bg-rose-100",
+    text: "text-rose-800",
+    border: "border-rose-300",
     label: "Audit Hold",
   },
   CANCELLED: {
     bg: "bg-white",
-    text: "text-[#101124]/50",
-    border: "border-[#101124]/30",
+    text: "text-[#1A2540]/50",
+    border: "border-[#1A2540]/30",
     label: "Cancelled",
   },
 };
@@ -163,19 +163,19 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
   };
 
   return (
-    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
-      <div className="max-w-6xl mx-auto space-y-12">
+    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-12 px-4 sm:px-6 md:px-8">
+      <div className="max-w-6xl mx-auto space-y-10">
         {/* Header */}
-        <div className="border-b-[1.5px] border-[#101124] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-10 border-[1.5px] border-[#1A2540]/25 shadow-xl flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="inline-block border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] font-bold">
-              Humane Animal Birth Control (ABC / TNVR)
-            </div>
-            <h1 className="font-display uppercase text-4xl sm:text-6xl tracking-tight text-[#101124] mt-4 leading-none">
+            <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+              Humane Animal Birth Control (ABC / TNVR) · Belagavi
+            </span>
+            <h1 className="font-heading text-4xl sm:text-6xl text-[#1A2540] tracking-tight">
               Sterilization &amp; Vaccination
             </h1>
-            <p className="font-body text-sm sm:text-base text-[#101124]/75 max-w-xl mt-3 leading-relaxed">
-              Systematic street animal birth control registry. Rescuers and civic centers coordinate safe capture,
+            <p className="font-body text-sm sm:text-base text-[#1A2540]/80 max-w-xl mt-2 leading-relaxed">
+              Systematic street animal birth control registry. Rescuers and municipal clinics coordinate safe capture,
               sterile surgery, anti-rabies vaccination, ear-notch marking, and territory release.
             </p>
           </div>
@@ -184,26 +184,26 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Left: Request Form */}
           <aside className="lg:col-span-1">
-            <div className="bg-white border-[1.5px] border-[#101124] lg:sticky lg:top-8">
-              <div className="px-5 pt-5 pb-4 border-b-[1.5px] border-[#101124]">
-                <h2 className="font-display uppercase text-2xl text-[#101124]">
+            <div className="bg-[#f2e9db] rounded-3xl border-[1.5px] border-[#1A2540]/25 shadow-xl lg:sticky lg:top-8 overflow-hidden">
+              <div className="p-6 border-b border-[#1A2540]/15">
+                <h2 className="font-heading text-2xl text-[#1A2540]">
                   Lodge Field Request
                 </h2>
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#101124]/60 mt-1">
+                <p className="font-body text-xs text-[#1A2540]/70 mt-1">
                   Report unsterilized packs in your municipal sector.
                 </p>
               </div>
-              <div className="p-5">
+              <div className="p-6">
                 {!dbUser ? (
-                  <div className="text-center py-6 space-y-4">
-                    <p className="font-body text-xs text-[#101124]/70">
-                      Operator authentication required to record surgical dispatch coordinates.
+                  <div className="text-center py-6 space-y-3">
+                    <p className="font-body text-xs text-[#1A2540]/70">
+                      Sign in to submit an emergency sterilization dispatch request.
                     </p>
                     <Link
                       href="/sign-in"
-                      className="inline-block font-mono text-[10.5px] uppercase tracking-[0.16em] font-bold px-5 py-2.5 bg-[#314CB6] text-white border-[1.5px] border-[#101124]"
+                      className="inline-block btn-enroll-pill px-5 py-2.5 text-xs font-bold"
                     >
-                      Authenticate Session &rarr;
+                      Sign In &rarr;
                     </Link>
                   </div>
                 ) : quota ? (
@@ -216,8 +216,8 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
                     }}
                   />
                 ) : (
-                  <div className="font-mono text-xs text-[#101124]/60 py-6 text-center uppercase tracking-wide">
-                    Loading dispatch allowance...
+                  <div className="font-body text-xs text-[#1A2540]/60 py-6 text-center">
+                    Loading dispatch capacity...
                   </div>
                 )}
               </div>
@@ -226,11 +226,11 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
 
           {/* Right: Feed */}
           <section className="lg:col-span-2 space-y-6">
-            <div className="flex items-baseline justify-between border-b-[1.5px] border-[#101124] pb-3">
-              <h2 className="font-display uppercase text-2xl text-[#101124]">
+            <div className="bg-[#f2e9db] rounded-2xl p-4 sm:p-5 border-[1.5px] border-[#1A2540]/25 shadow-sm flex items-center justify-between">
+              <h2 className="font-heading text-xl sm:text-2xl text-[#1A2540]">
                 Surgical Pipeline Registry
               </h2>
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] font-bold">
+              <span className="font-body text-xs font-bold text-[#cc2b3f]">
                 {total} {total === 1 ? "Record" : "Records"}
               </span>
             </div>
@@ -249,14 +249,13 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
                   <Link
                     key={tab.key}
                     href={href}
-                    className={`font-mono text-[10.5px] uppercase tracking-[0.14em] px-3.5 py-1.5 whitespace-nowrap border-[1.5px] border-[#101124] transition-colors ${
+                    className={`font-body text-xs px-3.5 py-1.5 rounded-full whitespace-nowrap border-[1.5px] transition-colors ${
                       isActive
-                        ? "bg-[#101124] text-[#FAF8FC] font-bold"
-                        : "bg-white text-[#101124] hover:bg-[#FAF8FC]"
+                        ? "bg-[#cc2b3f] text-[#f2e9db] border-[#cc2b3f] font-bold"
+                        : "bg-[#f2e9db] text-[#1A2540]/80 border-[#1A2540]/25 hover:bg-white"
                     }`}
                   >
-                    {tab.label}
-                    <span className="ml-1.5 opacity-60">({tab.count})</span>
+                    {tab.label} ({tab.count})
                   </Link>
                 );
               })}
@@ -264,23 +263,16 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
 
             {/* List */}
             {requests.length === 0 ? (
-              <div className="text-center py-16 border-[1.5px] border-dashed border-[#101124]/40 bg-white p-8">
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124]/60 block mb-2">
-                  No Matching Registry Entries
-                </span>
-                <p className="font-display uppercase text-xl text-[#101124]">
-                  {statusFilter
-                    ? "Zero cases found with active filter"
-                    : "No cases registered in municipal sector"}
-                </p>
-                <p className="font-body text-xs text-[#101124]/70 max-w-sm mx-auto mt-2">
-                  {statusFilter
-                    ? "Select another tab to inspect different stage dockets."
-                    : "Lodge a request in the form to register an unsterilized pack."}
+              <div className="bg-[#f2e9db] rounded-3xl border-[1.5px] border-dashed border-[#1A2540]/30 p-16 text-center shadow-sm space-y-2">
+                <h3 className="font-heading text-xl text-[#1A2540]">
+                  No records with active filter
+                </h3>
+                <p className="font-body text-xs text-[#1A2540]/70">
+                  Select another filter tab or lodge a new community report.
                 </p>
               </div>
             ) : (
-              <div className="bg-white border-[1.5px] border-[#101124] divide-y-[1.5px] divide-[#101124]">
+              <div className="bg-[#f2e9db] rounded-3xl border-[1.5px] border-[#1A2540]/25 divide-y border-[#1A2540]/15 shadow-md overflow-hidden">
                 {requests.map((item) => {
                   const style =
                     STATUS_STYLE[item.status] ?? STATUS_STYLE.PENDING;
@@ -288,10 +280,10 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
                     <Link
                       key={item.id}
                       href={`/sterilization/${item.id}`}
-                      className="block p-5 hover:bg-[#FAF8FC] transition-colors"
+                      className="block p-5 hover:bg-white/60 transition-colors"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-16 h-12 border-[1.5px] border-[#101124] bg-[#FAF8FC] flex items-center justify-center font-mono text-[10px] uppercase font-bold text-[#101124] shrink-0">
+                        <div className="w-16 h-12 rounded-xl border border-[#1A2540]/25 bg-white flex items-center justify-center font-heading text-xs uppercase font-bold text-[#1A2540] shrink-0">
                           {ANIMAL_TAG[item.animalType] ?? "INDIE"}
                         </div>
 
@@ -299,62 +291,50 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
                           <div className="flex items-start justify-between gap-3 flex-wrap">
                             <div className="min-w-0 flex-1">
                               <div className="flex items-baseline gap-2 flex-wrap">
-                                <span className="font-display uppercase text-lg text-[#101124]">
+                                <span className="font-heading text-lg text-[#1A2540]">
                                   {item.animalType}
                                 </span>
-                                <span className="font-mono text-[10.5px] text-[#101124]/60 uppercase tracking-[0.12em]">
-                                  / {item.count} {item.count === 1 ? "Subject" : "Subjects"}
+                                <span className="font-body text-xs text-[#1A2540]/60">
+                                  / {item.count} {item.count === 1 ? "Animal" : "Animals"}
                                 </span>
                               </div>
 
-                              <p className="font-mono text-xs text-[#101124] mt-1 truncate uppercase tracking-wide">
+                              <p className="font-body text-xs text-[#1A2540] mt-1 truncate">
                                 Sector: {item.location}
                               </p>
 
-                              <div className="mt-2 font-mono text-[10px] text-[#101124]/70 uppercase tracking-[0.14em] flex flex-wrap gap-x-3 gap-y-1">
+                              <div className="mt-2 font-body text-[11px] text-[#1A2540]/70 flex flex-wrap gap-x-3 gap-y-1">
                                 {item.status === "SCHEDULED" && item.rescuer && (
                                   <span>
-                                    Assigned: {item.rescuer.name || "Field Officer"}
+                                    Assigned: {item.rescuer.name || "Rescuer"}
                                     {item.scheduledAt && ` · Target ${formatDate(item.scheduledAt)}`}
                                   </span>
                                 )}
 
                                 {item.status === "PROOF_SUBMITTED" && (
                                   <span>
-                                    Clinical certificate uploaded {item.proofSubmittedAt ? timeAgo(item.proofSubmittedAt) : ""} · Under Review
+                                    Proof uploaded {item.proofSubmittedAt ? timeAgo(item.proofSubmittedAt) : ""} · In Review
                                   </span>
                                 )}
 
                                 {(item.status === "VERIFIED" || item.status === "COMPLETED") && (
-                                  <span className="text-[#0A81D1] font-bold">
+                                  <span className="text-emerald-800 font-semibold">
                                     Surgery Verified {formatDate(item.verifiedAt || item.completedAt || item.createdAt)}
                                     {item.rescuer ? ` by ${item.rescuer.name}` : ""}
-                                  </span>
-                                )}
-
-                                {item.status === "DISPUTED" && (
-                                  <span className="text-[#314CB6] font-bold">
-                                    Disputed {item.disputedAt ? timeAgo(item.disputedAt) : ""} · Audit Pending
-                                  </span>
-                                )}
-
-                                {item.status === "CANCELLED" && (
-                                  <span>
-                                    Withdrawn {item.cancelledAt ? formatDate(item.cancelledAt) : ""}
                                   </span>
                                 )}
                               </div>
                             </div>
 
                             <span
-                              className={`shrink-0 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 border-[1.5px] ${style.border} ${style.bg} ${style.text}`}
+                              className={`shrink-0 font-body text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${style.border} ${style.bg} ${style.text}`}
                             >
                               {style.label}
                             </span>
                           </div>
 
-                          <div className="mt-3 pt-2 border-t border-[#101124]/15 font-mono text-[10px] tracking-[0.14em] uppercase text-[#101124]/50 flex justify-between">
-                            <span>Reporter: {item.user.name || "Community Watch"}</span>
+                          <div className="mt-3 pt-2 border-t border-[#1A2540]/10 font-body text-[11px] text-[#1A2540]/60 flex justify-between">
+                            <span>Reporter: {item.user.name || "Community Member"}</span>
                             <span>{timeAgo(item.createdAt)}</span>
                           </div>
                         </div>
@@ -367,22 +347,22 @@ export default async function SterilizationPage({ searchParams }: PageProps) {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="pt-6 border-t-[1.5px] border-[#101124] flex items-center justify-between font-mono text-[10.5px] uppercase tracking-[0.16em]">
+              <div className="bg-[#f2e9db] rounded-2xl p-4 border-[1.5px] border-[#1A2540]/25 flex items-center justify-between font-body text-xs font-bold">
                 <Link
                   href={buildHref({ page: currentPage - 1 })}
-                  className={`px-4 py-2 border-[1.5px] border-[#101124] bg-white text-[#101124] ${
-                    currentPage <= 1 ? "pointer-events-none opacity-30" : "hover:bg-[#FAF8FC]"
+                  className={`px-4 py-2 rounded-full border border-[#1A2540] bg-white text-[#1A2540] ${
+                    currentPage <= 1 ? "pointer-events-none opacity-40" : "hover:bg-[#FAF8FC]"
                   }`}
                 >
                   &larr; Previous Page
                 </Link>
-                <span className="text-[#101124]/60 font-bold">
-                  Sheet {currentPage} / {totalPages}
+                <span className="text-[#1A2540]/70">
+                  Page {currentPage} of {totalPages}
                 </span>
                 <Link
                   href={buildHref({ page: currentPage + 1 })}
-                  className={`px-4 py-2 border-[1.5px] border-[#101124] bg-white text-[#101124] ${
-                    currentPage >= totalPages ? "pointer-events-none opacity-30" : "hover:bg-[#FAF8FC]"
+                  className={`px-4 py-2 rounded-full border border-[#1A2540] bg-white text-[#1A2540] ${
+                    currentPage >= totalPages ? "pointer-events-none opacity-40" : "hover:bg-[#FAF8FC]"
                   }`}
                 >
                   Next Page &rarr;

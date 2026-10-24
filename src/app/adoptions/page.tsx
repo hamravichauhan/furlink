@@ -47,43 +47,43 @@ export default async function AdoptionsPage({ searchParams }: PageProps) {
   ];
 
   return (
-    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-12 px-6 sm:px-10">
+    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-12 px-4 sm:px-6 md:px-8">
       <div className="max-w-7xl mx-auto space-y-10">
         {/* Header */}
-        <div className="border-b-[1.5px] border-[#101124] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-10 border-[1.5px] border-[#1A2540]/25 shadow-xl flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="font-mono-meta text-[#314CB6] font-bold block mb-1">
-              CATALOGUE REGISTRY // SECTION 02
+            <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+              Sanctuary Case Census · Section 01
             </span>
-            <h1 className="font-display text-4xl sm:text-6xl text-[#101124] tracking-tight">
-              THE WAITING WALL
+            <h1 className="font-heading text-4xl sm:text-6xl text-[#1A2540] tracking-tight">
+              The Waiting Wall
             </h1>
-            <p className="font-sans text-sm sm:text-base text-[#6461A0] max-w-xl mt-2 leading-relaxed">
-              Every animal is listed with their arrival story and verified days waiting.
-              We prioritize temperament, medical transparency, and lifelong compatibility.
+            <p className="font-body text-sm sm:text-base text-[#1A2540]/80 max-w-xl mt-2 leading-relaxed">
+              Every animal is listed with their arrival case record and verified days waiting.
+              We prioritize temperament compatibility, complete medical transparency, and lifelong follow-through.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <Link
               href="/adoptions/new"
-              className="font-mono-meta px-4 py-2 border-[1.5px] border-[#101124] text-[#101124] hover:bg-[#101124] hover:text-[#EFBDEB] transition"
+              className="px-5 py-2.5 rounded-full border-[1.5px] border-[#1A2540] bg-white text-[#1A2540] font-body text-xs font-bold hover:bg-[#f2e9db] transition"
             >
-              Register Animal
+              Register Case
             </Link>
             <Link
               href="/donate"
-              className="font-mono-meta px-5 py-2 bg-[#314CB6] hover:bg-[#0A81D1] text-[#FAF8FC] border-[1.5px] border-[#101124] transition font-bold"
+              className="btn-enroll-pill px-6 py-2.5 text-xs font-bold shadow-xs"
             >
-              Sponsor Meals
+              Sponsor Medical Meals
             </Link>
           </div>
         </div>
 
         {/* Filtering & Status Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[1.5px] border-[#101124] pb-4">
+        <div className="bg-[#f2e9db] rounded-2xl p-4 sm:p-5 border-[1.5px] border-[#1A2540]/25 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Status Tabs */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0">
             {tabs.map((tab) => {
               const active = statusFilter === tab.key;
               const href = speciesFilter
@@ -93,129 +93,126 @@ export default async function AdoptionsPage({ searchParams }: PageProps) {
                 <Link
                   key={tab.key}
                   href={href}
-                  className={`font-mono-meta px-3 py-1.5 border-[1.5px] transition ${
+                  className={`font-body text-xs px-4 py-2 rounded-full border-[1.5px] whitespace-nowrap transition ${
                     active
-                      ? "bg-[#314CB6] text-[#FAF8FC] border-[#314CB6] font-bold"
-                      : "border-transparent text-[#6461A0] hover:text-[#101124]"
+                      ? "bg-[#cc2b3f] text-[#f2e9db] border-[#cc2b3f] font-bold"
+                      : "border-[#1A2540]/20 bg-white/70 text-[#1A2540]/70 hover:text-[#1A2540]"
                   }`}
                 >
-                  {tab.label} [{tab.count}]
+                  {tab.label} ({tab.count})
                 </Link>
               );
             })}
           </div>
 
           {/* Species Filter Chips */}
-          <div className="flex items-center gap-1.5 font-mono-meta">
-            <span className="text-[#6461A0] mr-1">SPECIES:</span>
+          <div className="flex items-center gap-2 font-body text-xs">
+            <span className="text-[#1A2540]/60 font-semibold mr-1">SPECIES:</span>
             <Link
               href={`/adoptions?status=${statusFilter}`}
-              className={`px-3 py-1 border-[1.5px] transition ${
+              className={`px-3 py-1 rounded-full border-[1.5px] transition ${
                 !speciesFilter
-                  ? "bg-[#101124] text-[#EFBDEB] border-[#101124]"
-                  : "border-[#6461A0] text-[#6461A0] hover:border-[#101124]"
+                  ? "bg-[#1A2540] text-[#f2e9db] border-[#1A2540] font-bold"
+                  : "border-[#1A2540]/30 bg-white text-[#1A2540]/70 hover:border-[#1A2540]"
               }`}
             >
-              ALL
+              All
             </Link>
             {["Dog", "Cat", "Other"].map((s) => (
               <Link
                 key={s}
                 href={`/adoptions?species=${s}&status=${statusFilter}`}
-                className={`px-3 py-1 border-[1.5px] transition ${
+                className={`px-3 py-1 rounded-full border-[1.5px] transition ${
                   speciesFilter === s
-                    ? "bg-[#101124] text-[#EFBDEB] border-[#101124]"
-                    : "border-[#6461A0] text-[#6461A0] hover:border-[#101124]"
+                    ? "bg-[#1A2540] text-[#f2e9db] border-[#1A2540] font-bold"
+                    : "border-[#1A2540]/30 bg-white text-[#1A2540]/70 hover:border-[#1A2540]"
                 }`}
               >
-                {s.toUpperCase()}S
+                {s}s
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Dossiers Grid */}
+        {/* Animals Grid */}
         {pets.length === 0 ? (
-          <div className="border-[1.5px] border-dashed border-[#101124] p-16 text-center bg-white max-w-xl mx-auto space-y-3">
-            <h3 className="font-display text-3xl text-[#101124]">NO DOSSIERS ACTIVE IN THIS CATEGORY</h3>
-            <p className="font-mono-meta text-xs text-[#6461A0]">
-              All animals in this segment have found homes or are undergoing clinical procedures.
+          <div className="bg-[#f2e9db] rounded-3xl border-[1.5px] border-[#1A2540]/25 p-16 text-center shadow-lg space-y-4">
+            <h3 className="font-heading text-2xl text-[#1A2540]">
+              No animals matching this filter
+            </h3>
+            <p className="font-body text-xs text-[#1A2540]/70 max-w-sm mx-auto">
+              Try switching species or status to inspect other companion records.
             </p>
             <Link
               href="/adoptions"
-              className="inline-block mt-4 font-mono-meta px-5 py-2.5 bg-[#314CB6] text-[#FAF8FC]"
+              className="inline-block mt-2 btn-enroll-pill px-6 py-2.5 text-xs font-bold"
             >
-              Reset Filter
+              Reset Filters
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pets.map((pet, idx) => {
-              const daysWaiting = Math.max(
-                35,
-                Math.floor((Date.now() - new Date(pet.createdAt).getTime()) / (1000 * 60 * 60 * 24)) + idx * 28
+              const daysWaiting = Math.floor(
+                (Date.now() - new Date(pet.createdAt).getTime()) / (1000 * 60 * 60 * 24)
               );
+              const isCrimson = idx % 2 === 0;
 
               return (
-                <article
+                <div
                   key={pet.id}
-                  className="border-ink-15 bg-white p-5 flex flex-col justify-between shadow-xs"
+                  className="bg-[#f2e9db] rounded-3xl p-5 border-[1.5px] border-[#1A2540]/25 shadow-md flex flex-col justify-between group hover:-translate-y-1 transition-transform"
                 >
                   <div>
-                    {/* Top Case Stamp */}
-                    <div className="flex items-center justify-between font-mono-meta text-[9.5px] border-b-[1.5px] border-[#101124] pb-2 mb-3 text-[#6461A0]">
-                      <span className="text-[#101124] font-bold">CASE #{String(idx + 101).padStart(4, "0")}</span>
-                      <span className={pet.status === "AVAILABLE" ? "text-[#0A81D1] font-bold" : "text-[#314CB6] font-bold"}>
-                        {pet.status === "AVAILABLE" ? `WAITING ${daysWaiting} DAYS` : pet.status}
-                      </span>
-                    </div>
-
-                    {/* Portrait Frame */}
-                    <div className="relative aspect-[4/3] w-full bg-[#161938] border-[1.5px] border-[#101124] overflow-hidden">
+                    {/* Animal Photo with Kiss-Cut Offset Border */}
+                    <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden mb-4 border-[1.5px] border-[#1A2540] bg-white">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={pet.imageUrl}
                         alt={pet.name}
-                        className="w-full h-full object-cover filter contrast-[1.05]"
+                        className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300"
                       />
+                      <div className="absolute top-3 left-3 bg-[#1A2540] text-[#f2e9db] font-body text-[10px] font-bold px-3 py-1 rounded-full shadow-md">
+                        Waiting {daysWaiting} Days
+                      </div>
+                      <div className="absolute top-3 right-3 bg-[#f2e9db] text-[#cc2b3f] font-body text-[10px] font-bold px-2.5 py-1 rounded-full border border-[#cc2b3f] shadow-md">
+                        {pet.status}
+                      </div>
                     </div>
 
-                    {/* Metadata & Personality */}
-                    <div className="mt-4">
-                      <div className="flex items-baseline justify-between">
-                        <h2 className="font-display text-3xl text-[#101124]">
-                          {pet.name}
-                        </h2>
-                        <span className="font-mono-meta text-[#6461A0]">
-                          {pet.age}
-                        </span>
-                      </div>
-                      <div className="font-mono-meta text-[#0A81D1] text-[10px] mt-0.5">
-                        {pet.breed || pet.species} // {pet.gender}
-                      </div>
-
-                      <p className="font-sans text-xs text-[#6461A0] mt-2.5 leading-relaxed line-clamp-3 border-t-[1.5px] border-[#101124] pt-2.5">
-                        {pet.description}
-                      </p>
+                    <div className="flex items-baseline justify-between">
+                      <h3 className="font-heading text-2xl text-[#1A2540]">
+                        {pet.name}
+                      </h3>
+                      <span className="font-body text-xs text-[#cc2b3f] font-semibold">
+                        {pet.breed}
+                      </span>
                     </div>
+
+                    <div className="font-body text-xs text-[#1A2540]/60 mt-0.5">
+                      {pet.age} · {pet.gender} · {pet.species}
+                    </div>
+
+                    <p className="font-body text-xs text-[#1A2540]/80 mt-3 line-clamp-3 leading-relaxed border-t border-[#1A2540]/15 pt-2.5">
+                      {pet.description}
+                    </p>
                   </div>
 
-                  {/* Dual Action */}
-                  <div className="mt-6 pt-4 border-t-[1.5px] border-[#101124] flex items-center gap-2">
+                  <div className="mt-5 pt-3 border-t border-[#1A2540]/15 flex items-center justify-between gap-3">
                     <Link
                       href={`/adoptions/${pet.id}`}
-                      className="flex-1 py-2.5 bg-[#314CB6] hover:bg-[#101124] text-[#FAF8FC] hover:text-[#EFBDEB] font-mono-meta text-xs text-center border-[1.5px] border-[#101124] font-bold transition"
+                      className="btn-enroll-pill flex-1 py-2.5 text-center text-xs tracking-wider"
                     >
-                      Inspect Dossier
+                      ADOPT {pet.name.toUpperCase()}
                     </Link>
                     <Link
                       href="/donate"
-                      className="px-4 py-2.5 border-[1.5px] border-[#101124] text-[#101124] hover:bg-[#101124] hover:text-[#EFBDEB] font-mono-meta text-xs text-center transition"
+                      className="px-4 py-2.5 rounded-full border border-[#1A2540] bg-white hover:bg-[#FAF8FC] font-body text-xs font-bold text-[#1A2540] transition"
                     >
                       Sponsor
                     </Link>
                   </div>
-                </article>
+                </div>
               );
             })}
           </div>

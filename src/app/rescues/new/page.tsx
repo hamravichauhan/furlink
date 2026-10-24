@@ -65,49 +65,48 @@ export default function NewRescuePage() {
   };
 
   return (
-    <div className="bg-[#FAF8FC] text-[#101124] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-12 px-4 sm:px-6 md:px-8">
       <div className="max-w-2xl mx-auto space-y-8">
-        <div className="border-b-[1.5px] border-[#101124] pb-6 flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-[#1A2540]/20 pb-4">
           <Link
             href="/rescues"
-            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#314CB6] hover:underline underline-offset-4"
+            className="font-body text-xs font-semibold text-[#1A2540]/70 hover:text-[#cc2b3f] transition-colors"
           >
             &larr; Back to Incident Feed
           </Link>
-          <span className="border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#101124] font-bold">
+          <span className="font-heading text-xs uppercase tracking-wider text-[#cc2b3f] font-bold">
             Emergency Dispatch Intake
           </span>
         </div>
 
         <div>
-          <h1 className="font-display uppercase text-4xl sm:text-5xl tracking-tight text-[#101124] leading-none">
+          <h1 className="font-heading text-3xl sm:text-5xl text-[#1A2540] tracking-tight">
             Report Animal in Distress
           </h1>
-          <p className="font-body text-sm text-[#101124]/75 mt-3 leading-relaxed">
-            Provide precise visual and street coordinate data. Our field ambulances prepare clinical equipment,
-            splints, and transport carriers based on your intake entry.
+          <p className="font-body text-sm text-[#1A2540]/80 mt-2 leading-relaxed">
+            Provide precise visual and street coordinate data. Our rescue ambulances prepare bandages, splints,
+            and carriers based on your report.
           </p>
         </div>
 
         {errorMsg && (
-          <div className="p-4 border-[1.5px] border-[#101124] bg-[#EFBDEB]/30 font-mono text-xs uppercase tracking-[0.12em] text-[#101124]">
+          <div className="p-4 bg-red-50 border border-[#cc2b3f] rounded-2xl font-body text-xs text-[#cc2b3f] font-semibold">
             {errorMsg}
           </div>
         )}
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white border-[1.5px] border-[#101124] p-6 sm:p-8 space-y-6"
+          className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-5"
         >
-          {/* Classification */}
           <div>
-            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
               Animal Classification
             </label>
             <select
               name="animalType"
               required
-              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-mono text-xs text-[#101124] uppercase tracking-[0.12em] focus:outline-hidden focus:border-[#314CB6]"
+              className="w-full bg-white border border-[#1A2540]/25 rounded-xl p-2.5 font-body text-xs text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
             >
               <option value="Dog">Canine (Indie / Dog)</option>
               <option value="Cat">Feline (Cat)</option>
@@ -117,37 +116,35 @@ export default function NewRescuePage() {
             </select>
           </div>
 
-          {/* Location */}
           <div>
-            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
-              Incident Location & Road Landmarks
+            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+              Incident Location &amp; Landmarks
             </label>
             <input
               name="location"
               placeholder="e.g. Near Tilakwadi 3rd Railway Gate, opposite tea stall, Belagavi"
               required
-              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] focus:outline-hidden focus:border-[#314CB6]"
+              className="w-full bg-white border border-[#1A2540]/25 rounded-xl p-2.5 font-body text-xs text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
             />
-            <div className="mt-3 flex items-center gap-3 flex-wrap">
+            <div className="mt-2.5 flex items-center gap-3 flex-wrap">
               <button
                 type="button"
                 onClick={handleGetLocation}
                 disabled={locating}
-                className="font-mono text-[10.5px] uppercase tracking-[0.16em] font-bold border-[1.5px] border-[#101124] bg-white hover:bg-[#FAF8FC] text-[#101124] py-2 px-4 transition-colors disabled:opacity-50 cursor-pointer"
+                className="font-body text-xs font-bold border border-[#1A2540] bg-white hover:bg-[#FAF8FC] text-[#1A2540] py-1.5 px-3.5 rounded-full transition disabled:opacity-50 cursor-pointer"
               >
                 {locating ? "Acquiring GPS Signal..." : "Lock Current GPS Coordinates"}
               </button>
               {coords && (
-                <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#314CB6] font-bold">
-                  Lock: {coords.lat.toFixed(4)} N, {coords.lng.toFixed(4)} E
+                <span className="font-body text-xs text-[#cc2b3f] font-bold">
+                  Lock: {coords.lat.toFixed(4)}°N, {coords.lng.toFixed(4)}°E
                 </span>
               )}
             </div>
           </div>
 
-          {/* Photo */}
           <div>
-            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
+            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
               Incident Photographic Record
             </label>
             <ImageUpload
@@ -156,31 +153,30 @@ export default function NewRescuePage() {
               onRemove={() => setImageUrl("")}
             />
             <input type="hidden" name="imageUrl" value={imageUrl} />
-            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#101124]/60 mt-2">
-              Visual records determine whether an orthopedic crate or trauma saline pack is required.
+            <p className="font-body text-[11px] text-[#1A2540]/60 mt-1">
+              Photographs allow our clinic staff to prepare bandages and saline before ambulance departure.
             </p>
           </div>
 
-          {/* Description */}
           <div>
-            <label className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#101124] mb-2 font-bold">
-              Injury Presentation & Observations
+            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+              Injury Details &amp; Observations
             </label>
             <textarea
               name="description"
               rows={4}
-              placeholder="Record observable fractures, bleeding, responsiveness, or territorial aggressiveness..."
+              placeholder="Describe observable fractures, bleeding, responsiveness, or whether the animal is frightened or aggressive..."
               required
-              className="w-full border-[1.5px] border-[#101124] bg-[#FAF8FC] p-3 font-body text-sm text-[#101124] leading-relaxed focus:outline-hidden focus:border-[#314CB6]"
+              className="w-full bg-white border border-[#1A2540]/25 rounded-xl p-2.5 font-body text-xs text-[#1A2540] leading-relaxed focus:outline-hidden focus:border-[#cc2b3f]"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-[#314CB6] hover:bg-[#0A81D1] text-white font-mono text-[11px] uppercase tracking-[0.18em] font-bold border-[1.5px] border-[#101124] transition-colors disabled:opacity-50 cursor-pointer"
+            className="btn-enroll-pill w-full py-3.5 text-center text-xs tracking-wider font-bold shadow-md cursor-pointer disabled:opacity-50"
           >
-            {loading ? "Dispatching Emergency Log..." : "Transmit Emergency Dispatch Log"}
+            {loading ? "TRANSMITTING TO AMBULANCE..." : "TRANSMIT EMERGENCY REPORT"}
           </button>
         </form>
       </div>
