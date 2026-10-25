@@ -106,13 +106,12 @@ export default function SterilizationForm({
 
     if (res.success) {
       setSuccess(true);
-      (e.target as HTMLFormElement).reset();
-      setLocation({ location: "", latitude: null, longitude: null });
+      router.push(`/sterilization/${res.requestId}`);
       router.refresh();
-      setLoading(false);
+      // Guarantee transition to the surgical case dossier
       setTimeout(() => {
-        router.push(`/sterilization/${res.requestId}`);
-      }, 600);
+        window.location.href = `/sterilization/${res.requestId}`;
+      }, 150);
       return;
     }
 
@@ -316,7 +315,11 @@ export default function SterilizationForm({
           disabled={disabled}
           className="w-full btn-enroll-pill py-3.5 text-xs font-bold shadow-md disabled:opacity-50 cursor-pointer text-center"
         >
-          {loading ? "Logging Surgical Case..." : "Submit ABC / TNVR Field Request \u2192"}
+          {loading
+            ? success
+              ? "Opening Surgical Dossier..."
+              : "Logging Surgical Case..."
+            : "Submit ABC / TNVR Field Request \u2192"}
         </button>
       </div>
     </form>

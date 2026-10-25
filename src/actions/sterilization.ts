@@ -241,6 +241,8 @@ export async function createSterilizationRequest(
     });
 
     revalidatePath('/sterilization');
+    revalidatePath('/sterilization/new');
+    revalidatePath(`/sterilization/${request.id}`);
     return { success: true, requestId: request.id };
   } catch (err) {
     console.error('[createSterilizationRequest]', err);
