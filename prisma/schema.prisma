@@ -18,6 +18,7 @@ model User {
   promotedUsers          User[]                 @relation("UserPromotions")
   createdAt              DateTime               @default(now())
   applications           AdoptionApplication[]
+  pets                   Pet[]
   donations              Donation[]
   stories                FurStory[]
   rescues                RescueReport[]
@@ -55,6 +56,8 @@ model Pet {
   createdAt    DateTime              @default(now())
 
   // Guardian / Owner Contact Details
+  userId        String?
+  user          User?                 @relation(fields: [userId], references: [id])
   ownerName     String?               @default("Belagavi Sanctuary Station")
   contactPhone  String?               @default("+91 94812 00000")
   contactEmail  String?               @default("adoptions@furlink.org")

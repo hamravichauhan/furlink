@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
 import ProfileEditor from './profile-editor';
+import OwnerApplicationActions from './owner-application-actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +13,7 @@ export default async function ProfilePage() {
     redirect('/sign-in');
   }
 
-  const [rescues, applications, sterilizations, stories, donations] = await Promise.all([
+  const [rescues, applications, sterilizations, stories, donations, myListedPets] = await Promise.all([
     prisma.rescueReport.findMany({
       where: { userId: user.id },
       orderBy: { createdAt: 'desc' },
@@ -34,7 +35,22 @@ export default async function ProfilePage() {
       where: { userId: user.id },
       orderBy: { createdAt: 'desc' },
     }),
+    prisma.pet.findMany({
+      where: { userId: user.id },
+      include: {
+        applications: {
+          include: { user: true },
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
   ]);
+
+  const totalIncomingInquiries = myListedPets.reduce(
+    (acc, pet) => acc + pet.applications.length,
+    0
+  );
 
   return (
     <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-14 px-4 sm:px-6 md:px-10">
@@ -71,12 +87,210 @@ export default async function ProfilePage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-8 pt-6 border-t-2 border-[#1A2540]/20">
+            <StatBlock label="My Listed Pets" value={myListedPets.length} />
+            <StatBlock label="Incoming Inquiries" value={totalIncomingInquiries} />
+            <StatBlock label="My Applications" value={applications.length} />
             <StatBlock label="Rescues Logged" value={rescues.length} />
-            <StatBlock label="Adoption Inquiries" value={applications.length} />
             <StatBlock label="TNVR Requests" value={sterilizations.length} />
-            <StatBlock label="Stories Authored" value={stories.length} />
-            <StatBlock label="Medical Allocations" value={donations.length} />
           </div>
+        </div>
+
+        {/* Incoming Inquiries on My Listed Pets (For Pet Owners / Guardians) */}
+        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-[#1A2540]/20 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#cc2b3f]" />
+                <span className="font-mono text-xs uppercase tracking-wider font-bold text-[#cc2b3f]">
+                  Owner Guardian Dashboard
+                </span>
+              </div>
+              <h2 className="font-heading uppercase text-2xl sm:text-3xl font-black text-[#1A2540] mt-0.5">
+                Inquiries for My Listed Pets ({totalIncomingInquiries})
+              </h2>
+              <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/60 mt-1">
+                Direct applications submitted by adopters seeking your animals
+              </p>
+            </div>
+            <Link
+              href="/adoptions/new"
+              className="font-mono text-xs uppercase tracking-[0.16em] bg-[#cc2b3f] text-[#f2e9db] hover:bg-[#b02435] px-4 py-2 rounded-full font-bold transition-colors self-start sm:self-auto shadow-xs"
+            >
+              + List Pet for Adoption
+            </Link>
+          </div>
+
+          {myListedPets.length === 0 ? (
+            <div className="text-center py-8 bg-white border-2 border-dashed border-[#1A2540]/30 rounded-xl p-6">
+              <p className="font-heading uppercase text-lg font-black text-[#1A2540]">
+                No pets listed for adoption by your account
+              </p>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/60 mt-1 max-w-md mx-auto">
+                Have a foster companion or rescue animal looking for a safe home? List them on our Waiting Wall.
+              </p>
+              <Link
+                href="/adoptions/new"
+                className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
+              >
+                + Register New Pet Listing →
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {myListedPets.map((pet) => (
+                <div
+                  key={pet.id}
+                  className="border-2 border-[#1A2540] rounded-xl bg-white p-5 sm:p-6 space-y-4 shadow-sm"
+                >
+                  {/* Pet Summary Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-[#1A2540]/10 pb-4">
+                    <div className="flex items-center gap-4">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={pet.imageUrl}
+                        alt={pet.name}
+                        className="w-14 h-14 rounded-xl object-cover border-2 border-[#1A2540] bg-[#f2e9db] shrink-0"
+                      />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <Link
+                            href={`/adoptions/${pet.id}`}
+                            className="font-heading uppercase text-xl font-black text-[#1A2540] hover:text-[#cc2b3f] transition-colors"
+                          >
+                            {pet.name}
+                          </Link>
+                          <span className="font-mono text-xs text-[#1A2540]/60 uppercase">
+                            · {pet.species} · {pet.gender} · {pet.age}
+                          </span>
+                        </div>
+                        <div className="font-mono text-[11px] text-[#1A2540]/60 mt-0.5">
+                          <span>Status: </span>
+                          <span className="font-bold text-[#1A2540] uppercase">{pet.status}</span>
+                          <span> · </span>
+                          <span>{pet.applications.length} inquiry received</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/adoptions/${pet.id}`}
+                      className="font-mono text-xs uppercase tracking-wider text-[#cc2b3f] hover:underline font-bold self-start sm:self-auto"
+                    >
+                      View Public Dossier →
+                    </Link>
+                  </div>
+
+                  {/* Pet Inquiries List */}
+                  {pet.applications.length === 0 ? (
+                    <div className="p-4 bg-[#f2e9db]/40 border border-[#1A2540]/15 rounded-lg text-center font-mono text-xs text-[#1A2540]/60 uppercase tracking-wide">
+                      No applications received for {pet.name} yet. Potential adopters will appear here as soon as they submit their intake dossier.
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {pet.applications.map((app) => {
+                        const cleanPhone = app.phone.replace(/[^0-9]/g, '');
+                        const whatsappMsg = `Hi ${app.fullName}, this is ${user.name || 'the guardian'} regarding your adoption application for ${pet.name} on FurLink. Let us connect to discuss your meet-and-greet visit!`;
+
+                        return (
+                          <div
+                            key={app.id}
+                            className="bg-[#f2e9db]/30 border-2 border-[#1A2540]/25 rounded-xl p-4 sm:p-5 space-y-3.5"
+                          >
+                            {/* Applicant Header */}
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#1A2540]/15 pb-3">
+                              <div>
+                                <span className="font-heading uppercase text-lg font-black text-[#1A2540]">
+                                  {app.fullName}
+                                </span>
+                                <span className="font-mono text-xs text-[#1A2540]/60 ml-2 uppercase">
+                                  · Docket: APP-{app.id.slice(-6).toUpperCase()}
+                                </span>
+                                <div className="mt-1 inline-block border-2 border-[#1A2540] bg-amber-50 text-amber-950 font-mono text-[10.5px] font-bold px-2.5 py-0.5 rounded">
+                                  Preferred Call Window: {app.preferredCallTime || 'Anytime'}
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-2">
+                                <span
+                                  className={`font-mono text-[11px] uppercase tracking-wider font-bold px-3 py-1 rounded-full border ${
+                                    app.status === 'APPROVED'
+                                      ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                                      : app.status === 'REJECTED'
+                                      ? 'bg-rose-100 text-rose-900 border-rose-300'
+                                      : 'bg-amber-100 text-amber-900 border-amber-300'
+                                  }`}
+                                >
+                                  {app.status}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Applicant Contact & Answers */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs font-mono">
+                              <div className="space-y-1">
+                                <p>
+                                  <span className="font-bold text-[#1A2540]/60 uppercase">Phone: </span>
+                                  <span className="font-bold text-[#1A2540]">{app.phone}</span>
+                                </p>
+                                <p>
+                                  <span className="font-bold text-[#1A2540]/60 uppercase">Email: </span>
+                                  <span className="text-[#1A2540]">{app.user.email}</span>
+                                </p>
+                                <p>
+                                  <span className="font-bold text-[#1A2540]/60 uppercase">Address: </span>
+                                  <span className="text-[#1A2540]">{app.address}</span>
+                                </p>
+                              </div>
+
+                              <div className="space-y-1">
+                                <p>
+                                  <span className="font-bold text-[#1A2540]/60 uppercase">Housing: </span>
+                                  <span className="text-[#1A2540]">{app.housingType || 'Not specified'}</span>
+                                </p>
+                                <p>
+                                  <span className="font-bold text-[#1A2540]/60 uppercase">Prior Experience: </span>
+                                  <span className="text-[#1A2540]">{app.priorExperience || 'Not specified'}</span>
+                                </p>
+                                <p className="text-[11px] text-[#1A2540]/75 line-clamp-2">
+                                  <span className="font-bold text-[#1A2540]/60 uppercase">Note: </span>
+                                  {app.reason}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Direct Action Bar for Jayesh (Owner) */}
+                            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#1A2540]/15">
+                              <div className="flex items-center gap-2">
+                                <a
+                                  href={`tel:${app.phone.replace(/\s+/g, '')}`}
+                                  className="inline-flex items-center font-mono text-xs uppercase tracking-wider font-bold bg-[#1A2540] text-[#f2e9db] hover:bg-[#cc2b3f] px-3.5 py-1.5 rounded-full transition-colors"
+                                >
+                                  Call: {app.phone}
+                                </a>
+                                <a
+                                  href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(whatsappMsg)}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center font-mono text-xs uppercase tracking-wider font-bold bg-emerald-700 text-white hover:bg-emerald-800 px-3.5 py-1.5 rounded-full transition-colors"
+                                >
+                                  WhatsApp Rina
+                                </a>
+                              </div>
+
+                              <OwnerApplicationActions
+                                applicationId={app.id}
+                                currentStatus={app.status as 'PENDING' | 'APPROVED' | 'REJECTED'}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Rescues Section */}

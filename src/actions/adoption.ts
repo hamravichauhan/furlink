@@ -30,6 +30,7 @@ export async function createPetListing(formData: FormData) {
 
   const pet = await prisma.pet.create({
     data: {
+      userId: dbUser.id,
       name,
       species,
       breed,
@@ -46,7 +47,65 @@ export async function createPetListing(formData: FormData) {
   });
 
   revalidatePath('/adoptions');
+  revalidatePath('/profile');
   return { success: true, petId: pet.id };
+}
+
+// Update application status by Pet Owner or Admin
+export async function updateOwnerApplicationStatus(
+  applicationId: string,
+  newStatus: 'APPROVED' | 'REJECTED' | 'PENDING'
+) {
+  const dbUser = await getOrCreateCurrentUser();
+  if (!dbUser) return { success: false, error: 'Please sign in.' };
+
+  const app = await prisma.adoptionApplication.findUnique({
+    where: { id: applicationId },
+    include: { pet: true },
+  });
+
+  if (!app) return { success: false, error: 'Application not found.' };
+
+  const isOwner = app.pet.userId === dbUser.id;
+  const isAdmin = dbUser.role === 'ADMIN';
+
+  if (!isOwner && !isAdmin) {
+    return { success: false, error: 'You do not have permission to manage this inquiry.' };
+  }
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.adoptionApplication.update({
+        where: { id: applicationId },
+        data: { status: newStatus },
+      });
+
+      if (newStatus === 'APPROVED') {
+        await tx.pet.update({
+          where: { id: app.petId },
+          data: { status: 'ADOPTED' },
+        });
+      } else if (newStatus === 'REJECTED') {
+        const remainingApproved = await tx.adoptionApplication.count({
+          where: { petId: app.petId, status: 'APPROVED' },
+        });
+        if (remainingApproved === 0) {
+          await tx.pet.update({
+            where: { id: app.petId },
+            data: { status: 'AVAILABLE' },
+          });
+        }
+      }
+    });
+
+    revalidatePath('/profile');
+    revalidatePath('/adoptions');
+    revalidatePath('/admin/adoptions');
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('[updateOwnerApplicationStatus]', err);
+    return { success: false, error: 'Failed to update application status.' };
+  }
 }
 
 // Submit an adoption application
