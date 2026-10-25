@@ -277,7 +277,7 @@ export default function WaitingBoard() {
                   START ADOPTION FOR {selectedAnimal.name.toUpperCase()}
                 </Link>
                 <Link
-                  href="/donate"
+                  href={`/donate?pet=${encodeURIComponent(selectedAnimal.name)}&amount=450`}
                   onClick={() => setSelectedAnimal(null)}
                   className="px-5 py-3 rounded-full border border-[#1A2540] font-body text-xs font-bold hover:bg-white text-center transition-colors"
                 >

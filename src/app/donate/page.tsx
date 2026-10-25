@@ -4,7 +4,21 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export default async function DonatePage() {
+interface PageProps {
+  searchParams: Promise<{
+    pet?: string;
+    amount?: string;
+    case?: string;
+    type?: string;
+  }>;
+}
+
+export default async function DonatePage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const initialPet = params.pet || undefined;
+  const initialAmount = params.amount ? Number(params.amount) : undefined;
+  const initialCase = params.case || undefined;
+
   const [recent, totalRaised, donorCount] = await Promise.all([
     prisma.donation.findMany({
       where: { status: "SUCCESS" },
@@ -59,8 +73,12 @@ export default async function DonatePage() {
           </div>
         </div>
 
-        {/* The Concrete Impact Allocation Engine */}
-        <DonationImpactEngine />
+        {/* The Concrete Impact Allocation Engine with Razorpay & Sponsorship support */}
+        <DonationImpactEngine
+          initialPet={initialPet}
+          initialAmount={initialAmount}
+          initialCase={initialCase}
+        />
 
         {/* Transparency Ledger */}
         <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-6">

@@ -199,10 +199,10 @@ export default async function PetDetailPage({
                 </p>
               </div>
               <Link
-                href="/donate"
+                href={`/donate?pet=${encodeURIComponent(pet.name)}&amount=450`}
                 className="btn-enroll-pill px-4 py-2 text-xs font-bold shrink-0 whitespace-nowrap"
               >
-                SPONSOR ₹450
+                SPONSOR ₹450 &rarr;
               </Link>
             </div>
           </div>

@@ -125,15 +125,19 @@ model AdoptionApplication {
 }
 
 model Donation {
-  id        String   @id @default(cuid())
-  userId    String?
-  amount    Float
-  currency  String   @default("INR")
-  paymentId String   @unique
-  orderId   String   @unique
-  status    String
-  createdAt DateTime @default(now())
-  user      User?    @relation(fields: [userId], references: [id])
+  id              String   @id @default(cuid())
+  userId          String?
+  amount          Float
+  currency        String   @default("INR")
+  paymentId       String   @unique
+  orderId         String   @unique
+  status          String
+  donorName       String?
+  donorEmail      String?
+  sponsorshipType String?
+  targetName      String?
+  createdAt       DateTime @default(now())
+  user            User?    @relation(fields: [userId], references: [id])
 }
 
 model SterilizationRequest {

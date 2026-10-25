@@ -61,9 +61,11 @@ export async function POST(req: Request) {
 
   // Fetch the authoritative amount from Razorpay
   let orderAmountPaise: number;
+  let orderNotes: Record<string, any> = {};
   try {
     const order = await razorpay.orders.fetch(razorpay_order_id);
     orderAmountPaise = Number(order.amount);
+    orderNotes = (order.notes as Record<string, any>) || {};
   } catch (err) {
     console.error('[razorpay/verify] order fetch failed', err);
     return NextResponse.json(
@@ -82,6 +84,10 @@ export async function POST(req: Request) {
         currency: 'INR',
         paymentId: razorpay_payment_id,
         orderId: razorpay_order_id,
+        donorName: orderNotes.donorName || dbUser?.name || 'Generous Patron',
+        donorEmail: orderNotes.donorEmail || dbUser?.email || null,
+        sponsorshipType: orderNotes.sponsorshipType || 'GENERAL_CARE',
+        targetName: orderNotes.targetName || null,
         status: 'SUCCESS',
       },
     });

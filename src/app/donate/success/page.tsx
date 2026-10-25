@@ -29,15 +29,20 @@ export default async function DonationSuccessPage({
         </div>
 
         {donation ? (
-          <div className="border-t-2 border-b-2 border-[#1A2540]/20 py-5 space-y-2 bg-white/60 -mx-4 px-4 sm:-mx-6 sm:px-6">
+          <div className="border-t-2 border-b-2 border-[#1A2540]/20 py-5 space-y-2.5 bg-white/60 -mx-4 px-4 sm:-mx-6 sm:px-6">
             <div className="text-4xl sm:text-5xl font-black text-[#cc2b3f] font-heading">
               ₹{donation.amount.toLocaleString("en-IN")}
             </div>
+            {donation.targetName && (
+              <div className="inline-block font-mono text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-900 border border-emerald-400 rounded-full">
+                Sponsorship Earmarked: {donation.targetName}
+              </div>
+            )}
             <div className="text-xs text-[#1A2540] font-mono font-bold uppercase tracking-wider">
               Transaction ID: {donation.paymentId.toUpperCase()}
             </div>
             <div className="text-[11px] text-[#1A2540]/70 font-mono">
-              Status: Verified · Allocated to Belagavi Trauma & TNVR Center
+              Donor: {donation.donorName || "Generous Supporter"} · Allocated to Belagavi Trauma &amp; TNVR Center
             </div>
           </div>
         ) : (

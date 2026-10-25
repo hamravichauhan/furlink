@@ -82,9 +82,9 @@ export default async function AdminDonationsPage() {
               <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
                 <tr>
                   <th className="px-4 py-3 text-left">Donor</th>
+                  <th className="px-4 py-3 text-left">Sponsorship Target</th>
                   <th className="px-4 py-3 text-left">Amount</th>
                   <th className="px-4 py-3 text-left">Payment ID</th>
-                  <th className="px-4 py-3 text-left">Order ID</th>
                   <th className="px-4 py-3 text-left">Status</th>
                   <th className="px-4 py-3 text-right">Date & Time</th>
                 </tr>
@@ -94,20 +94,27 @@ export default async function AdminDonationsPage() {
                   <tr key={d.id} className="hover:bg-gray-50/80">
                     <td className="px-4 py-3">
                       <div className="font-medium text-gray-900">
-                        {d.user?.name || 'Anonymous Supporter'}
+                        {d.donorName || d.user?.name || 'Anonymous Supporter'}
                       </div>
                       <div className="text-xs text-gray-400">
-                        {d.user?.email || 'guest checkout'}
+                        {d.donorEmail || d.user?.email || 'guest checkout'}
                       </div>
                     </td>
-                    <td className="px-4 py-3 font-bold text-emerald-700">
+                    <td className="px-4 py-3 text-xs">
+                      {d.targetName ? (
+                        <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                          {d.targetName}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400 text-xs italic">General Healthcare</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 font-bold text-emerald-700 font-mono">
                       ₹{d.amount.toLocaleString('en-IN')}
                     </td>
                     <td className="px-4 py-3 text-xs font-mono text-gray-600">
-                      {d.paymentId}
-                    </td>
-                    <td className="px-4 py-3 text-xs font-mono text-gray-500 truncate max-w-[140px]">
-                      {d.orderId}
+                      <div>{d.paymentId}</div>
+                      <div className="text-[10px] text-gray-400 font-mono truncate max-w-[140px]">{d.orderId}</div>
                     </td>
                     <td className="px-4 py-3">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase ${
@@ -118,7 +125,7 @@ export default async function AdminDonationsPage() {
                         {d.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-500 text-right">
+                    <td className="px-4 py-3 text-xs text-gray-500 text-right font-mono">
                       {new Date(d.createdAt).toLocaleString('en-IN', {
                         day: 'numeric',
                         month: 'short',
