@@ -1,4 +1,4 @@
-import { currentUser } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 
@@ -10,50 +10,85 @@ const ADMIN_EMAILS = [
 ];
 
 export async function getOrCreateCurrentUser() {
-  // 1. Try Clerk first
+  // 1. Try Clerk auth session first
   try {
-    const user = await currentUser();
-    if (user) {
-      const email = user.emailAddresses[0]?.emailAddress ?? '';
-      const fullName = `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || null;
+    const { userId } = await auth();
 
+    if (userId) {
       const cookieStore = await cookies();
       const demoRole = cookieStore.get('furlink_demo_user')?.value?.toUpperCase();
 
-      const existing = await prisma.user.findUnique({ where: { id: user.id } });
+      // Check if user already exists in DB
+      const existing = await prisma.user.findUnique({ where: { id: userId } });
 
-      let role = existing?.role ?? 'USER';
-      const isRecognizedAdmin =
-        ADMIN_EMAILS.includes(email.toLowerCase()) ||
-        email.toLowerCase().includes('ravi') ||
-        user.publicMetadata?.role === 'ADMIN';
-
-      if (isRecognizedAdmin) {
-        role = 'ADMIN';
+      if (existing) {
+        let role = existing.role;
+        if (demoRole === 'ADMIN' || demoRole === 'VERIFIER' || demoRole === 'USER') {
+          role = demoRole as any;
+        }
+        if (role !== existing.role) {
+          return await prisma.user.update({
+            where: { id: userId },
+            data: { role },
+          });
+        }
+        return existing;
       }
 
-      // Allow overriding if demoRole cookie is explicitly set
-      if (demoRole === 'ADMIN' || demoRole === 'VERIFIER' || demoRole === 'USER') {
-        role = demoRole as any;
+      // If user does not exist in DB yet, try currentUser() to fetch email and name
+      try {
+        const user = await currentUser();
+        if (user) {
+          const email = user.emailAddresses[0]?.emailAddress ?? '';
+          const fullName = `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || null;
+
+          let role: 'USER' | 'VERIFIER' | 'ADMIN' = 'USER';
+          const isRecognizedAdmin =
+            ADMIN_EMAILS.includes(email.toLowerCase()) ||
+            email.toLowerCase().includes('ravi') ||
+            user.publicMetadata?.role === 'ADMIN';
+
+          if (isRecognizedAdmin) {
+            role = 'ADMIN';
+          }
+
+          if (demoRole === 'ADMIN' || demoRole === 'VERIFIER' || demoRole === 'USER') {
+            role = demoRole;
+          }
+
+          return await prisma.user.upsert({
+            where: { id: user.id },
+            update: {
+              email,
+              name: fullName,
+              role,
+            },
+            create: {
+              id: user.id,
+              email,
+              name: fullName,
+              role,
+            },
+          });
+        }
+      } catch (userErr: any) {
+        if (userErr?.digest === 'DYNAMIC_SERVER_USAGE') throw userErr;
+        console.error('Clerk currentUser fetch fallback:', userErr?.message);
       }
 
+      // Fallback: we have verified userId from auth token, create member record
       return await prisma.user.upsert({
-        where: { id: user.id },
-        update: {
-          email,
-          name: fullName,
-          role,
-        },
+        where: { id: userId },
+        update: {},
         create: {
-          id: user.id,
-          email,
-          name: fullName,
-          role,
+          id: userId,
+          email: `${userId}@furlink.user`,
+          name: 'FurLink Member',
+          role: 'USER',
         },
       });
     }
   } catch (err: any) {
-    // Next.js dynamic prerendering uses DYNAMIC_SERVER_USAGE to bail out to dynamic
     if (err?.digest === 'DYNAMIC_SERVER_USAGE') {
       throw err;
     }
@@ -62,7 +97,7 @@ export async function getOrCreateCurrentUser() {
   // 2. Check for offline/demo user cookie
   try {
     const cookieStore = await cookies();
-    const demoRole = cookieStore.get('furlink_demo_user')?.value;
+    const demoRole = cookieStore.get('furlink_demo_user')?.value?.toLowerCase();
 
     if (demoRole) {
       const demoUsers = {

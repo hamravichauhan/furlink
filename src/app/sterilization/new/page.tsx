@@ -42,40 +42,23 @@ export default async function NewSterilizationPage() {
 
         {/* Intake Card */}
         <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl">
-          {!dbUser ? (
-            <div className="text-center py-12 space-y-4 max-w-md mx-auto">
-              <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block">
-                Authentication Required
-              </span>
-              <h2 className="font-heading text-2xl text-[#1A2540]">
-                Sign In to Lodge a Surgical Request
-              </h2>
-              <p className="font-body text-xs sm:text-sm text-[#1A2540]/70 leading-relaxed">
-                To prevent fraudulent duplicate dispatches and coordinate directly with field rescue ambulances, you must sign in with your FurLink account.
-              </p>
-              <div className="pt-2">
-                <Link
-                  href="/sign-in?redirect_url=/sterilization/new"
-                  className="btn-enroll-pill inline-block px-8 py-3 text-xs font-bold"
-                >
-                  Sign In to Continue &rarr;
-                </Link>
-              </div>
-            </div>
-          ) : quota ? (
-            <SterilizationForm
-              quota={{
-                remainingToday: quota.remainingToday,
-                dailyLimit: quota.dailyLimit,
-                canSubmit: quota.canSubmit,
-                reason: quota.reason,
-              }}
-            />
-          ) : (
-            <div className="font-body text-sm text-[#1A2540]/60 py-12 text-center">
-              Checking municipal dispatch capacity...
-            </div>
-          )}
+          <SterilizationForm
+            initialUser={
+              dbUser
+                ? { id: dbUser.id, name: dbUser.name, email: dbUser.email }
+                : null
+            }
+            quota={
+              quota
+                ? {
+                    remainingToday: quota.remainingToday,
+                    dailyLimit: quota.dailyLimit,
+                    canSubmit: quota.canSubmit,
+                    reason: quota.reason,
+                  }
+                : null
+            }
+          />
         </div>
 
         {/* Guidelines & Safety Banner */}

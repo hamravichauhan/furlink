@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { createSterilizationRequest } from "@/actions/sterilization";
 import { COUNT_MIN, COUNT_MAX, NOTES_MAX } from "@/lib/sterilization-constants";
 import LocationPicker from "@/components/location-picker";
@@ -11,6 +13,12 @@ interface QuotaProps {
   dailyLimit: number;
   canSubmit: boolean;
   reason: string | null;
+}
+
+interface UserProps {
+  id: string;
+  name: string | null;
+  email: string;
 }
 
 const SPECIES_OPTIONS = [
@@ -34,8 +42,16 @@ const SPECIES_OPTIONS = [
   },
 ];
 
-export default function SterilizationForm({ quota }: { quota: QuotaProps }) {
+export default function SterilizationForm({
+  quota,
+  initialUser,
+}: {
+  quota?: QuotaProps | null;
+  initialUser?: UserProps | null;
+}) {
   const router = useRouter();
+  const { isSignedIn: clerkSignedIn, user: clerkUser } = useUser();
+
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -47,9 +63,23 @@ export default function SterilizationForm({ quota }: { quota: QuotaProps }) {
     longitude: null as number | null,
   });
 
+  const isAuthenticated = Boolean(initialUser || clerkSignedIn);
+  const displayName =
+    initialUser?.name ||
+    clerkUser?.fullName ||
+    initialUser?.email ||
+    clerkUser?.primaryEmailAddress?.emailAddress ||
+    "Community Member";
+
+  const effectiveQuota = quota ?? {
+    remainingToday: 3,
+    dailyLimit: 3,
+    canSubmit: true,
+    reason: null,
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!quota.canSubmit) return;
 
     if (!location.location || location.location.trim().length < 3) {
       setErrorMsg("Please specify a sector landmark or street location.");
@@ -90,34 +120,55 @@ export default function SterilizationForm({ quota }: { quota: QuotaProps }) {
     setLoading(false);
   };
 
-  const disabled = loading || !quota.canSubmit;
+  const disabled = loading;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Quota Badge */}
-      {quota.canSubmit ? (
-        <div className="p-4 rounded-2xl border-[1.5px] border-[#1A2540]/20 bg-emerald-50 text-emerald-950 font-body text-xs flex items-center justify-between">
-          <span className="font-semibold">
-            Municipal Quota Available
-          </span>
-          <span className="font-mono text-xs font-bold bg-emerald-200/70 text-emerald-900 px-2.5 py-0.5 rounded-full border border-emerald-400">
-            {quota.remainingToday} of {quota.dailyLimit} remaining today
+      {/* User / Quota Banner */}
+      {isAuthenticated ? (
+        <div className="p-4 rounded-2xl border-[1.5px] border-[#1A2540]/20 bg-emerald-50 text-emerald-950 font-body text-xs flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span className="font-semibold block text-[#1A2540]">
+              Logged in as {displayName}
+            </span>
+            <span className="text-[11px] text-[#1A2540]/70">
+              Dispatches linked to your FurLink verification record
+            </span>
+          </div>
+          <span className="font-mono text-xs font-bold bg-emerald-200/70 text-emerald-900 px-2.5 py-1 rounded-full border border-emerald-400">
+            {effectiveQuota.remainingToday} of {effectiveQuota.dailyLimit} remaining today
           </span>
         </div>
       ) : (
-        <div className="p-4 rounded-2xl border-[1.5px] border-[#cc2b3f]/30 bg-rose-50 text-[#cc2b3f] font-body text-xs flex items-center justify-between">
-          <span className="font-semibold">
-            {quota.reason ?? "Daily dispatch limit reached."}
-          </span>
-          <span className="font-mono text-xs font-bold uppercase tracking-wider">
-            Quota Exhausted
-          </span>
+        <div className="p-4 rounded-2xl border-[1.5px] border-amber-400 bg-amber-50 text-amber-950 font-body text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span className="font-bold block text-amber-900">
+              Notice: Rescuer dispatch requires an active FurLink account
+            </span>
+            <span className="text-[11px] text-amber-800/80">
+              You can prepare the field details below now, but please sign in to complete dispatch.
+            </span>
+          </div>
+          <Link
+            href="/sign-in?redirect_url=/sterilization/new"
+            className="btn-enroll-pill px-4 py-1.5 text-xs font-bold shrink-0 text-center"
+          >
+            Sign In &rarr;
+          </Link>
         </div>
       )}
 
       {errorMsg && (
-        <div className="p-4 rounded-2xl border-[1.5px] border-[#cc2b3f] bg-rose-100 text-[#cc2b3f] font-body text-xs font-bold">
-          {errorMsg}
+        <div className="p-4 rounded-2xl border-[1.5px] border-[#cc2b3f] bg-rose-100 text-[#cc2b3f] font-body text-xs font-bold flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span>{errorMsg}</span>
+          {errorMsg.toLowerCase().includes("sign in") && (
+            <Link
+              href="/sign-in?redirect_url=/sterilization/new"
+              className="underline text-xs shrink-0"
+            >
+              Sign In to FurLink &rarr;
+            </Link>
+          )}
         </div>
       )}
 
@@ -265,11 +316,7 @@ export default function SterilizationForm({ quota }: { quota: QuotaProps }) {
           disabled={disabled}
           className="w-full btn-enroll-pill py-3.5 text-xs font-bold shadow-md disabled:opacity-50 cursor-pointer text-center"
         >
-          {loading
-            ? "Logging Surgical Case..."
-            : quota.canSubmit
-            ? "Submit ABC / TNVR Field Request \u2192"
-            : "Dispatch Quota Currently Unavailable"}
+          {loading ? "Logging Surgical Case..." : "Submit ABC / TNVR Field Request \u2192"}
         </button>
       </div>
     </form>
