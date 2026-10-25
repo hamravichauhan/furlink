@@ -71,17 +71,23 @@ export default function RequestActions({
       id: string,
       fd: FormData,
     ) => Promise<{ success: boolean; error?: string }>,
-    form: HTMLFormElement,
+    e: React.FormEvent<HTMLFormElement>,
   ) => {
+    e.preventDefault();
     setLoading(true);
     setError("");
-    const fd = new FormData(form);
-    const res = await fn(requestId, fd);
-    if (res.success) {
-      router.refresh();
-      reset();
-    } else {
-      setError(res.error ?? "Something went wrong.");
+    try {
+      const fd = new FormData(e.currentTarget);
+      const res = await fn(requestId, fd);
+      if (res.success) {
+        reset();
+        router.refresh();
+      } else {
+        setError(res.error ?? "Something went wrong.");
+        setLoading(false);
+      }
+    } catch (err: any) {
+      setError(err?.message || "Something went wrong.");
       setLoading(false);
     }
   };
@@ -163,7 +169,7 @@ export default function RequestActions({
         <Shell
           title="Accept this request"
           hint="You're committing to sterilize the animals at this location."
-          onSubmit={(e) => run(acceptSterilizationRequest, e.currentTarget)}
+          onSubmit={(e) => run(acceptSterilizationRequest, e)}
           loading={loading}
           onCancel={reset}
         >
@@ -188,7 +194,7 @@ export default function RequestActions({
 
       {mode === "proof" && (
         <ProofForm
-          onSubmit={(e) => run(submitSterilizationProof, e.currentTarget)}
+          onSubmit={(e) => run(submitSterilizationProof, e)}
           onCancel={reset}
           loading={loading}
         />
@@ -198,7 +204,7 @@ export default function RequestActions({
         <Shell
           title="Verify this proof"
           hint="Confirm the certificate is legitimate. Your name will be attached to this verification."
-          onSubmit={(e) => run(verifySterilizationProof, e.currentTarget)}
+          onSubmit={(e) => run(verifySterilizationProof, e)}
           loading={loading}
           onCancel={reset}
         >
@@ -218,7 +224,7 @@ export default function RequestActions({
         <Shell
           title="Dispute this proof"
           hint="Flag a concern. A verifier will review the dispute."
-          onSubmit={(e) => run(disputeSterilizationProof, e.currentTarget)}
+          onSubmit={(e) => run(disputeSterilizationProof, e)}
           loading={loading}
           onCancel={reset}
         >
@@ -238,7 +244,7 @@ export default function RequestActions({
 
       {mode === "resolve" && (
         <ResolveForm
-          onSubmit={(e) => run(resolveSterilizationDispute, e.currentTarget)}
+          onSubmit={(e) => run(resolveSterilizationDispute, e)}
           onCancel={reset}
           loading={loading}
         />
@@ -252,7 +258,7 @@ export default function RequestActions({
               ? "The request will reopen so another rescuer can pick it up."
               : "This is permanent. The request will be marked as cancelled."
           }
-          onSubmit={(e) => run(cancelSterilizationRequest, e.currentTarget)}
+          onSubmit={(e) => run(cancelSterilizationRequest, e)}
           loading={loading}
           onCancel={reset}
         >
@@ -333,7 +339,13 @@ function Shell({
   submitLabel?: string;
 }) {
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(e);
+      }}
+      className="space-y-4"
+    >
       <div>
         <h3 className="font-heading uppercase text-lg font-black text-[#1A2540]">{title}</h3>
         <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">{hint}</p>
@@ -373,7 +385,13 @@ function ProofForm({
   const [uploadError, setUploadError] = useState("");
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(e);
+      }}
+      className="space-y-4"
+    >
       <div>
         <h3 className="font-semibold text-sm">Submit proof of work</h3>
         <p className="text-xs text-gray-600 mt-1">
@@ -511,7 +529,13 @@ function ResolveForm({
   const [action, setAction] = useState<"approve" | "reject">("approve");
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(e);
+      }}
+      className="space-y-4"
+    >
       <div>
         <h3 className="font-semibold text-sm">Resolve this dispute</h3>
         <p className="text-xs text-gray-600 mt-1">

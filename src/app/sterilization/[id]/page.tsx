@@ -42,7 +42,10 @@ export default async function SterilizationDetailPage({
   const isVerifier = hasRole(dbUser, "VERIFIER");
   const isAdmin = dbUser?.role === "ADMIN";
 
-  const canAccept = isSignedIn && !isRequester && request.status === "PENDING";
+  const canAccept =
+    isSignedIn &&
+    (!isRequester || isAdmin) &&
+    request.status === "PENDING";
 
   const canSubmitProof =
     isSignedIn && isRescuer && request.status === "SCHEDULED";

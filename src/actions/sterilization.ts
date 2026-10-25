@@ -265,7 +265,7 @@ export async function acceptSterilizationRequest(
   });
 
   if (!request) return { success: false, error: 'Request not found.' };
-  if (request.userId === dbUser.id) {
+  if (request.userId === dbUser.id && dbUser.role !== 'ADMIN') {
     return { success: false, error: 'You cannot accept your own request.' };
   }
   if (request.status !== 'PENDING') {
