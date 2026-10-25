@@ -56,6 +56,13 @@ export async function getOrCreateCurrentUser() {
             role = demoRole;
           }
 
+          if (email) {
+            const existingByEmail = await prisma.user.findUnique({ where: { email } });
+            if (existingByEmail) {
+              return existingByEmail;
+            }
+          }
+
           return await prisma.user.upsert({
             where: { id: user.id },
             update: {
@@ -77,12 +84,18 @@ export async function getOrCreateCurrentUser() {
       }
 
       // Fallback: we have verified userId from auth token, create member record
-      return await prisma.user.upsert({
-        where: { id: userId },
-        update: {},
-        create: {
+      const fallbackEmail = `${userId}@furlink.user`;
+      const existingFallback = await prisma.user.findFirst({
+        where: { OR: [{ id: userId }, { email: fallbackEmail }] },
+      });
+      if (existingFallback) {
+        return existingFallback;
+      }
+
+      return await prisma.user.create({
+        data: {
           id: userId,
-          email: `${userId}@furlink.user`,
+          email: fallbackEmail,
           name: 'FurLink Member',
           role: 'USER',
         },

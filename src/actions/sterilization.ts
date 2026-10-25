@@ -240,15 +240,21 @@ export async function createSterilizationRequest(
       },
     });
 
-    revalidatePath('/sterilization');
-    revalidatePath('/sterilization/new');
-    revalidatePath(`/sterilization/${request.id}`);
+    try {
+      revalidatePath('/sterilization');
+      revalidatePath('/sterilization/new');
+      revalidatePath(`/sterilization/${request.id}`);
+    } catch (revalErr) {
+      console.warn('[revalidatePath warning]', revalErr);
+    }
+
     return { success: true, requestId: request.id };
-  } catch (err) {
+  } catch (err: any) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
     console.error('[createSterilizationRequest]', err);
     return {
       success: false,
-      error: 'Failed to submit request. Please try again.',
+      error: errorMsg || 'Failed to submit request. Please try again.',
     };
   }
 }
