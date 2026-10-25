@@ -206,7 +206,7 @@ export default function LocationPicker({
         <div>
           <div
             ref={mapRef}
-            className="w-full h-64 rounded-md border overflow-hidden"
+            className="w-full h-64 rounded-md border overflow-hidden relative z-0 isolate"
             style={{ minHeight: 256 }}
           />
           {!mapReady && (

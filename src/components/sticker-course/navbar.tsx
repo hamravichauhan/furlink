@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function StickerNavbar() {
   return (
-    <header className="sticky top-0 z-40 bg-[#f3c9d5]/95 backdrop-blur-xs border-b-[1.5px] border-[#1A2540]/20">
+    <header className="sticky top-0 z-[100] bg-[#f3c9d5]/95 backdrop-blur-xs border-b-[1.5px] border-[#1A2540]/20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 h-16 flex items-center justify-between">
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2 group">

@@ -62,7 +62,7 @@ export default function MiniMap({ latitude, longitude, label }: MiniMapProps) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-56 rounded-md border overflow-hidden"
+      className="w-full h-56 rounded-md border overflow-hidden relative z-0 isolate"
       style={{ minHeight: 224 }}
     />
   );

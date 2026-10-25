@@ -107,3 +107,18 @@
 .btn-enroll-pill:active {
   transform: scale(0.98);
 }
+
+/* Fix Leaflet map z-index leaking over sticky header/navbar */
+.leaflet-container {
+  z-index: 10 !important;
+  isolation: isolate;
+}
+
+.leaflet-pane {
+  z-index: 10 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 15 !important;
+}

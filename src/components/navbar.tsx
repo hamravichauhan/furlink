@@ -13,7 +13,7 @@ export default async function Navbar() {
         currentRole={user?.role ?? null}
         currentEmail={user?.email ?? null}
       />
-      <header className="border-b-[1.5px] border-[#101124] bg-[#FAF8FC] px-6 py-3.5 sticky top-0 z-40">
+      <header className="border-b-[1.5px] border-[#101124] bg-[#FAF8FC] px-6 py-3.5 sticky top-0 z-[100]">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
           <Link href="/" className="group flex items-baseline gap-2.5">
             <span className="font-display text-2xl sm:text-3xl tracking-tight text-[#101124] group-hover:text-[#314CB6] transition-colors">
