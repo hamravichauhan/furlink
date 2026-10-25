@@ -24,6 +24,7 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
       orderBy: { createdAt: 'desc' },
       include: {
         user: { select: { id: true, name: true, email: true } },
+        rescuer: { select: { id: true, name: true, email: true } },
       },
     }),
     prisma.rescueReport.groupBy({
@@ -35,7 +36,9 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
   const countMap: Record<string, number> = {
     REPORTED: 0,
     IN_PROGRESS: 0,
+    PROOF_SUBMITTED: 0,
     RESCUED: 0,
+    DISPUTED: 0,
     CLOSED: 0,
   };
   for (const row of counts) {
@@ -51,7 +54,7 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
         <div>
           <h2 className="text-xl font-semibold text-gray-900">Rescue Cases Management</h2>
           <p className="text-sm text-gray-500">
-            {total} total cases reported · {countMap.REPORTED} open · {countMap.IN_PROGRESS} in progress
+            {total} total cases reported · {countMap.REPORTED} open · {countMap.IN_PROGRESS} claimed · {countMap.PROOF_SUBMITTED} awaiting proof review · {countMap.DISPUTED} disputed
           </p>
         </div>
         <Link
@@ -67,7 +70,9 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
         <FilterTab href="/admin/rescues" active={!statusFilter} label="All" count={total} />
         <FilterTab href="/admin/rescues?status=REPORTED" active={statusFilter === 'REPORTED'} label="Reported (Open)" count={countMap.REPORTED} />
         <FilterTab href="/admin/rescues?status=IN_PROGRESS" active={statusFilter === 'IN_PROGRESS'} label="In Progress" count={countMap.IN_PROGRESS} />
+        <FilterTab href="/admin/rescues?status=PROOF_SUBMITTED" active={statusFilter === 'PROOF_SUBMITTED'} label="Proof Submitted" count={countMap.PROOF_SUBMITTED} />
         <FilterTab href="/admin/rescues?status=RESCUED" active={statusFilter === 'RESCUED'} label="Rescued" count={countMap.RESCUED} />
+        <FilterTab href="/admin/rescues?status=DISPUTED" active={statusFilter === 'DISPUTED'} label="Disputed" count={countMap.DISPUTED} />
         <FilterTab href="/admin/rescues?status=CLOSED" active={statusFilter === 'CLOSED'} label="Closed" count={countMap.CLOSED} />
       </div>
 
@@ -83,11 +88,11 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
               <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
                 <tr>
                   <th className="px-4 py-3 text-left">Animal</th>
-                  <th className="px-4 py-3 text-left">Location & Coordinates</th>
-                  <th className="px-4 py-3 text-left">Description</th>
+                  <th className="px-4 py-3 text-left">Location</th>
                   <th className="px-4 py-3 text-left">Reported By</th>
+                  <th className="px-4 py-3 text-left">Rescuer Handling</th>
                   <th className="px-4 py-3 text-left">Status</th>
-                  <th className="px-4 py-3 text-right">Update Status</th>
+                  <th className="px-4 py-3 text-right">Inspect &amp; Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -102,7 +107,14 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
                           className="w-12 h-12 rounded-lg object-cover bg-gray-100 shrink-0"
                         />
                         <div>
-                          <div className="font-semibold text-gray-900 capitalize">{rescue.animalType}</div>
+                          <div className="font-semibold text-gray-900 capitalize flex items-center gap-1.5">
+                            {rescue.animalType}
+                            {rescue.urgency === 'CRITICAL' && (
+                              <span className="text-[9px] bg-[#cc2b3f] text-white px-1.5 py-0.5 rounded font-mono font-bold">
+                                CRITICAL
+                              </span>
+                            )}
+                          </div>
                           <div className="text-xs text-gray-400">
                             {new Date(rescue.createdAt).toLocaleDateString()}
                           </div>
@@ -110,21 +122,26 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
                       </div>
                     </td>
                     <td className="px-4 py-3 text-xs text-gray-700 max-w-[200px]">
-                      <div className="font-medium truncate font-mono">Location: {rescue.location}</div>
+                      <div className="font-medium truncate font-mono">{rescue.location}</div>
                       {rescue.latitude && rescue.longitude && (
-                        <div className="text-gray-400 mt-0.5">
+                        <div className="text-gray-400 mt-0.5 font-mono text-[10px]">
                           GPS: {rescue.latitude.toFixed(4)}, {rescue.longitude.toFixed(4)}
                         </div>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-600 max-w-[260px]">
-                      <p className="line-clamp-2 leading-relaxed" title={rescue.description}>
-                        {rescue.description}
-                      </p>
-                    </td>
                     <td className="px-4 py-3 text-xs text-gray-600">
                       <div className="font-medium text-gray-900">{rescue.user.name || 'Anonymous'}</div>
-                      <div className="text-gray-400 truncate max-w-[140px]">{rescue.user.email}</div>
+                      <div className="text-gray-400 truncate max-w-[130px]">{rescue.user.email}</div>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-gray-600">
+                      {rescue.rescuer ? (
+                        <div>
+                          <div className="font-medium text-emerald-800">{rescue.rescuer.name || 'Rescuer'}</div>
+                          <div className="text-gray-400 text-[10px]">{rescue.rescuer.email}</div>
+                        </div>
+                      ) : (
+                        <span className="text-gray-400 italic">Unclaimed</span>
+                      )}
                     </td>
                     <td className="px-4 py-3">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase ${
@@ -132,18 +149,30 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
                           ? 'bg-amber-100 text-amber-800 border-amber-200'
                           : rescue.status === 'IN_PROGRESS'
                           ? 'bg-blue-100 text-blue-800 border-blue-200'
+                          : rescue.status === 'PROOF_SUBMITTED'
+                          ? 'bg-indigo-100 text-indigo-800 border-indigo-200'
                           : rescue.status === 'RESCUED'
                           ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                          : rescue.status === 'DISPUTED'
+                          ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold'
                           : 'bg-gray-100 text-gray-700 border-gray-200'
                       }`}>
                         {rescue.status.replace('_', ' ')}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <RescueStatusActions
-                        rescueId={rescue.id}
-                        currentStatus={rescue.status}
-                      />
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/rescues/${rescue.id}`}
+                          className="font-mono text-xs text-[#cc2b3f] hover:underline font-bold px-2 py-1 rounded bg-[#f2e9db]/50 border border-[#1A2540]/20"
+                        >
+                          View / Audit &rarr;
+                        </Link>
+                        <RescueStatusActions
+                          rescueId={rescue.id}
+                          currentStatus={rescue.status}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -170,13 +199,13 @@ function FilterTab({
   return (
     <Link
       href={href}
-      className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition ${
+      className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition ${
         active
-          ? 'bg-gray-900 text-white'
-          : 'bg-white border text-gray-600 hover:bg-gray-50'
+          ? 'bg-[#1A2540] text-white'
+          : 'text-gray-600 hover:bg-gray-100'
       }`}
     >
-      {label} <span className="opacity-75">({count})</span>
+      {label} ({count})
     </Link>
   );
 }

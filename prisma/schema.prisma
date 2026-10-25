@@ -21,7 +21,10 @@ model User {
   pets                   Pet[]
   donations              Donation[]
   stories                FurStory[]
-  rescues                RescueReport[]
+  rescues                RescueReport[]         @relation("RequesterRescues")
+  claimedRescues         RescueReport[]         @relation("RescuerRescues")
+  verifiedRescues        RescueReport[]         @relation("VerifierRescues")
+  disputedRescues        RescueReport[]         @relation("DisputerRescues")
   sterilizations         SterilizationRequest[] @relation("RequesterSterilizations")
   assignedSterilizations SterilizationRequest[] @relation("RescuerSterilizations")
   verifiedSterilizations SterilizationRequest[] @relation("VerifierSterilizations")
@@ -29,18 +32,55 @@ model User {
 }
 
 model RescueReport {
-  id          String       @id @default(cuid())
-  userId      String
-  animalType  String
-  description String
-  location    String
-  latitude    Float?
-  longitude   Float?
-  imageUrl    String
-  status      RescueStatus @default(REPORTED)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  user        User         @relation(fields: [userId], references: [id])
+  id               String       @id @default(cuid())
+  userId           String
+  animalType       String
+  description      String
+  location         String
+  latitude         Float?
+  longitude        Float?
+  imageUrl         String
+  status           RescueStatus @default(REPORTED)
+  urgency          String?      @default("STANDARD")
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  // Rescuer assignment
+  rescuerId        String?
+  rescuer          User?        @relation("RescuerRescues", fields: [rescuerId], references: [id])
+  claimedAt        DateTime?
+  rescuerNotes     String?
+
+  // Medical treatment & proof
+  proofImageUrl    String?
+  treatmentBillUrl String?
+  clinicName       String?
+  veterinarianName String?
+  treatmentCost    Float?
+  proofSubmittedAt DateTime?
+  completionNotes  String?
+
+  // Verification
+  verifiedById     String?
+  verifiedBy       User?        @relation("VerifierRescues", fields: [verifiedById], references: [id])
+  verifiedAt       DateTime?
+  verificationNote String?
+
+  // Dispute / Report Concern
+  disputedById     String?
+  disputedBy       User?        @relation("DisputerRescues", fields: [disputedById], references: [id])
+  disputedAt       DateTime?
+  disputeReason    String?
+
+  // Post-rescue disposition
+  outcome          String?
+
+  user             User         @relation("RequesterRescues", fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([rescuerId])
+  @@index([status])
+  @@index([createdAt])
 }
 
 model Pet {
@@ -187,7 +227,9 @@ enum Role {
 enum RescueStatus {
   REPORTED
   IN_PROGRESS
+  PROOF_SUBMITTED
   RESCUED
+  DISPUTED
   CLOSED
 }
 

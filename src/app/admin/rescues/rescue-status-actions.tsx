@@ -56,7 +56,9 @@ export default function RescueStatusActions({ rescueId, currentStatus }: Props) 
       >
         <option value="REPORTED">REPORTED</option>
         <option value="IN_PROGRESS">IN PROGRESS</option>
+        <option value="PROOF_SUBMITTED">PROOF SUBMITTED</option>
         <option value="RESCUED">RESCUED</option>
+        <option value="DISPUTED">DISPUTED</option>
         <option value="CLOSED">CLOSED</option>
       </select>
       <button

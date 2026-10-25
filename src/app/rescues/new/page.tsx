@@ -55,8 +55,13 @@ export default function NewRescuePage() {
         fd.set("longitude", String(coords.lng));
       }
 
-      await createRescueReport(fd);
-      router.push("/rescues");
+      const result = await createRescueReport(fd);
+      if (!result.success) {
+        setErrorMsg(result.error);
+        setLoading(false);
+        return;
+      }
+      router.push(`/rescues/${result.rescueId}`);
       router.refresh();
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to submit emergency dispatch report.");
@@ -113,6 +118,20 @@ export default function NewRescuePage() {
               <option value="Cattle">Bovine (Cattle / Cow)</option>
               <option value="Bird">Avian (Bird)</option>
               <option value="Other">Other Community Animal</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+              Triage Urgency Level
+            </label>
+            <select
+              name="urgency"
+              defaultValue="STANDARD"
+              className="w-full bg-white border border-[#1A2540]/25 rounded-xl p-2.5 font-body text-xs text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+            >
+              <option value="STANDARD">Standard Distress (Mange, limping, trapped, community volunteer can handle)</option>
+              <option value="CRITICAL">Critical Emergency (Hit-and-run, fracture, severe bleeding, urgent ambulance)</option>
             </select>
           </div>
 

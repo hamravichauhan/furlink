@@ -13,9 +13,13 @@ export default async function ProfilePage() {
     redirect('/sign-in');
   }
 
-  const [rescues, applications, sterilizations, stories, donations, myListedPets] = await Promise.all([
+  const [rescues, claimedRescues, applications, sterilizations, stories, donations, myListedPets] = await Promise.all([
     prisma.rescueReport.findMany({
       where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.rescueReport.findMany({
+      where: { rescuerId: user.id },
       orderBy: { createdAt: 'desc' },
     }),
     prisma.adoptionApplication.findMany({
@@ -86,11 +90,12 @@ export default async function ProfilePage() {
             )}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-8 pt-6 border-t-2 border-[#1A2540]/20">
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-3 mt-8 pt-6 border-t-2 border-[#1A2540]/20">
             <StatBlock label="My Listed Pets" value={myListedPets.length} />
             <StatBlock label="Incoming Inquiries" value={totalIncomingInquiries} />
             <StatBlock label="My Applications" value={applications.length} />
             <StatBlock label="Rescues Logged" value={rescues.length} />
+            <StatBlock label="Rescues Claimed" value={claimedRescues.length} />
             <StatBlock label="TNVR Requests" value={sterilizations.length} />
           </div>
         </div>
@@ -293,7 +298,59 @@ export default async function ProfilePage() {
           )}
         </div>
 
-        {/* Rescues Section */}
+        {/* Rescues I Am Handling (Volunteer Claims) */}
+        {claimedRescues.length > 0 && (
+          <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 space-y-4 shadow-sm">
+            <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
+              <div>
+                <h2 className="font-heading uppercase text-2xl font-black text-[#1A2540]">
+                  Rescues I Am Handling ({claimedRescues.length})
+                </h2>
+                <p className="font-mono text-xs uppercase text-[#1A2540]/60 mt-0.5">
+                  Cases you claimed as a volunteer responder
+                </p>
+              </div>
+              <Link
+                href="/rescues"
+                className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
+              >
+                Browse Feed &rarr;
+              </Link>
+            </div>
+
+            <div className="space-y-2.5">
+              {claimedRescues.map((r) => (
+                <div
+                  key={r.id}
+                  className="flex flex-col sm:flex-row sm:items-center justify-between border-2 border-[#1A2540] rounded-xl bg-white p-4 text-sm gap-3"
+                >
+                  <div className="min-w-0 pr-3">
+                    <span className="font-heading uppercase text-lg font-black text-[#1A2540]">{r.animalType}</span>
+                    <span className="font-mono text-[11px] text-[#1A2540]/60 ml-2 uppercase">
+                      Sector: {r.location}
+                    </span>
+                    <p className="text-xs text-[#1A2540]/80 line-clamp-1 mt-0.5">
+                      {r.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0 font-mono text-[10px] uppercase tracking-[0.14em]">
+                    <span className="border border-[#1A2540] bg-[#f2e9db] px-2 py-0.5 font-bold text-[#1A2540]">
+                      {r.status}
+                    </span>
+                    <Link
+                      href={`/rescues/${r.id}`}
+                      className="bg-[#1A2540] text-[#f2e9db] hover:bg-[#cc2b3f] px-3.5 py-1.5 rounded-full font-bold uppercase transition-colors"
+                    >
+                      {r.status === 'IN_PROGRESS' ? 'Submit Proof & Bill →' : 'View Case →'}
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Rescues Section (Reported by Me) */}
         <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 space-y-4 shadow-sm">
           <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
             <h2 className="font-heading uppercase text-2xl font-black text-[#1A2540]">
@@ -316,7 +373,7 @@ export default async function ProfilePage() {
               {rescues.map((r) => (
                 <div
                   key={r.id}
-                  className="flex items-center justify-between border-2 border-[#1A2540] rounded-xl bg-white p-3.5 text-sm"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between border-2 border-[#1A2540] rounded-xl bg-white p-3.5 text-sm gap-2"
                 >
                   <div className="min-w-0 pr-3">
                     <span className="font-heading uppercase text-lg font-black text-[#1A2540]">{r.animalType}</span>
@@ -331,9 +388,12 @@ export default async function ProfilePage() {
                     <span className="border border-[#1A2540] bg-[#f2e9db] px-2 py-0.5 font-bold text-[#1A2540]">
                       {r.status}
                     </span>
-                    <span className="text-[#1A2540]/50">
-                      {new Date(r.createdAt).toLocaleDateString("en-IN")}
-                    </span>
+                    <Link
+                      href={`/rescues/${r.id}`}
+                      className="border border-[#1A2540] hover:bg-[#1A2540] hover:text-[#f2e9db] px-3 py-1 rounded-full font-bold uppercase transition-colors"
+                    >
+                      Track Case &rarr;
+                    </Link>
                   </div>
                 </div>
               ))}
