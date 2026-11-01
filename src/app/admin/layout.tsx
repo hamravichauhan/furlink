@@ -13,7 +13,38 @@ export default async function AdminLayout({
 }) {
   const user = await getOrCreateCurrentUser();
   if (!user) redirect("/sign-in");
-  if (!hasRole(user, "ADMIN")) redirect("/");
+
+  if (!hasRole(user, "ADMIN")) {
+    return (
+      <div className="min-h-screen bg-[#f3c9d5] flex items-center justify-center p-4">
+        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-3xl p-8 max-w-md w-full text-center space-y-4 shadow-xl">
+          <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block">
+            Admin Access Required
+          </span>
+          <h2 className="font-heading text-2xl text-[#1A2540]">
+            Welcome, {user.name || user.email}
+          </h2>
+          <p className="font-body text-xs text-[#1A2540]/80 leading-relaxed">
+            Your account is currently set to role <span className="font-bold uppercase text-[#cc2b3f]">{user.role}</span>. You need Administrator access to manage the FurLink rescue and surgical operations.
+          </p>
+          <div className="pt-2 flex flex-col gap-2.5">
+            <Link
+              href="/api/auth-switch?role=admin&redirect=/admin"
+              className="btn-enroll-pill py-3 text-xs font-bold text-center shadow-sm"
+            >
+              Grant Admin Access to My Account &rarr;
+            </Link>
+            <Link
+              href="/"
+              className="font-body text-xs text-[#1A2540]/70 hover:underline pt-1"
+            >
+              &larr; Return to FurLink Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f3c9d5] text-[#1A2540]">

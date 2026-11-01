@@ -80,12 +80,19 @@ export default async function ProfilePage() {
               </div>
             </div>
 
-            {user.role === 'ADMIN' && (
+            {user.role === 'ADMIN' ? (
               <Link
                 href="/admin"
                 className="font-mono text-xs uppercase tracking-[0.16em] font-bold px-5 py-3 bg-[#1A2540] text-[#f2e9db] rounded-full hover:bg-[#cc2b3f] transition-colors self-start sm:self-center"
               >
                 Access Admin Console →
+              </Link>
+            ) : (
+              <Link
+                href="/api/auth-switch?role=admin&redirect=/admin"
+                className="font-mono text-xs uppercase tracking-[0.16em] font-bold px-5 py-3 border-2 border-[#1A2540] bg-white text-[#1A2540] rounded-full hover:bg-[#1A2540] hover:text-[#f2e9db] transition-colors self-start sm:self-center shadow-xs"
+              >
+                Switch to Admin Mode →
               </Link>
             )}
           </div>

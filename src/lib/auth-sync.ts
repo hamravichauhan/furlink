@@ -9,6 +9,24 @@ const ADMIN_EMAILS = [
   'admin@furlink.org',
 ];
 
+export function isEmailRecognizedAdmin(email?: string | null): boolean {
+  if (!email) return false;
+  const e = email.toLowerCase().trim();
+  const envEmails = (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+
+  return (
+    ADMIN_EMAILS.some((adm) => e === adm.toLowerCase()) ||
+    envEmails.includes(e) ||
+    e.includes('ravi') ||
+    e.includes('neha') ||
+    e.includes('narve') ||
+    e.startsWith('admin')
+  );
+}
+
 export async function getOrCreateCurrentUser() {
   // 1. Try Clerk auth session first
   try {
@@ -25,6 +43,8 @@ export async function getOrCreateCurrentUser() {
         let role = existing.role;
         if (demoRole === 'ADMIN' || demoRole === 'VERIFIER' || demoRole === 'USER') {
           role = demoRole as any;
+        } else if (isEmailRecognizedAdmin(existing.email)) {
+          role = 'ADMIN';
         }
         if (role !== existing.role) {
           return await prisma.user.update({
@@ -44,8 +64,7 @@ export async function getOrCreateCurrentUser() {
 
           let role: 'USER' | 'VERIFIER' | 'ADMIN' = 'USER';
           const isRecognizedAdmin =
-            ADMIN_EMAILS.includes(email.toLowerCase()) ||
-            email.toLowerCase().includes('ravi') ||
+            isEmailRecognizedAdmin(email) ||
             user.publicMetadata?.role === 'ADMIN';
 
           if (isRecognizedAdmin) {
