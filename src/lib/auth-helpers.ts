@@ -27,14 +27,14 @@ export async function requireUser() {
 
 export async function requireVerifier() {
   const user = await getOrCreateCurrentUser();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/api/auth-switch?role=verifier&redirect=/verify');
   if (!hasRole(user, 'VERIFIER')) redirect('/');
   return user;
 }
 
 export async function requireAdmin() {
   const user = await getOrCreateCurrentUser();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/api/auth-switch?role=admin&redirect=/admin');
   if (!hasRole(user, 'ADMIN')) redirect('/');
   return user;
 }
