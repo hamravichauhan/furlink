@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
 import { hasRole } from '@/lib/auth-helpers';
 import { revalidatePath } from 'next/cache';
+import { createClinicalProofFingerprint } from '@/lib/security';
 import {
   validateString,
   validateInt,
@@ -342,7 +343,13 @@ export async function submitSterilizationProof(
 
   const request = await prisma.sterilizationRequest.findUnique({
     where: { id: requestId },
-    select: { id: true, rescuerId: true, status: true },
+    select: {
+      id: true,
+      rescuerId: true,
+      status: true,
+      clinicName: true,
+      veterinarianName: true,
+    },
   });
 
   if (!request) return { success: false, error: 'Request not found.' };
@@ -466,7 +473,13 @@ export async function verifySterilizationProof(
 
   const request = await prisma.sterilizationRequest.findUnique({
     where: { id: requestId },
-    select: { id: true, rescuerId: true, status: true },
+    select: {
+      id: true,
+      rescuerId: true,
+      status: true,
+      clinicName: true,
+      veterinarianName: true,
+    },
   });
 
   if (!request) return { success: false, error: 'Request not found.' };
@@ -495,13 +508,26 @@ export async function verifySterilizationProof(
   }
 
   try {
+    const verifiedAt = new Date();
+    const certFingerprint = createClinicalProofFingerprint({
+      id: requestId,
+      clinicName: request.clinicName,
+      veterinarianName: request.veterinarianName,
+      verifiedById: dbUser.id,
+      verifiedAt,
+    });
+
+    const auditedNote = noteResult.value
+      ? `[AUDIT_HASH:${certFingerprint.slice(0, 16)}] ${noteResult.value}`
+      : `[AUDIT_HASH:${certFingerprint.slice(0, 16)}] TNVR surgery ear-notch clinically confirmed.`;
+
     const result = await prisma.sterilizationRequest.updateMany({
       where: { id: requestId, status: 'PROOF_SUBMITTED' },
       data: {
         status: 'VERIFIED',
         verifiedById: dbUser.id,
-        verifiedAt: new Date(),
-        verificationNote: noteResult.value,
+        verifiedAt,
+        verificationNote: auditedNote,
         completedAt: new Date(), // legacy field — keep in sync
       },
     });
@@ -533,7 +559,13 @@ export async function disputeSterilizationProof(
 
   const request = await prisma.sterilizationRequest.findUnique({
     where: { id: requestId },
-    select: { id: true, rescuerId: true, status: true },
+    select: {
+      id: true,
+      rescuerId: true,
+      status: true,
+      clinicName: true,
+      veterinarianName: true,
+    },
   });
 
   if (!request) return { success: false, error: 'Request not found.' };

@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
 import { revalidatePath } from 'next/cache';
 import { RescueStatus } from '@prisma/client';
+import { createClinicalProofFingerprint } from '@/lib/security';
 
 export type CreateRescueResult =
   | { success: true; rescueId: string }
@@ -292,7 +293,13 @@ export async function verifyRescueProof(
 
   const rescue = await prisma.rescueReport.findUnique({
     where: { id: rescueId },
-    select: { id: true, status: true, rescuerId: true },
+    select: {
+      id: true,
+      status: true,
+      rescuerId: true,
+      clinicName: true,
+      veterinarianName: true,
+    },
   });
 
   if (!rescue) return { success: false, error: 'Rescue case not found.' };
@@ -306,13 +313,26 @@ export async function verifyRescueProof(
   const targetStatus = (formData.get('targetStatus') as string)?.trim() === 'CLOSED' ? 'CLOSED' : 'RESCUED';
 
   try {
+    const verifiedAt = new Date();
+    const certFingerprint = createClinicalProofFingerprint({
+      id: rescueId,
+      clinicName: rescue.clinicName,
+      veterinarianName: rescue.veterinarianName,
+      verifiedById: dbUser.id,
+      verifiedAt,
+    });
+
+    const auditedNote = verificationNote
+      ? `[AUDIT_HASH:${certFingerprint.slice(0, 16)}] ${verificationNote}`
+      : `[AUDIT_HASH:${certFingerprint.slice(0, 16)}] Medically verified and integrity checked.`;
+
     await prisma.rescueReport.update({
       where: { id: rescueId },
       data: {
         status: targetStatus,
         verifiedById: dbUser.id,
-        verifiedAt: new Date(),
-        verificationNote,
+        verifiedAt,
+        verificationNote: auditedNote,
         outcome,
       },
     });

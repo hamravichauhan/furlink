@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { razorpay } from '@/lib/razorpay';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
+import { encryptField } from '@/lib/security';
 
 export const runtime = 'nodejs'; // crypto + Razorpay SDK need Node, not Edge
 
@@ -85,7 +86,7 @@ export async function POST(req: Request) {
         paymentId: razorpay_payment_id,
         orderId: razorpay_order_id,
         donorName: orderNotes.donorName || dbUser?.name || 'Generous Patron',
-        donorEmail: orderNotes.donorEmail || dbUser?.email || null,
+        donorEmail: encryptField(orderNotes.donorEmail || dbUser?.email),
         sponsorshipType: orderNotes.sponsorshipType || 'GENERAL_CARE',
         targetName: orderNotes.targetName || null,
         status: 'SUCCESS',

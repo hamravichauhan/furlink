@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { razorpay } from '@/lib/razorpay';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
 import { revalidatePath } from 'next/cache';
+import { encryptField } from '@/lib/security';
 
 const MIN_AMOUNT_INR = 1;
 const MAX_AMOUNT_INR = 100_000;
@@ -150,7 +151,7 @@ export async function verifyDonationPayment(input: {
         paymentId: razorpay_payment_id,
         orderId: razorpay_order_id,
         donorName: donorName || dbUser?.name || 'Generous Patron',
-        donorEmail: donorEmail || dbUser?.email || null,
+        donorEmail: encryptField(donorEmail || dbUser?.email),
         sponsorshipType: sponsorshipType || 'GENERAL_CARE',
         targetName: targetName || null,
         status: 'SUCCESS',
@@ -195,7 +196,7 @@ export async function createOfflineTestDonation(
         paymentId,
         orderId,
         donorName: metadata?.donorName || dbUser?.name || 'Demo Supporter',
-        donorEmail: metadata?.donorEmail || dbUser?.email || null,
+        donorEmail: encryptField(metadata?.donorEmail || dbUser?.email),
         sponsorshipType: metadata?.sponsorshipType || 'GENERAL_CARE',
         targetName: metadata?.targetName || null,
         status: 'SUCCESS',

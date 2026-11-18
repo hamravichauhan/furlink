@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
 import { revalidatePath } from 'next/cache';
+import { encrypt } from '@/lib/security';
 
 // Create a new pet listing (Admin or Rescuer or Community Member)
 export async function createPetListing(formData: FormData) {
@@ -140,8 +141,8 @@ export async function submitAdoptionApplication(formData: FormData) {
       petId,
       userId: dbUser.id,
       fullName,
-      phone,
-      address,
+      phone: encrypt(phone),
+      address: encrypt(address),
       reason,
       preferredCallTime,
       housingType,

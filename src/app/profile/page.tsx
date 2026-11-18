@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
+import { decrypt, decryptField } from '@/lib/security';
 import ProfileEditor from './profile-editor';
 import OwnerApplicationActions from './owner-application-actions';
 
@@ -13,7 +14,7 @@ export default async function ProfilePage() {
     redirect('/sign-in');
   }
 
-  const [rescues, claimedRescues, applications, sterilizations, stories, donations, myListedPets] = await Promise.all([
+  const [rescues, claimedRescues, rawApplications, sterilizations, stories, rawDonations, rawListedPets] = await Promise.all([
     prisma.rescueReport.findMany({
       where: { userId: user.id },
       orderBy: { createdAt: 'desc' },
@@ -50,6 +51,26 @@ export default async function ProfilePage() {
       orderBy: { createdAt: 'desc' },
     }),
   ]);
+
+  const applications = rawApplications.map((app) => ({
+    ...app,
+    phone: decrypt(app.phone),
+    address: decrypt(app.address),
+  }));
+
+  const myListedPets = rawListedPets.map((pet) => ({
+    ...pet,
+    applications: pet.applications.map((app) => ({
+      ...app,
+      phone: decrypt(app.phone),
+      address: decrypt(app.address),
+    })),
+  }));
+
+  const donations = rawDonations.map((d) => ({
+    ...d,
+    donorEmail: decryptField(d.donorEmail),
+  }));
 
   const totalIncomingInquiries = myListedPets.reduce(
     (acc, pet) => acc + pet.applications.length,
@@ -251,6 +272,11 @@ export default async function ProfilePage() {
                                 <p>
                                   <span className="font-bold text-[#1A2540]/60 uppercase">Address: </span>
                                   <span className="text-[#1A2540]">{app.address}</span>
+                                </p>
+                                <p className="pt-0.5">
+                                  <span className="font-mono text-[9px] text-emerald-800 bg-emerald-100/80 border border-emerald-300 px-1.5 py-0.5 rounded font-bold uppercase">
+                                    AES-256 Encrypted At Rest
+                                  </span>
                                 </p>
                               </div>
 

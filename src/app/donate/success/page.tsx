@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { createDigitalReceiptFingerprint } from "@/lib/security";
 
 export default async function DonationSuccessPage({
   searchParams,
@@ -9,6 +10,16 @@ export default async function DonationSuccessPage({
   const { id } = await searchParams;
   const donation = id
     ? await prisma.donation.findUnique({ where: { id } })
+    : null;
+
+  const receiptFingerprint = donation
+    ? createDigitalReceiptFingerprint({
+        id: donation.id,
+        amount: donation.amount,
+        paymentId: donation.paymentId,
+        orderId: donation.orderId,
+        createdAt: donation.createdAt,
+      })
     : null;
 
   return (
@@ -44,6 +55,20 @@ export default async function DonationSuccessPage({
             <div className="text-[11px] text-[#1A2540]/70 font-mono">
               Donor: {donation.donorName || "Generous Supporter"} · Allocated to Belagavi Trauma &amp; TNVR Center
             </div>
+            {receiptFingerprint && (
+              <div className="pt-2.5 border-t border-[#1A2540]/15 text-left">
+                <div className="flex items-center justify-between text-[10px] font-mono font-bold uppercase tracking-wider text-[#1A2540]/70">
+                  <span>Cryptographic Receipt Seal</span>
+                  <span className="text-emerald-800 bg-emerald-50 border border-emerald-300 px-1.5 py-0.2 rounded">HMAC-SHA256 Signed</span>
+                </div>
+                <div className="mt-1.5 font-mono text-[9px] bg-white/80 p-2 rounded-lg break-all select-all text-[#1A2540] border border-[#1A2540]/20 font-semibold">
+                  {receiptFingerprint}
+                </div>
+                <div className="text-[9.5px] text-[#1A2540]/60 font-mono mt-1">
+                  Immutable tamper-proof audit fingerprint generated for 80G tax deductions.
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="border-t-2 border-b-2 border-[#1A2540]/20 py-4 text-xs font-mono text-[#1A2540]/70 uppercase">

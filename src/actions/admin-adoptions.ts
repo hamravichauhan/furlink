@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { getOrCreateCurrentUser } from '@/lib/auth-sync';
 import { revalidatePath } from 'next/cache';
+import { decrypt } from '@/lib/security';
 
 export type ApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
@@ -79,8 +80,8 @@ export async function listApplicationsForAdmin(): Promise<
     applicantName: r.user.name ?? 'Applicant',
     applicantEmail: r.user.email,
     fullName: r.fullName,
-    phone: r.phone,
-    address: r.address,
+    phone: decrypt(r.phone),
+    address: decrypt(r.address),
     reason: r.reason,
     preferredCallTime: r.preferredCallTime,
     housingType: r.housingType,

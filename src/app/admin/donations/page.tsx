@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth-helpers';
 import Link from 'next/link';
+import { decryptField, createDigitalReceiptFingerprint } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
@@ -96,8 +97,8 @@ export default async function AdminDonationsPage() {
                       <div className="font-medium text-gray-900">
                         {d.donorName || d.user?.name || 'Anonymous Supporter'}
                       </div>
-                      <div className="text-xs text-gray-400">
-                        {d.donorEmail || d.user?.email || 'guest checkout'}
+                      <div className="text-xs text-gray-500 font-mono">
+                        {decryptField(d.donorEmail) || d.user?.email || 'guest checkout'}
                       </div>
                     </td>
                     <td className="px-4 py-3 text-xs">
@@ -115,6 +116,18 @@ export default async function AdminDonationsPage() {
                     <td className="px-4 py-3 text-xs font-mono text-gray-600">
                       <div>{d.paymentId}</div>
                       <div className="text-[10px] text-gray-400 font-mono truncate max-w-[140px]">{d.orderId}</div>
+                      <div
+                        className="text-[9px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded mt-1 inline-block"
+                        title="Cryptographically signed HMAC-SHA256 receipt fingerprint"
+                      >
+                        HMAC:{createDigitalReceiptFingerprint({
+                          id: d.id,
+                          amount: d.amount,
+                          paymentId: d.paymentId,
+                          orderId: d.orderId,
+                          createdAt: d.createdAt,
+                        }).slice(0, 16)}...
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase ${

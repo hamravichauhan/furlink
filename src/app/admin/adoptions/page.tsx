@@ -102,6 +102,11 @@ export default async function AdminAdoptionsPage() {
                       <div className="text-gray-500 max-w-[170px] truncate text-[11px]">
                         {app.address}
                       </div>
+                      <div className="mt-1">
+                        <span className="font-mono text-[9px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded inline-block font-semibold">
+                          AES-256 Decrypted
+                        </span>
+                      </div>
                       <div className="flex items-center gap-2 mt-2">
                         <a
                           href={`tel:${app.phone.replace(/\s+/g, '')}`}
