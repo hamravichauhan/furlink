@@ -37,35 +37,36 @@ export default async function StoryDetailPage({ params }: PageProps) {
   });
 
   return (
-    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-14 px-4 sm:px-6 md:px-10">
-      <div className="max-w-4xl mx-auto space-y-10">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-12 px-4 sm:px-6 md:px-10">
+      <div className="max-w-4xl mx-auto space-y-8">
         {/* Navigation */}
-        <div className="flex items-center justify-between border-b-2 border-[#1A2540] pb-4">
+        <div className="flex items-center justify-between border-b border-gray-200/80 pb-4">
           <Link
             href="/stories"
-            className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline underline-offset-4"
+            className="inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold hover:underline underline-offset-4"
           >
-            ← Back to Case Archive
+            ← Back to Stories
           </Link>
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1A2540]/70 font-bold">
-            Dossier No. {story.id.slice(-6).toUpperCase()}
+          <span className="font-mono text-[11px] text-gray-400">
+            Case #{story.id.slice(-6).toUpperCase()}
           </span>
         </div>
 
         {/* Title row */}
-        <div className="space-y-3">
-          <div className="inline-block border-2 border-[#1A2540] bg-white px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1A2540] font-bold">
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-[#163829] border border-emerald-100 text-xs font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             Field Recovery Log
           </div>
-          <h1 className="font-heading uppercase text-3xl sm:text-5xl font-black tracking-tight text-[#1A2540] leading-tight">
+          <h1 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-[#163829] leading-tight">
             {story.title}
           </h1>
 
-          <div className="flex items-center justify-between pt-3 border-t-2 border-[#1A2540] font-mono text-xs uppercase tracking-[0.14em] text-[#1A2540]/70">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-gray-100 text-xs text-gray-500">
             <div>
-              <span className="font-bold text-[#1A2540]">{authorName}</span>
-              <span className="mx-2">/</span>
-              <span>Logged {formattedDate}</span>
+              <span className="font-medium text-gray-800">By {authorName}</span>
+              <span className="mx-2 text-gray-300">•</span>
+              <span>Published {formattedDate}</span>
             </div>
             {canEdit && <StoryActions storyId={story.id} />}
           </div>
@@ -73,7 +74,7 @@ export default async function StoryDetailPage({ params }: PageProps) {
 
         {/* Primary Photographic Record */}
         {story.imageUrl && (
-          <div className="border-2 border-[#1A2540] rounded-2xl bg-[#1A2540] overflow-hidden shadow-sm">
+          <div className="rounded-3xl border border-gray-200/80 bg-white overflow-hidden shadow-xs">
             <div className="relative aspect-[16/10] w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -86,22 +87,22 @@ export default async function StoryDetailPage({ params }: PageProps) {
         )}
 
         {/* Story Body Content */}
-        <article className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-10 space-y-6 shadow-sm">
-          <div className="text-base sm:text-lg text-[#1A2540]/90 leading-relaxed whitespace-pre-line space-y-4 font-sans">
+        <article className="bg-white border border-gray-200/80 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xs">
+          <div className="text-base sm:text-lg text-gray-700 leading-relaxed whitespace-pre-line space-y-4 font-body">
             {story.content}
           </div>
 
           {/* Photo Gallery If Multiple Images */}
           {story.images.length > 1 && (
-            <div className="mt-10 pt-8 border-t-2 border-[#1A2540]/20">
-              <span className="font-mono text-xs uppercase tracking-[0.18em] text-[#1A2540]/70 font-bold block mb-4">
-                Clinical Progression Plate ({story.images.length} Evidence Records)
+            <div className="mt-10 pt-8 border-t border-gray-100">
+              <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold block mb-4">
+                Clinical Progression Gallery ({story.images.length} Evidence Records)
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {story.images.map((img, i) => (
                   <div
                     key={img.id}
-                    className="relative aspect-square border-2 border-[#1A2540] rounded-xl overflow-hidden bg-white"
+                    className="relative aspect-square border border-gray-200 rounded-2xl overflow-hidden bg-gray-50"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -117,26 +118,26 @@ export default async function StoryDetailPage({ params }: PageProps) {
         </article>
 
         {/* Dual Action Footer */}
-        <div className="p-8 border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-sm">
+        <div className="p-8 border border-gray-200/80 rounded-3xl bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xs">
           <div>
-            <div className="font-heading uppercase text-2xl font-black text-[#1A2540]">
+            <div className="font-heading text-xl font-bold text-[#163829]">
               Every Recovery Begins with Immediate Intervention
             </div>
-            <p className="text-xs font-mono uppercase tracking-wider text-[#1A2540]/70 mt-1">
-              Provide permanent sanctuary or underwrite sterile surgical disposables for the next intake.
+            <p className="text-xs text-gray-500 mt-1 max-w-lg leading-relaxed">
+              Help provide permanent sanctuary or support medical recovery supplies for the next rescue animal in Belagavi.
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Link
               href="/adoptions"
-              className="px-6 py-3.5 bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs uppercase tracking-[0.16em] font-bold rounded-full transition text-center shadow-sm"
+              className="btn-paw-primary px-6 py-3 text-xs font-bold rounded-full shadow-xs text-center"
             >
               Meet Waiting Animals →
             </Link>
             <Link
               href="/donate"
-              className="px-6 py-3.5 bg-white hover:bg-[#FAF8FC] text-[#1A2540] font-mono text-xs uppercase tracking-[0.16em] font-bold border-2 border-[#1A2540] rounded-full transition text-center"
+              className="px-6 py-3 bg-white hover:bg-gray-50 text-[#163829] text-xs font-bold border border-gray-200 rounded-full transition text-center shadow-xs"
             >
               Support Medical Fund →
             </Link>

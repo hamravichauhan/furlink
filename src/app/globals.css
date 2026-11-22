@@ -73,69 +73,28 @@
   transform: translateY(-1px);
 }
 
-/* Material Patterns */
-
-/* Hatched peel shadow pattern in blossom pink #EF9CC0 on cream #f2e9db */
-.bg-hatch-pattern {
-  background: repeating-linear-gradient(
-    -45deg,
-    #EF9CC0,
-    #EF9CC0 2px,
-    #f2e9db 2px,
-    #f2e9db 8px
-  );
-}
-
-.bg-hatch-pattern-blush {
-  background: repeating-linear-gradient(
-    -45deg,
-    #EF9CC0,
-    #EF9CC0 2px,
-    #f3c9d5 2px,
-    #f3c9d5 8px
-  );
-}
-
-/* Kiss-cut contours */
-.kiss-cut-ring {
-  border: 1.5px dashed #1A2540;
-}
-
-.kiss-cut-ring-pink {
-  border: 1.5px dashed #EF9CC0;
-}
-
-.kiss-cut-ring-crimson {
-  border: 1.5px dashed #cc2b3f;
-}
-
-/* Smooth tactile transforms */
-.sticker-tactile {
-  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s ease;
-}
-
-.sticker-tactile:hover {
-  transform: translateY(-2px) rotate(0.5deg);
-}
-
-/* Enroll CTA Pill Button */
+/* FurLink Modern CTA Pill Buttons */
 .btn-enroll-pill {
-  background-color: #cc2b3f;
-  color: #f2e9db;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  background-color: #163829;
+  color: #FFFFFF;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 600;
   border-radius: 9999px;
-  transition: background-color 0.15s ease, transform 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px rgba(22, 56, 41, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-enroll-pill:hover {
-  background-color: #b82537;
-  transform: scale(1.02);
+  background-color: #0D2818;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 56, 41, 0.16);
 }
 
 .btn-enroll-pill:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 /* Fix Leaflet map z-index leaking over sticky header/navbar */

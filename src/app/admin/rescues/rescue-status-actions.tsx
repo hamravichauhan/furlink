@@ -52,7 +52,7 @@ export default function RescueStatusActions({ rescueId, currentStatus }: Props) 
         value={currentStatus}
         onChange={handleStatusChange}
         disabled={loading}
-        className="font-mono text-xs uppercase border border-[#1A2540] rounded-lg px-2.5 py-1 bg-white focus:outline-none focus:border-[#cc2b3f]"
+        className="font-body text-xs font-semibold border border-gray-200 rounded-full px-3 py-1 bg-white focus:outline-none focus:border-[#163829] text-[#163829]"
       >
         <option value="REPORTED">REPORTED</option>
         <option value="IN_PROGRESS">IN PROGRESS</option>
@@ -65,7 +65,7 @@ export default function RescueStatusActions({ rescueId, currentStatus }: Props) 
         type="button"
         onClick={handleDelete}
         disabled={loading}
-        className="font-mono text-xs uppercase text-[#cc2b3f] hover:underline px-1 py-0.5 font-bold cursor-pointer"
+        className="font-body text-xs font-semibold text-[#cc2b3f] hover:underline px-1 py-0.5 cursor-pointer"
         title="Delete"
       >
         Delete

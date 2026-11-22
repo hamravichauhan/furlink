@@ -128,16 +128,16 @@ export default function CheckoutForm() {
   };
 
   return (
-    <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 shadow-sm">
+    <div className="bg-white border border-gray-200/80 rounded-3xl p-6 sm:p-8 shadow-xs">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-heading uppercase text-xl font-black text-[#1A2540]">Direct Care Allocation</h2>
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] font-bold text-[#cc2b3f] border border-[#cc2b3f] bg-white px-2 py-0.5">
+        <h2 className="font-heading text-xl font-bold text-[#163829]">Direct Care Allocation</h2>
+        <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2.5 py-0.5">
           Tax Deductible 80G
         </span>
       </div>
 
       {errorMsg && (
-        <div className="p-3 mb-4 text-xs font-mono text-[#cc2b3f] bg-white border-2 border-[#cc2b3f] rounded-xl font-bold">
+        <div className="p-3 mb-4 text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded-2xl font-medium">
           {errorMsg}
         </div>
       )}
@@ -151,10 +151,10 @@ export default function CheckoutForm() {
               setAmount(t);
               setCustomAmount("");
             }}
-            className={`border-2 rounded-xl py-3 font-mono text-xs uppercase tracking-wider font-bold transition cursor-pointer ${
+            className={`border rounded-2xl py-3 text-xs font-bold transition cursor-pointer ${
               amount === t && !customAmount
-                ? "bg-[#cc2b3f] text-[#f2e9db] border-[#cc2b3f]"
-                : "bg-white text-[#1A2540] border-[#1A2540] hover:bg-[#FAF8FC]"
+                ? "bg-[#163829] text-white border-[#163829] shadow-xs"
+                : "bg-white text-[#163829] border-gray-200 hover:border-gray-400"
             }`}
           >
             ₹{t.toLocaleString("en-IN")}
@@ -163,7 +163,7 @@ export default function CheckoutForm() {
       </div>
 
       <div className="mb-5">
-        <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1.5">
+        <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
           Or Enter Custom Amount (₹)
         </label>
         <input
@@ -172,7 +172,7 @@ export default function CheckoutForm() {
           value={customAmount}
           onChange={(e) => setCustomAmount(e.target.value)}
           placeholder="e.g. 3500"
-          className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 font-mono text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+          className="w-full border border-gray-200 rounded-2xl bg-white p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
         />
       </div>
 
@@ -181,7 +181,7 @@ export default function CheckoutForm() {
           type="button"
           onClick={handlePay}
           disabled={loading}
-          className="w-full bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs uppercase tracking-[0.18em] font-bold py-4 rounded-full transition disabled:opacity-50 shadow-sm cursor-pointer"
+          className="w-full btn-paw-primary text-xs font-bold py-4 rounded-full transition disabled:opacity-50 shadow-xs cursor-pointer"
         >
           {loading ? "Processing…" : `Allocate ₹${(effectiveAmount || 0).toLocaleString("en-IN")} via Razorpay`}
         </button>
@@ -190,13 +190,13 @@ export default function CheckoutForm() {
           type="button"
           onClick={handleDemoPay}
           disabled={loading}
-          className="w-full bg-white hover:bg-[#FAF8FC] text-[#1A2540] py-3.5 rounded-full transition disabled:opacity-50 font-mono text-xs uppercase tracking-wider font-bold border-2 border-[#1A2540] cursor-pointer"
+          className="w-full bg-white hover:bg-gray-50 text-[#163829] py-3.5 rounded-full transition disabled:opacity-50 text-xs font-semibold border border-gray-200 shadow-xs cursor-pointer"
         >
           Simulate Test Donation (Offline / Local Mode)
         </button>
       </div>
 
-      <p className="font-mono text-[10px] uppercase tracking-wider text-[#1A2540]/60 mt-4 text-center">
+      <p className="text-[11px] text-gray-400 mt-4 text-center">
         Transactions encrypted via Razorpay PCI-DSS. Test mode is fully enabled for local offline verification.
       </p>
     </div>

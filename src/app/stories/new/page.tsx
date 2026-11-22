@@ -30,77 +30,77 @@ export default function NewStoryPage() {
   };
 
   return (
-    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-12 px-4 sm:px-6 md:px-10">
       <div className="max-w-2xl mx-auto space-y-8">
-        <div className="border-b-2 border-[#1A2540] pb-5 flex items-center justify-between">
+        <div className="border-b border-gray-200/80 pb-4 flex items-center justify-between">
           <Link
             href="/stories"
-            className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline underline-offset-4"
+            className="inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold hover:underline underline-offset-4"
           >
-            ← Back to Case Archive
+            ← Back to Stories
           </Link>
-          <span className="border-2 border-[#1A2540] bg-white px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1A2540] font-bold">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-[#163829] border border-emerald-100 text-[11px] font-semibold">
             Field Recovery Entry
           </span>
         </div>
 
         <div>
-          <h1 className="font-heading uppercase text-3xl sm:text-5xl font-black tracking-tight text-[#1A2540] leading-none">
-            Document Recovery Record
+          <h1 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-[#163829] leading-tight">
+            Share a Recovery Story
           </h1>
-          <p className="font-mono text-xs text-[#1A2540]/75 uppercase tracking-wider mt-3">
-            Record the journey from roadside trauma into clinical stabilization, foster, or adoptive custody.
+          <p className="font-body text-xs sm:text-sm text-gray-500 mt-2">
+            Record the journey from roadside rescue into clinical stabilization, foster, or adoptive family.
           </p>
         </div>
 
         {errorMsg && (
-          <div className="p-4 border-2 border-[#cc2b3f] bg-white font-mono text-xs uppercase tracking-[0.12em] text-[#cc2b3f] font-bold">
+          <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-xs font-semibold text-rose-700">
             {errorMsg}
           </div>
         )}
 
         <form
           onSubmit={handleSubmit}
-          className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm"
+          className="bg-white border border-gray-200/80 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs"
         >
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#1A2540] mb-2 font-bold">
-              Case / Story Headline
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+              Story Headline
             </label>
             <input
               name="title"
               required
               placeholder="e.g. Case #B-209: Bruno's Orthopedic Recovery and Adoption"
-              className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full border border-gray-200 rounded-2xl bg-white p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#1A2540] mb-2 font-bold">
-              Photographic Plates
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+              Photographic Evidence
             </label>
             <MultiImageUpload value={images} onChange={setImages} />
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#1A2540] mb-2 font-bold">
-              Clinical Narrative & Outcome
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+              Story & Clinical Observations
             </label>
             <textarea
               name="content"
               rows={8}
               required
               placeholder="Detail the day of discovery, veterinary interventions administered, weeks spent in recovery, and present living situation..."
-              className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 text-sm text-[#1A2540] leading-relaxed focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full border border-gray-200 rounded-2xl bg-white p-3.5 text-sm text-[#163829] leading-relaxed focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs uppercase tracking-[0.18em] font-bold rounded-full transition disabled:opacity-50 cursor-pointer shadow-sm"
+            className="w-full py-4 btn-paw-primary text-xs font-bold rounded-full transition disabled:opacity-50 cursor-pointer shadow-xs"
           >
-            {loading ? "Recording Case File..." : "Register Recovery Dossier"}
+            {loading ? "Recording Story..." : "Publish Recovery Story"}
           </button>
         </form>
       </div>

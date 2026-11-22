@@ -41,7 +41,7 @@ export default function UserRoleActions({ userId, currentRole }: Props) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-xs border rounded-md px-3 py-1.5 hover:bg-gray-50"
+        className="text-xs font-semibold border border-gray-200 rounded-full px-3 py-1 bg-white hover:bg-gray-50 text-[#163829] transition cursor-pointer"
       >
         Change role
       </button>
@@ -50,9 +50,9 @@ export default function UserRoleActions({ userId, currentRole }: Props) {
 
   return (
     <div className="inline-block text-left relative">
-      <div className="border rounded-md bg-white shadow-lg p-1 min-w-[160px] absolute right-0 z-10">
+      <div className="border border-gray-200 rounded-2xl bg-white shadow-xl p-1.5 min-w-[170px] absolute right-0 z-20">
         {error && (
-          <div className="text-[11px] text-red-700 bg-red-50 px-2 py-1 rounded mb-1">
+          <div className="text-[11px] text-red-700 bg-red-50 px-2 py-1 rounded-xl mb-1">
             {error}
           </div>
         )}
@@ -62,11 +62,11 @@ export default function UserRoleActions({ userId, currentRole }: Props) {
             key={role}
             onClick={() => handleChange(role)}
             disabled={loading || role === currentRole}
-            className={`block w-full text-left text-xs px-3 py-2 rounded hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed ${
-              role === currentRole ? "bg-gray-50 font-medium" : ""
+            className={`block w-full text-left text-xs px-3 py-1.5 rounded-xl font-semibold cursor-pointer transition disabled:opacity-40 disabled:cursor-not-allowed ${
+              role === currentRole ? "bg-[#D8F3DC] text-[#163829]" : "hover:bg-gray-50 text-gray-700"
             }`}
           >
-            {role === currentRole ? `[Active] ${role}` : `Set to ${role}`}
+            {role === currentRole ? `✓ ${role}` : `Set to ${role}`}
           </button>
         ))}
 
@@ -76,7 +76,7 @@ export default function UserRoleActions({ userId, currentRole }: Props) {
             setError("");
           }}
           disabled={loading}
-          className="block w-full text-left text-xs px-3 py-2 rounded hover:bg-gray-50 text-gray-500 border-t mt-1"
+          className="block w-full text-left text-[11px] px-3 py-1.5 rounded-xl text-gray-400 hover:text-gray-600 border-t border-gray-100 mt-1 cursor-pointer"
         >
           Cancel
         </button>

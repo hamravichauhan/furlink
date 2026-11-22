@@ -217,7 +217,7 @@ export default function RescueActions({
               [AUDIT ALERT: RESCUE UNDER DISPUTE]
             </span>
           </div>
-          <p className="font-body text-xs text-[#1A2540] leading-relaxed">
+          <p className="font-body text-xs text-[#163829] leading-relaxed">
             <strong>Community Flag:</strong> {disputeReason || 'A community member reported concerns regarding the validity of this rescue or clinic bill.'}
           </p>
         </div>
@@ -248,7 +248,7 @@ export default function RescueActions({
               <button
                 onClick={handleRelease}
                 disabled={loading}
-                className="font-mono text-xs font-bold uppercase border border-[#1A2540]/30 hover:border-[#cc2b3f] hover:text-[#cc2b3f] px-4 py-2.5 rounded-full transition cursor-pointer"
+                className="font-mono text-xs font-bold uppercase border border-gray-200 hover:border-[#cc2b3f] hover:text-[#cc2b3f] px-4 py-2.5 rounded-full transition cursor-pointer"
               >
                 Release Case
               </button>
@@ -259,7 +259,7 @@ export default function RescueActions({
           {status === 'PROOF_SUBMITTED' && canVerify && (
             <button
               onClick={() => setMode('verify')}
-              className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full transition shadow-sm cursor-pointer"
+              className="btn-paw-primary text-xs font-bold px-6 py-3 rounded-full transition shadow-xs cursor-pointer"
             >
               Verify Clinic Proof &amp; Close Case &rarr;
             </button>
@@ -293,10 +293,10 @@ export default function RescueActions({
       {mode === 'claim' && (
         <form
           onSubmit={handleClaim}
-          className="bg-white rounded-2xl p-6 border-[1.5px] border-[#1A2540]/25 shadow-lg space-y-4"
+          className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs space-y-4"
         >
           <div className="flex items-center justify-between border-b pb-2">
-            <h4 className="font-heading text-lg text-[#1A2540]">Claim Rescue Case</h4>
+            <h4 className="font-heading text-lg text-[#163829]">Claim Rescue Case</h4>
             <button
               type="button"
               onClick={resetForm}
@@ -309,20 +309,20 @@ export default function RescueActions({
             By claiming this case, you agree to secure the animal and transport it to a veterinary clinic for treatment.
           </p>
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Estimated Plan / Arrival Notes (Optional)
             </label>
             <input
               name="rescuerNotes"
               placeholder="e.g. En route on scooter with crate, estimated arrival in 20 minutes"
-              className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
           <div className="flex gap-3">
             <button
               type="submit"
               disabled={loading}
-              className="btn-enroll-pill px-6 py-2.5 text-xs font-bold cursor-pointer disabled:opacity-50"
+              className="btn-paw-primary px-6 py-3 rounded-full text-xs font-bold cursor-pointer disabled:opacity-50 shadow-xs"
             >
               {loading ? 'CONFIRMING CLAIM...' : 'CONFIRM & CLAIM RESCUE'}
             </button>
@@ -341,14 +341,14 @@ export default function RescueActions({
       {mode === 'submit_proof' && (
         <form
           onSubmit={handleSubmitProof}
-          className="bg-white rounded-2xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-5"
+          className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-5"
         >
           <div className="flex items-center justify-between border-b pb-3">
             <div>
               <span className="font-mono text-[10px] uppercase font-bold text-[#cc2b3f] block">
                 Verification Proof Intake
               </span>
-              <h4 className="font-heading text-xl text-[#1A2540]">
+              <h4 className="font-heading text-xl text-[#163829]">
                 Submit Veterinary Treatment &amp; Bill
               </h4>
             </div>
@@ -363,7 +363,7 @@ export default function RescueActions({
 
           {/* Photo of animal after treatment */}
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block font-body text-xs font-bold text-[#163829] mb-1">
               Post-Treatment Animal Photograph (Required)
             </label>
             <ImageUpload
@@ -378,7 +378,7 @@ export default function RescueActions({
 
           {/* Clinic Bill / Invoice receipt */}
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block font-body text-xs font-bold text-[#163829] mb-1">
               Veterinary Clinic Bill / Invoice Receipt (Recommended)
             </label>
             <ImageUpload
@@ -393,30 +393,30 @@ export default function RescueActions({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                 Clinic / Hospital Name (Required)
               </label>
               <input
                 name="clinicName"
                 placeholder="e.g. Belagavi Pet Care Hospital, Tilakwadi"
                 required
-                className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+                className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs"
               />
             </div>
             <div>
-              <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                 Treating Veterinarian
               </label>
               <input
                 name="veterinarianName"
                 placeholder="e.g. Dr. Rajesh Kulkarni (B.V.Sc)"
-                className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+                className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Total Medical / Treatment Cost in INR (₹)
             </label>
             <input
@@ -425,12 +425,12 @@ export default function RescueActions({
               placeholder="e.g. 1200"
               step="0.01"
               min="0"
-              className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Treatment &amp; Medication Summary (Required)
             </label>
             <textarea
@@ -439,7 +439,7 @@ export default function RescueActions({
               required
               minLength={5}
               placeholder="Detail medications administered, splints applied, vaccines given, and follow-up care instructions..."
-              className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs leading-relaxed"
             />
           </div>
 
@@ -447,7 +447,7 @@ export default function RescueActions({
             <button
               type="submit"
               disabled={loading}
-              className="btn-enroll-pill px-6 py-3 text-xs font-bold cursor-pointer disabled:opacity-50"
+              className="btn-paw-primary px-6 py-3 text-xs font-bold rounded-full cursor-pointer disabled:opacity-50 shadow-xs"
             >
               {loading ? 'SUBMITTING PROOF...' : 'SUBMIT PROOF FOR VERIFICATION'}
             </button>
@@ -466,34 +466,34 @@ export default function RescueActions({
       {mode === 'verify' && (
         <form
           onSubmit={handleVerify}
-          className="bg-white rounded-2xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-5"
+          className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-5"
         >
-          <div className="flex items-center justify-between border-b pb-3">
+          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
             <div>
-              <span className="font-mono text-[10px] uppercase font-bold text-[#cc2b3f] block">
+              <span className="text-[11px] uppercase font-bold text-emerald-800 block">
                 Official Verification Console
               </span>
-              <h4 className="font-heading text-xl text-[#1A2540]">
+              <h4 className="font-heading text-lg font-bold text-[#163829]">
                 Verify Medical Proof &amp; Determine Outcome
               </h4>
             </div>
             <button
               type="button"
               onClick={resetForm}
-              className="font-mono text-xs text-gray-500 hover:text-black"
+              className="text-xs text-gray-400 hover:text-gray-700 cursor-pointer"
             >
               Cancel
             </button>
           </div>
 
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Post-Rescue Animal Disposition / Outcome
             </label>
             <select
               name="outcome"
               defaultValue="TERRITORIAL_RELEASE"
-              className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs cursor-pointer"
             >
               <option value="TERRITORIAL_RELEASE">
                 Territorial Release (Healed and returned to original street territory)
@@ -508,14 +508,14 @@ export default function RescueActions({
           </div>
 
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Official Verification Notes (Optional)
             </label>
             <textarea
               name="verificationNote"
               rows={3}
               placeholder="e.g. Cross-verified with Belagavi Pet Care log #482. Treatment bills certified authentic."
-              className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
@@ -523,14 +523,14 @@ export default function RescueActions({
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full transition shadow-sm cursor-pointer disabled:opacity-50"
+              className="btn-paw-primary text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full transition shadow-xs cursor-pointer disabled:opacity-50"
             >
               {loading ? 'VERIFYING...' : 'APPROVE & CLOSE CASE'}
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="font-mono text-xs px-5 py-2.5 border rounded-full hover:bg-gray-100"
+              className="text-xs font-semibold px-5 py-2.5 border border-gray-200 bg-white text-gray-700 rounded-full hover:bg-gray-50 shadow-xs cursor-pointer"
             >
               Cancel
             </button>
@@ -549,7 +549,7 @@ export default function RescueActions({
               <span className="font-mono text-[10px] uppercase font-bold text-[#cc2b3f] block">
                 Citizen Watchdog Alert
               </span>
-              <h4 className="font-heading text-xl text-[#1A2540]">
+              <h4 className="font-heading text-xl text-[#163829]">
                 Report Concern / Dispute Rescue Validity
               </h4>
             </div>
@@ -562,12 +562,12 @@ export default function RescueActions({
             </button>
           </div>
 
-          <p className="font-body text-xs text-[#1A2540]/80 leading-relaxed">
+          <p className="font-body text-xs text-[#163829]/80 leading-relaxed">
             If you believe this rescue was not performed, the submitted bills or photos are fraudulent, or the animal was left untreated on the street, report your observations below. The administration audit committee will review and re-dispatch inspectors.
           </p>
 
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block font-body text-xs font-bold text-[#163829] mb-1">
               Dispute Grievance / Reason (Minimum 10 characters)
             </label>
             <textarea
@@ -576,7 +576,7 @@ export default function RescueActions({
               required
               minLength={10}
               placeholder="e.g. I live right opposite this location. The injured dog was never taken by this rescuer, or the clinic receipt is dated last year..."
-              className="w-full bg-white border border-[#cc2b3f]/30 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-[#cc2b3f]/30 rounded-xl p-2.5 text-xs text-[#163829]"
             />
           </div>
 
@@ -603,29 +603,29 @@ export default function RescueActions({
       {mode === 'resolve_dispute' && (
         <form
           onSubmit={handleResolveDispute}
-          className="bg-white rounded-2xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-4"
+          className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-4"
         >
-          <div className="flex items-center justify-between border-b pb-3">
-            <h4 className="font-heading text-xl text-[#1A2540]">
+          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+            <h4 className="font-heading text-lg font-bold text-[#163829]">
               Resolve Community Dispute
             </h4>
             <button
               type="button"
               onClick={resetForm}
-              className="font-mono text-xs text-gray-500 hover:text-black"
+              className="text-xs text-gray-400 hover:text-gray-700 cursor-pointer"
             >
               Cancel
             </button>
           </div>
 
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Audit Resolution Decision
             </label>
             <select
               name="action"
               defaultValue="confirm_rescued"
-              className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs cursor-pointer"
             >
               <option value="confirm_rescued">
                 Reaffirm Genuine (Dispute investigated and cleared; rescue stands verified)
@@ -640,14 +640,14 @@ export default function RescueActions({
           </div>
 
           <div>
-            <label className="block font-body text-xs font-bold text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Resolution Audit Notes
             </label>
             <textarea
               name="resolutionNote"
               rows={3}
               placeholder="Document the verification findings and reason for this audit determination..."
-              className="w-full bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 text-xs text-[#1A2540]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-xs text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
@@ -655,14 +655,14 @@ export default function RescueActions({
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full transition shadow-sm cursor-pointer disabled:opacity-50"
+              className="btn-paw-primary text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full transition shadow-xs cursor-pointer disabled:opacity-50"
             >
               {loading ? 'APPLYING DECISION...' : 'APPLY AUDIT DECISION'}
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="font-mono text-xs px-5 py-2.5 border rounded-full hover:bg-gray-100"
+              className="text-xs font-semibold px-5 py-2.5 border border-gray-200 bg-white text-gray-700 rounded-full hover:bg-gray-50 shadow-xs cursor-pointer"
             >
               Cancel
             </button>

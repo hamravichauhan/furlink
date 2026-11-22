@@ -37,59 +37,59 @@ export default function NewPetPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAF8] text-[#163829] py-12 px-4 sm:px-6 md:px-10">
-      <div className="max-w-xl mx-auto space-y-8">
-        <div className="border-b-2 border-[#1A2540] pb-5 flex items-center justify-between">
+      <div className="max-w-2xl mx-auto space-y-8">
+        <div className="border-b border-gray-200/80 pb-4 flex items-center justify-between">
           <Link
             href="/adoptions"
-            className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline underline-offset-4"
+            className="inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold hover:underline underline-offset-4"
           >
             ← Back to Waiting Wall
           </Link>
-          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#1A2540] border-2 border-[#1A2540] bg-white px-3 py-1">
-            Clinical Registry
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-[#163829] border border-emerald-100 text-[11px] font-semibold">
+            Adoption Registry
           </span>
         </div>
 
         <div>
-          <h1 className="font-heading text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#1A2540] leading-none">
+          <h1 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-[#163829] leading-tight">
             Register Animal for Adoption
           </h1>
-          <p className="text-xs font-mono uppercase tracking-wider text-[#1A2540]/70 mt-2">
+          <p className="font-body text-xs sm:text-sm text-gray-500 mt-2">
             Record medical background and personality traits to find an aligned permanent home.
           </p>
         </div>
 
         {errorMsg && (
-          <div className="p-3 text-xs font-mono text-[#cc2b3f] bg-white border-2 border-[#cc2b3f] font-bold">
+          <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-xs font-semibold text-rose-700">
             {errorMsg}
           </div>
         )}
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 bg-[#f2e9db] p-6 sm:p-8 border-2 border-[#1A2540] rounded-2xl shadow-sm"
+          className="space-y-6 bg-white p-6 sm:p-8 border border-gray-200/80 rounded-3xl shadow-xs"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                 Animal Name
               </label>
               <input
                 name="name"
                 required
                 placeholder="e.g. Bruno"
-                className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
               />
             </div>
             <div>
-              <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                 Species
               </label>
               <select
                 name="species"
                 required
                 defaultValue="Dog"
-                className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs cursor-pointer"
               >
                 <option value="Dog">Dog (Canine)</option>
                 <option value="Cat">Cat (Feline)</option>
@@ -100,33 +100,33 @@ export default function NewPetPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
-                Breed <span className="text-[#1A2540]/50 font-normal">(optional)</span>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
+                Breed <span className="text-gray-400 font-normal">(optional)</span>
               </label>
               <input
                 name="breed"
                 placeholder="e.g. Indie / Mixed"
-                className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
               />
             </div>
             <div>
-              <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                 Age
               </label>
               <input
                 name="age"
                 required
                 placeholder="e.g. 6 months, 2 years"
-                className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Gender
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               <label className="cursor-pointer">
                 <input
                   type="radio"
@@ -135,7 +135,7 @@ export default function NewPetPage() {
                   defaultChecked
                   className="peer sr-only"
                 />
-                <div className="text-center py-2.5 border-2 border-[#1A2540] bg-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition peer-checked:bg-[#cc2b3f] peer-checked:text-white peer-checked:border-[#cc2b3f] hover:bg-[#FAF8FC]">
+                <div className="text-center py-3 border border-gray-200 bg-white rounded-2xl text-xs font-semibold uppercase tracking-wider transition peer-checked:bg-[#163829] peer-checked:text-white peer-checked:border-[#163829] hover:bg-gray-50 shadow-xs">
                   Male
                 </div>
               </label>
@@ -146,7 +146,7 @@ export default function NewPetPage() {
                   value="Female"
                   className="peer sr-only"
                 />
-                <div className="text-center py-2.5 border-2 border-[#1A2540] bg-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition peer-checked:bg-[#cc2b3f] peer-checked:text-white peer-checked:border-[#cc2b3f] hover:bg-[#FAF8FC]">
+                <div className="text-center py-3 border border-gray-200 bg-white rounded-2xl text-xs font-semibold uppercase tracking-wider transition peer-checked:bg-[#163829] peer-checked:text-white peer-checked:border-[#163829] hover:bg-gray-50 shadow-xs">
                   Female
                 </div>
               </label>
@@ -154,7 +154,7 @@ export default function NewPetPage() {
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Photographic Record
             </label>
             <ImageUpload
@@ -163,13 +163,13 @@ export default function NewPetPage() {
               onRemove={() => setImageUrl("")}
             />
             <input type="hidden" name="imageUrl" value={imageUrl} />
-            <p className="text-[11px] font-mono text-[#1A2540]/60 mt-1.5">
+            <p className="text-[11px] text-gray-400 mt-1.5">
               A clear, direct photograph increases adoption inquiries substantially.
             </p>
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
               Health &amp; Personality Dossier
             </label>
             <textarea
@@ -177,19 +177,19 @@ export default function NewPetPage() {
               rows={4}
               required
               placeholder="e.g. Fully vaccinated, dewormed, friendly with children, calm indoor temperament, walks well on leash..."
-              className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm leading-relaxed text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm leading-relaxed text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
           {/* Caregiver & Contact Details */}
-          <div className="border-t-2 border-[#1A2540]/20 pt-5 space-y-4">
-            <span className="font-mono text-xs uppercase tracking-wider text-[#cc2b3f] font-bold block">
+          <div className="border-t border-gray-100 pt-5 space-y-4">
+            <span className="text-xs uppercase tracking-wider text-emerald-800 font-bold block">
               Caregiver &amp; Direct Adoption Contact
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                   Guardian / Shelter Name
                 </label>
                 <input
@@ -197,11 +197,11 @@ export default function NewPetPage() {
                   required
                   placeholder="e.g. Belagavi Sanctuary Station"
                   defaultValue="Belagavi Sanctuary Station"
-                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                  className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
                 />
               </div>
               <div>
-                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                   Adoption Contact Mobile
                 </label>
                 <input
@@ -209,14 +209,14 @@ export default function NewPetPage() {
                   required
                   placeholder="+91 94812 00000"
                   defaultValue="+91 94812 00000"
-                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                  className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                   Facility / Foster Location
                 </label>
                 <input
@@ -224,18 +224,18 @@ export default function NewPetPage() {
                   required
                   placeholder="e.g. Tilakwadi, Belagavi"
                   defaultValue="Tilakwadi, Belagavi"
-                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                  className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
                 />
               </div>
               <div>
-                <label className="block font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A2540] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
                   Visiting &amp; Interaction Hours
                 </label>
                 <input
                   name="visitingHours"
                   placeholder="e.g. 10:00 AM - 6:00 PM Daily"
                   defaultValue="10:00 AM - 6:00 PM Daily"
-                  className="w-full border-2 border-[#1A2540]/30 bg-white rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+                  className="w-full border border-gray-200 bg-white rounded-2xl p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
                 />
               </div>
             </div>
@@ -244,7 +244,7 @@ export default function NewPetPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-[0.18em] py-4 rounded-full transition disabled:opacity-50 cursor-pointer shadow-sm"
+            className="w-full btn-paw-primary text-xs font-bold py-4 rounded-full transition disabled:opacity-50 cursor-pointer shadow-xs"
           >
             {loading ? "Publishing Case File…" : "Publish Pet to Waiting Wall"}
           </button>

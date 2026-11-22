@@ -46,7 +46,7 @@ export default function AdoptionForm({
 
   if (petStatus !== "AVAILABLE") {
     return (
-      <div className="p-5 bg-white/70 border-2 border-[#1A2540]/20 rounded-2xl text-[#1A2540] font-mono text-xs">
+      <div className="p-5 bg-amber-50/80 border border-amber-200 rounded-2xl text-[#163829] font-mono text-xs">
         <span className="font-bold text-[#cc2b3f] block mb-1 uppercase tracking-wider">
           Placement In Progress
         </span>
@@ -62,70 +62,70 @@ export default function AdoptionForm({
     );
 
     return (
-      <div className="p-6 sm:p-7 bg-white rounded-2xl border-2 border-[#1A2540] text-left space-y-5 shadow-md">
+      <div className="p-6 sm:p-7 bg-white rounded-3xl border border-gray-200/80 text-left space-y-5 shadow-xs">
         {/* Header confirmation badge */}
-        <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#cc2b3f]">
+        <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">
             Application Registered
           </span>
-          <span className="font-mono text-[10px] uppercase font-bold px-2.5 py-0.5 rounded-full border border-[#1A2540] bg-[#f2e9db]">
+          <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-800">
             {docketId}
           </span>
         </div>
 
         <div>
-          <h4 className="font-heading text-2xl font-black text-[#1A2540] leading-tight">
+          <h4 className="font-heading text-2xl font-bold text-[#163829] leading-tight">
             Thank you for stepping forward for {petName}!
           </h4>
-          <p className="font-mono text-xs text-[#1A2540]/75 uppercase tracking-wide mt-1.5">
+          <p className="text-xs text-gray-500 mt-1.5">
             Your clinical home dossier has been transmitted to {guardianName}.
           </p>
         </div>
 
         {/* 3-Step What Happens Next Road Map */}
-        <div className="bg-[#f2e9db] p-4 rounded-xl border border-[#1A2540]/20 space-y-3 font-mono text-xs">
-          <div className="font-bold text-[11px] uppercase tracking-wider text-[#1A2540] border-b border-[#1A2540]/15 pb-1">
+        <div className="bg-gray-50 p-4 rounded-2xl border border-gray-200/80 space-y-3 text-xs">
+          <div className="font-bold text-[11px] uppercase tracking-wider text-gray-700 border-b border-gray-200 pb-1">
             What happens next:
           </div>
 
           <div className="flex gap-2.5 items-start">
-            <span className="w-5 h-5 rounded-full bg-[#1A2540] text-[#f2e9db] font-bold text-[10px] flex items-center justify-center shrink-0">
+            <span className="w-5 h-5 rounded-full bg-[#163829] text-white font-bold text-[10px] flex items-center justify-center shrink-0">
               1
             </span>
-            <p className="text-[#1A2540]/85">
-              <strong>Review &amp; Screening</strong>: The caregiver reviews your living space and pet routine.
+            <p className="text-gray-600">
+              <strong className="text-gray-900">Review &amp; Screening</strong>: The caregiver reviews your living space and pet routine.
             </p>
           </div>
 
           <div className="flex gap-2.5 items-start">
-            <span className="w-5 h-5 rounded-full bg-[#cc2b3f] text-[#f2e9db] font-bold text-[10px] flex items-center justify-center shrink-0">
+            <span className="w-5 h-5 rounded-full bg-emerald-700 text-white font-bold text-[10px] flex items-center justify-center shrink-0">
               2
             </span>
-            <p className="text-[#1A2540]/85">
-              <strong>Coordinator Phone Call</strong>: You will receive a call on <strong>{formData.phone}</strong> during your window (<strong>{formData.preferredCallTime}</strong>) within 24 to 48 hours.
+            <p className="text-gray-600">
+              <strong className="text-gray-900">Coordinator Phone Call</strong>: You will receive a call on <strong>{formData.phone}</strong> during your window (<strong>{formData.preferredCallTime}</strong>) within 24 to 48 hours.
             </p>
           </div>
 
           <div className="flex gap-2.5 items-start">
-            <span className="w-5 h-5 rounded-full bg-[#1A2540] text-[#f2e9db] font-bold text-[10px] flex items-center justify-center shrink-0">
+            <span className="w-5 h-5 rounded-full bg-[#163829] text-white font-bold text-[10px] flex items-center justify-center shrink-0">
               3
             </span>
-            <p className="text-[#1A2540]/85">
-              <strong>Meet-and-Greet</strong>: Visit {petName} in person at {guardianLocation} to confirm mutual comfort before finalizing.
+            <p className="text-gray-600">
+              <strong className="text-gray-900">Meet-and-Greet</strong>: Visit {petName} in person at {guardianLocation} to confirm mutual comfort before finalizing.
             </p>
           </div>
         </div>
 
         {/* IMMEDIATE DIRECT CONNECT ACTIONS */}
-        <div className="border-t-2 border-[#1A2540]/20 pt-4 space-y-2.5">
-          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#cc2b3f]">
+        <div className="border-t border-gray-100 pt-4 space-y-2.5">
+          <div className="text-xs font-bold uppercase tracking-wider text-emerald-800">
             Don&apos;t want to wait? Contact the guardian right now:
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <a
               href={`tel:${cleanPhoneDigits}`}
-              className="py-3 px-4 bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs uppercase tracking-wider font-bold rounded-full text-center transition shadow-sm block"
+              className="py-3 px-4 btn-paw-primary text-xs font-bold rounded-full text-center transition shadow-xs block"
             >
               Call Guardian ({guardianPhone})
             </a>
@@ -133,7 +133,7 @@ export default function AdoptionForm({
               href={`https://wa.me/${cleanPhoneDigits}?text=${waText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="py-3 px-4 bg-white hover:bg-[#FAF8FC] border-2 border-[#1A2540] text-[#1A2540] font-mono text-xs uppercase tracking-wider font-bold rounded-full text-center transition block"
+              className="py-3 px-4 bg-white hover:bg-gray-50 border border-gray-200 text-[#163829] text-xs font-semibold rounded-full text-center transition shadow-xs block"
             >
               WhatsApp Guardian
             </a>
@@ -142,7 +142,7 @@ export default function AdoptionForm({
           <div className="text-center pt-2">
             <Link
               href="/profile"
-              className="font-mono text-xs uppercase tracking-wider text-[#cc2b3f] hover:underline font-bold"
+              className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 hover:underline"
             >
               Track Application Progress in My Profile →
             </Link>
@@ -204,13 +204,13 @@ export default function AdoptionForm({
   return (
     <form onSubmit={handleNext} className="space-y-4">
       {/* Progress pill indicator */}
-      <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider font-bold text-[#1A2540]/70 pb-1">
+      <div className="flex items-center justify-between text-xs font-semibold text-gray-500 pb-1">
         <span>Step {step} of 2</span>
         <span>{step === 1 ? "Contact & Call Window" : "Living Space & Care"}</span>
       </div>
 
       {errorMsg && (
-        <div className="p-3 bg-white border-2 border-[#cc2b3f] rounded-xl text-xs font-mono font-bold text-[#cc2b3f]">
+        <div className="p-3 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-medium text-rose-700">
           {errorMsg}
         </div>
       )}
@@ -218,7 +218,7 @@ export default function AdoptionForm({
       {step === 1 ? (
         <div className="space-y-3.5">
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Your Full Legal Name
             </label>
             <input
@@ -228,12 +228,12 @@ export default function AdoptionForm({
               value={formData.fullName}
               onChange={handleChange}
               placeholder="e.g. Priya Sharma"
-              className="w-full bg-white border-2 border-[#1A2540]/30 rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Contact Mobile / WhatsApp Number
             </label>
             <input
@@ -243,33 +243,33 @@ export default function AdoptionForm({
               value={formData.phone}
               onChange={handleChange}
               placeholder="+91 98765 43210"
-              className="w-full bg-white border-2 border-[#1A2540]/30 rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Preferred Phone Call Window
             </label>
             <select
               name="preferredCallTime"
               value={formData.preferredCallTime}
               onChange={handleChange}
-              className="w-full bg-white border-2 border-[#1A2540]/30 rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs cursor-pointer"
             >
               <option value="Morning (9:00 AM - 12:00 PM)">Morning (9:00 AM - 12:00 PM)</option>
               <option value="Afternoon (12:00 PM - 4:00 PM)">Afternoon (12:00 PM - 4:00 PM)</option>
               <option value="Evening (4:00 PM - 8:00 PM)">Evening (4:00 PM - 8:00 PM)</option>
               <option value="Anytime (10:00 AM - 7:00 PM)">Anytime (10:00 AM - 7:00 PM)</option>
             </select>
-            <p className="font-mono text-[10px] uppercase tracking-wide text-[#1A2540]/60 mt-1">
+            <p className="text-[11px] text-gray-400 mt-1">
               {guardianName} will phone you during this window.
             </p>
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs uppercase tracking-wider font-bold py-4 rounded-full transition shadow-sm cursor-pointer mt-2"
+            className="w-full btn-paw-primary text-xs font-bold py-4 rounded-full transition shadow-xs cursor-pointer mt-2"
           >
             Continue to Home Questionnaire →
           </button>
@@ -277,7 +277,7 @@ export default function AdoptionForm({
       ) : (
         <div className="space-y-3.5">
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Neighborhood &amp; City Address
             </label>
             <input
@@ -287,19 +287,19 @@ export default function AdoptionForm({
               value={formData.address}
               onChange={handleChange}
               placeholder="e.g. Tilakwadi 2nd Gate, Belagavi"
-              className="w-full bg-white border-2 border-[#1A2540]/30 rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Housing / Living Space
             </label>
             <select
               name="housingType"
               value={formData.housingType}
               onChange={handleChange}
-              className="w-full bg-white border-2 border-[#1A2540]/30 rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs cursor-pointer"
             >
               <option value="Apartment or Independent Flat">Apartment or Independent Flat</option>
               <option value="Independent House with Compound">Independent House with Compound</option>
@@ -309,14 +309,14 @@ export default function AdoptionForm({
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Prior Experience with Pets
             </label>
             <select
               name="priorExperience"
               value={formData.priorExperience}
               onChange={handleChange}
-              className="w-full bg-white border-2 border-[#1A2540]/30 rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs cursor-pointer"
             >
               <option value="Yes, experienced pet parent">Yes, experienced pet parent</option>
               <option value="First-time adopting a rescue">First-time adopting a rescue</option>
@@ -325,7 +325,7 @@ export default function AdoptionForm({
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Daily Routine &amp; Care Intent for {petName}
             </label>
             <textarea
@@ -335,7 +335,7 @@ export default function AdoptionForm({
               value={formData.reason}
               onChange={handleChange}
               placeholder="Tell us who will look after them during the day, daily walk plans, and why your home aligns with them..."
-              className="w-full bg-white border-2 border-[#1A2540]/30 rounded-xl p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f] leading-relaxed"
+              className="w-full bg-white border border-gray-200 rounded-2xl p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs leading-relaxed"
             />
           </div>
 
@@ -343,14 +343,14 @@ export default function AdoptionForm({
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="px-5 py-3.5 rounded-full border-2 border-[#1A2540] bg-white text-[#1A2540] font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#FAF8FC] transition-colors"
+              className="px-5 py-3.5 rounded-full border border-gray-200 bg-white text-gray-700 text-xs font-semibold hover:bg-gray-50 transition-colors shadow-xs cursor-pointer"
             >
               Back
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs uppercase tracking-wider font-bold py-3.5 rounded-full transition shadow-sm cursor-pointer disabled:opacity-50"
+              className="flex-1 btn-paw-primary text-xs font-bold py-3.5 rounded-full transition shadow-xs cursor-pointer disabled:opacity-50"
             >
               {loading ? "Transmitting Dossier..." : "Submit Adoption Application"}
             </button>

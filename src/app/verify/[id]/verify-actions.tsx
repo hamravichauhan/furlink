@@ -82,15 +82,15 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
 
   if (mode === "idle") {
     return (
-      <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
-        <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+      <div className="border border-gray-200/80 rounded-3xl bg-white p-6 shadow-xs">
+        <h2 className="font-heading text-base font-bold text-[#163829] mb-3">
           Verifier Audit Actions
         </h2>
         <div className="flex flex-wrap gap-3">
           {!isDisputed && (
             <button
               onClick={() => setMode("verify")}
-              className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition shadow-sm cursor-pointer"
+              className="btn-paw-primary px-5 py-2.5 rounded-full text-xs font-bold shadow-xs cursor-pointer"
             >
               Verify this Proof
             </button>
@@ -98,7 +98,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
           {isDisputed && (
             <button
               onClick={() => setMode("resolve")}
-              className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition shadow-sm cursor-pointer"
+              className="btn-paw-primary px-5 py-2.5 rounded-full text-xs font-bold shadow-xs cursor-pointer"
             >
               Resolve Dispute
             </button>
@@ -106,7 +106,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
           {!isDisputed && (
             <button
               onClick={() => setMode("dispute")}
-              className="border-2 border-[#cc2b3f] text-[#cc2b3f] bg-white hover:bg-[#cc2b3f] hover:text-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition cursor-pointer"
+              className="border border-rose-200 text-rose-700 bg-white hover:bg-rose-50 px-5 py-2.5 rounded-full text-xs font-semibold transition cursor-pointer shadow-xs"
             >
               File Dispute
             </button>
@@ -117,9 +117,9 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
   }
 
   return (
-    <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+    <div className="border border-gray-200/80 rounded-3xl bg-white p-6 shadow-xs">
       {error && (
-        <div className="p-3 mb-4 font-mono text-xs text-[#cc2b3f] bg-white border-2 border-[#cc2b3f] rounded-xl font-bold">
+        <div className="p-3 mb-4 text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded-2xl font-semibold">
           {error}
         </div>
       )}
@@ -127,14 +127,14 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
       {mode === "verify" && (
         <form onSubmit={handleVerify} className="space-y-4">
           <div>
-            <h3 className="font-heading uppercase text-lg font-black text-[#1A2540]">Verify Sterilization Proof</h3>
-            <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">
+            <h3 className="font-heading text-lg font-bold text-[#163829]">Verify Sterilization Proof</h3>
+            <p className="text-xs text-gray-500 mt-1">
               Confirm that the veterinary certificate and clinical photographs meet protocol standards.
             </p>
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Verification Audit Note (optional)
             </label>
             <textarea
@@ -142,7 +142,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               rows={3}
               maxLength={VERIFICATION_NOTE_MAX}
               placeholder="e.g. Verified with clinic registry record #ABC-4902. Surgical sutures clean."
-              className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 text-sm text-[#1A2540]"
+              className="w-full border border-gray-200 rounded-2xl bg-white p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition disabled:opacity-50"
+              className="btn-paw-primary px-5 py-2.5 rounded-full text-xs font-bold transition disabled:opacity-50 shadow-xs cursor-pointer"
             >
               {loading ? "Verifying…" : "Confirm & Sign Verification"}
             </button>
@@ -158,7 +158,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               type="button"
               onClick={reset}
               disabled={loading}
-              className="border-2 border-[#1A2540] bg-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#FAF8FC]"
+              className="border border-gray-200 bg-white text-gray-700 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 cursor-pointer shadow-xs"
             >
               Cancel
             </button>
@@ -169,14 +169,14 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
       {mode === "dispute" && (
         <form onSubmit={handleDispute} className="space-y-4">
           <div>
-            <h3 className="font-heading uppercase text-lg font-black text-[#cc2b3f]">File a Dispute</h3>
-            <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">
+            <h3 className="font-heading text-lg font-bold text-rose-700">File a Dispute</h3>
+            <p className="text-xs text-gray-500 mt-1">
               Flag an irregularity. The request will move to DISPUTED status for clinical review.
             </p>
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Reason (required, min 10 chars)
             </label>
             <textarea
@@ -186,7 +186,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               minLength={10}
               maxLength={DISPUTE_REASON_MAX}
               placeholder="e.g., Certificate registration stamp does not match accredited veterinary partner."
-              className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 text-sm text-[#1A2540]"
+              className="w-full border border-gray-200 rounded-2xl bg-white p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
@@ -194,7 +194,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition disabled:opacity-50"
+              className="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-full text-xs font-bold transition disabled:opacity-50 shadow-xs cursor-pointer"
             >
               {loading ? "Filing…" : "Commit Dispute Docket"}
             </button>
@@ -202,7 +202,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               type="button"
               onClick={reset}
               disabled={loading}
-              className="border-2 border-[#1A2540] bg-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#FAF8FC]"
+              className="border border-gray-200 bg-white text-gray-700 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 cursor-pointer shadow-xs"
             >
               Cancel
             </button>
@@ -216,14 +216,14 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
           className="space-y-4"
         >
           <div>
-            <h3 className="font-heading uppercase text-lg font-black text-[#1A2540]">Resolve Dispute</h3>
-            <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">
+            <h3 className="font-heading text-lg font-bold text-[#163829]">Resolve Dispute</h3>
+            <p className="text-xs text-gray-500 mt-1">
               Approve the proof (mark verified) or reject it (send back to the rescuer for re-submission).
             </p>
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
               Resolution Note (optional)
             </label>
             <textarea
@@ -231,7 +231,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               rows={3}
               maxLength={VERIFICATION_NOTE_MAX}
               placeholder="Explain your decision for the audit trail."
-              className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 text-sm text-[#1A2540]"
+              className="w-full border border-gray-200 rounded-2xl bg-white p-3 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
             />
           </div>
 
@@ -239,7 +239,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition disabled:opacity-50"
+              className="btn-paw-primary px-5 py-2.5 rounded-full text-xs font-bold transition disabled:opacity-50 shadow-xs cursor-pointer"
             >
               {loading ? "Processing…" : "Approve — Mark Verified"}
             </button>
@@ -254,7 +254,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
                     "reject",
                   );
               }}
-              className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition disabled:opacity-50"
+              className="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-full text-xs font-bold transition disabled:opacity-50 shadow-xs cursor-pointer"
             >
               Reject — Send Back
             </button>
@@ -262,7 +262,7 @@ export default function VerifyActions({ requestId, isDisputed }: Props) {
               type="button"
               onClick={reset}
               disabled={loading}
-              className="border-2 border-[#1A2540] bg-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#FAF8FC]"
+              className="border border-gray-200 bg-white text-gray-700 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 cursor-pointer shadow-xs"
             >
               Cancel
             </button>

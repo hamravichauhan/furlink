@@ -45,21 +45,21 @@ export default async function AdminSterilizationPage({ searchParams }: PageProps
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">Sterilization Management (TNVR)</h2>
-          <p className="text-sm text-gray-500">
+          <h2 className="font-heading text-2xl font-black text-[#163829]">Sterilization Management (TNVR)</h2>
+          <p className="font-body text-xs sm:text-sm text-[#163829]/70 mt-1">
             {total} total requests · {countMap.PENDING ?? 0} pending rescuer · {countMap.PROOF_SUBMITTED ?? 0} proof in review · {countMap.VERIFIED ?? 0} verified
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Link
             href="/verify"
-            className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-full transition shadow-sm"
+            className="btn-paw-primary px-5 py-2.5 text-xs font-semibold shadow-xs"
           >
             Open Verification Queue →
           </Link>
           <Link
             href="/sterilization"
-            className="border-2 border-[#1A2540] text-[#1A2540] bg-white hover:bg-[#FAF8FC] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full transition"
+            className="border border-gray-200 bg-white hover:bg-gray-50 text-[#163829] px-4 py-2.5 rounded-full text-xs font-semibold transition"
           >
             Public Feed
           </Link>
@@ -67,7 +67,7 @@ export default async function AdminSterilizationPage({ searchParams }: PageProps
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 border-b pb-2 overflow-x-auto">
+      <div className="flex gap-2 border-b border-gray-200 pb-2 overflow-x-auto">
         <FilterTab href="/admin/sterilization" active={!statusFilter} label="All" count={total} />
         <FilterTab href="/admin/sterilization?status=PENDING" active={statusFilter === 'PENDING'} label="Pending" count={countMap.PENDING ?? 0} />
         <FilterTab href="/admin/sterilization?status=SCHEDULED" active={statusFilter === 'SCHEDULED'} label="Scheduled" count={countMap.SCHEDULED ?? 0} />
@@ -78,83 +78,91 @@ export default async function AdminSterilizationPage({ searchParams }: PageProps
       </div>
 
       {/* Requests Table */}
-      <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-gray-200/80 rounded-3xl overflow-hidden shadow-xs">
         {requests.length === 0 ? (
-          <div className="p-10 text-center text-sm text-gray-500">
+          <div className="p-10 text-center text-sm font-body text-gray-500">
             No sterilization requests found for this status.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
+            <table className="w-full text-sm font-body">
+              <thead className="bg-gray-50/50 border-b border-gray-100 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-4 py-3 text-left">Animal & Count</th>
-                  <th className="px-4 py-3 text-left">Location</th>
-                  <th className="px-4 py-3 text-left">Requester</th>
-                  <th className="px-4 py-3 text-left">Assigned Rescuer</th>
-                  <th className="px-4 py-3 text-left">Status</th>
-                  <th className="px-4 py-3 text-right">Actions</th>
+                  <th className="px-5 py-3.5 text-left">Animal &amp; Location</th>
+                  <th className="px-5 py-3.5 text-left">Citizen Reporter</th>
+                  <th className="px-5 py-3.5 text-left">Assigned Rescuer</th>
+                  <th className="px-5 py-3.5 text-left">Status</th>
+                  <th className="px-5 py-3.5 text-left">Ear Notch &amp; Clinic</th>
+                  <th className="px-5 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {requests.map((st) => (
-                  <tr key={st.id} className="hover:bg-gray-50/80">
-                    <td className="px-4 py-3">
-                      <div className="font-semibold text-gray-900">{st.count} × {st.animalType}</div>
-                      <div className="text-xs text-gray-400">
-                        {new Date(st.createdAt).toLocaleDateString()}
+                  <tr key={st.id} className="hover:bg-gray-50/60 transition-colors">
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 font-bold flex items-center justify-center shrink-0 border border-emerald-200 text-xs font-mono">
+                          {st.count}x
+                        </div>
+                        <div>
+                          <Link href={`/sterilization/${st.id}`} className="font-semibold text-[#163829] hover:underline">
+                            {st.animalType}
+                          </Link>
+                          <div className="text-xs text-gray-500 max-w-[200px] truncate">{st.location}</div>
+                          <div className="text-[11px] text-gray-400 mt-0.5">
+                            Logged: {new Date(st.createdAt).toLocaleDateString()}
+                          </div>
+                        </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-700 max-w-[200px]">
-                      <div className="truncate font-mono">Location: {st.location}</div>
-                      {st.clinicName && (
-                        <div className="text-emerald-700 mt-0.5 font-medium truncate font-mono">
-                          Clinic: {st.clinicName}
-                        </div>
-                      )}
+                    <td className="px-5 py-4 text-xs">
+                      <div className="font-semibold text-gray-900">{st.user.name || 'Citizen'}</div>
+                      <div className="text-gray-500">{st.user.email}</div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-700">
-                      <div className="font-medium text-gray-900">{st.user.name || 'Member'}</div>
-                      <div className="text-gray-400">{st.user.email}</div>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-700">
+                    <td className="px-5 py-4 text-xs">
                       {st.rescuer ? (
                         <div>
-                          <div className="font-medium text-blue-700">{st.rescuer.name || 'Rescuer'}</div>
-                          <div className="text-gray-400">{st.rescuer.email}</div>
+                          <div className="font-semibold text-emerald-800">{st.rescuer.name || 'Rescuer'}</div>
+                          <div className="text-gray-500">{st.rescuer.email}</div>
                         </div>
                       ) : (
                         <span className="text-gray-400 italic">Unassigned</span>
                       )}
                     </td>
-                    <td className="px-4 py-3">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase ${
+                    <td className="px-5 py-4">
+                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${
                         st.status === 'VERIFIED'
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
-                          : st.status === 'PROOF_SUBMITTED'
-                          ? 'bg-purple-100 text-purple-800 border-purple-200'
-                          : st.status === 'DISPUTED'
-                          ? 'bg-rose-100 text-rose-800 border-rose-200'
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                           : st.status === 'SCHEDULED'
-                          ? 'bg-blue-100 text-blue-800 border-blue-200'
-                          : 'bg-amber-100 text-amber-800 border-amber-200'
+                          ? 'bg-blue-50 text-blue-800 border-blue-200'
+                          : st.status === 'PROOF_SUBMITTED'
+                          ? 'bg-purple-50 text-purple-800 border-purple-200'
+                          : st.status === 'DISPUTED'
+                          ? 'bg-rose-50 text-rose-800 border-rose-200'
+                          : 'bg-amber-50 text-amber-800 border-amber-200'
                       }`}>
-                        {st.status.replace('_', ' ')}
+                        {st.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-5 py-4 text-xs">
+                      <div className="font-medium text-gray-800">
+                        {st.count} Animals ({st.animalType})
+                      </div>
+                      <div className="text-gray-500">{st.clinicName || 'Clinic pending'}</div>
+                    </td>
+                    <td className="px-5 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         {st.status === 'PROOF_SUBMITTED' && (
                           <Link
                             href={`/verify/${st.id}`}
-                            className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-2.5 py-1 rounded"
+                            className="bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-3 py-1 rounded-full transition"
                           >
                             Verify Proof
                           </Link>
                         )}
                         <Link
                           href={`/sterilization/${st.id}`}
-                          className="text-xs text-gray-600 hover:text-gray-900 border rounded px-2.5 py-1 hover:bg-gray-50"
+                          className="text-xs font-body font-semibold text-[#163829] hover:underline"
                         >
                           Details →
                         </Link>
@@ -185,13 +193,13 @@ function FilterTab({
   return (
     <Link
       href={href}
-      className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition ${
+      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${
         active
-          ? 'bg-gray-900 text-white'
-          : 'bg-white border text-gray-600 hover:bg-gray-50'
+          ? 'bg-[#163829] text-white shadow-xs'
+          : 'bg-white border border-gray-200 text-[#163829]/70 hover:bg-[#F8FAF8]'
       }`}
     >
-      {label} <span className="opacity-75">({count})</span>
+      {label} ({count})
     </Link>
   );
 }

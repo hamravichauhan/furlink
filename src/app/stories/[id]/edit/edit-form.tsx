@@ -44,43 +44,43 @@ export default function EditStoryForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm"
+      className="bg-white border border-gray-200/80 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs"
     >
       {errorMsg && (
-        <div className="p-4 border-2 border-[#cc2b3f] bg-white font-mono text-xs uppercase tracking-[0.12em] text-[#cc2b3f] font-bold">
+        <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-xs font-semibold text-rose-700">
           {errorMsg}
         </div>
       )}
 
       <div>
-        <label className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#1A2540] mb-2 font-bold">
-          Case Title
+        <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+          Story Headline
         </label>
         <input
           name="title"
           required
           defaultValue={initialTitle}
-          className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 text-sm text-[#1A2540] focus:outline-hidden focus:border-[#cc2b3f]"
+          className="w-full border border-gray-200 rounded-2xl bg-white p-3.5 text-sm text-[#163829] focus:outline-emerald-600 shadow-xs"
         />
       </div>
 
       <div>
-        <label className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#1A2540] mb-2 font-bold">
-          Photographic Plates
+        <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+          Photographic Evidence
         </label>
         <MultiImageUpload value={images} onChange={setImages} />
       </div>
 
       <div>
-        <label className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[#1A2540] mb-2 font-bold">
-          Narrative Observations
+        <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+          Story & Observations
         </label>
         <textarea
           name="content"
           rows={8}
           required
           defaultValue={initialContent}
-          className="w-full border-2 border-[#1A2540]/30 rounded-xl bg-white p-3 text-sm text-[#1A2540] leading-relaxed focus:outline-hidden focus:border-[#cc2b3f]"
+          className="w-full border border-gray-200 rounded-2xl bg-white p-3.5 text-sm text-[#163829] leading-relaxed focus:outline-emerald-600 shadow-xs"
         />
       </div>
 
@@ -88,13 +88,13 @@ export default function EditStoryForm({
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 py-4 bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs uppercase tracking-[0.18em] font-bold rounded-full transition disabled:opacity-50 cursor-pointer shadow-sm"
+          className="flex-1 py-4 btn-paw-primary text-xs font-bold rounded-full transition disabled:opacity-50 cursor-pointer shadow-xs"
         >
-          {loading ? "Saving Amendments..." : "Commit Amendments"}
+          {loading ? "Saving Changes..." : "Save Story Changes"}
         </button>
         <Link
           href={`/stories/${storyId}`}
-          className="py-4 px-6 border-2 border-[#1A2540] bg-white hover:bg-[#FAF8FC] text-center font-mono text-xs uppercase tracking-[0.18em] font-bold text-[#1A2540] rounded-full transition"
+          className="py-4 px-6 border border-gray-200 bg-white hover:bg-gray-50 text-center text-xs font-bold text-[#163829] rounded-full transition shadow-xs"
         >
           Cancel
         </Link>

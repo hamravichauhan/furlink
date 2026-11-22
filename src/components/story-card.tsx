@@ -20,31 +20,34 @@ export default function StoryCard({ story }: StoryCardProps) {
   return (
     <Link
       href={`/stories/${story.id}`}
-      className="group block border-[1.5px] border-[#101124] bg-white p-5 transition-transform hover:-translate-y-0.5"
+      className="group block bg-white rounded-3xl border border-gray-200/80 shadow-xs hover:shadow-md transition overflow-hidden flex flex-col"
     >
       {story.imageUrl && (
-        <div className="relative aspect-[16/10] w-full bg-[#FAF8FC] border-[1.5px] border-[#101124] overflow-hidden mb-4">
+        <div className="relative aspect-[16/10] w-full bg-gray-50 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={story.imageUrl}
             alt={story.title}
-            className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>
       )}
-      <div>
-        <div className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-[#314CB6] border border-[#314CB6] px-2 py-0.5 inline-block mb-2 font-bold">
-          Field Recovery Dossier
+      <div className="p-6 flex-1 flex flex-col justify-between">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-[#163829] border border-emerald-100 text-[11px] font-semibold mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            Recovery Story
+          </div>
+          <h3 className="font-heading font-bold text-xl text-[#163829] group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+            {story.title}
+          </h3>
+          <p className="font-body text-xs sm:text-sm text-gray-600 mt-2.5 line-clamp-3 leading-relaxed">
+            {excerpt}
+          </p>
         </div>
-        <h3 className="font-display uppercase text-xl text-[#101124] line-clamp-2 leading-snug group-hover:text-[#314CB6] transition-colors">
-          {story.title}
-        </h3>
-        <p className="font-body text-xs text-[#101124]/75 mt-2.5 line-clamp-3 leading-relaxed border-t border-[#101124]/15 pt-2">
-          {excerpt}
-        </p>
-        <div className="mt-4 pt-2.5 border-t-[1.5px] border-[#101124] font-mono text-[10px] tracking-[0.14em] uppercase text-[#101124]/60 flex justify-between">
-          <span>By {story.user.name || "Field Guardian"}</span>
-          <span>{new Date(story.createdAt).toLocaleDateString("en-IN")}</span>
+        <div className="mt-5 pt-4 border-t border-gray-100 font-body text-xs text-gray-400 flex items-center justify-between">
+          <span className="font-medium text-gray-600">By {story.user.name || "Community Guardian"}</span>
+          <span>{new Date(story.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}</span>
         </div>
       </div>
     </Link>

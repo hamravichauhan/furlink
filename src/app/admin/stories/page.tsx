@@ -21,47 +21,47 @@ export default async function AdminStoriesPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">FurStories Moderation</h2>
-          <p className="text-sm text-gray-500">
-            {stories.length} community stor{stories.length === 1 ? 'y' : 'ies'} published
+          <h2 className="font-heading text-2xl font-black text-[#163829]">FurStories Community Moderation</h2>
+          <p className="font-body text-xs sm:text-sm text-[#163829]/70 mt-1">
+            {stories.length} community stor{stories.length === 1 ? 'y' : 'ies'} published by rescuers &amp; adoptive families
           </p>
         </div>
         <Link
           href="/stories/new"
-          className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-full transition shadow-sm"
+          className="btn-paw-primary px-5 py-2.5 text-xs font-semibold shadow-xs"
         >
-          + Write Story
+          + Write New Story
         </Link>
       </div>
 
       {/* Stories Table */}
-      <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-gray-200/80 rounded-3xl overflow-hidden shadow-xs">
         {stories.length === 0 ? (
-          <div className="p-10 text-center text-sm text-gray-500">
+          <div className="p-10 text-center text-sm font-body text-gray-500">
             No community stories published yet.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
+            <table className="w-full text-sm font-body">
+              <thead className="bg-gray-50/50 border-b border-gray-100 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-4 py-3 text-left">Story</th>
-                  <th className="px-4 py-3 text-left">Author</th>
-                  <th className="px-4 py-3 text-left">Photos</th>
-                  <th className="px-4 py-3 text-left">Date</th>
-                  <th className="px-4 py-3 text-right">Actions</th>
+                  <th className="px-5 py-3.5 text-left">Story</th>
+                  <th className="px-5 py-3.5 text-left">Author</th>
+                  <th className="px-5 py-3.5 text-left">Photos</th>
+                  <th className="px-5 py-3.5 text-left">Date</th>
+                  <th className="px-5 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {stories.map((story) => (
-                  <tr key={story.id} className="hover:bg-gray-50/80">
-                    <td className="px-4 py-3">
+                  <tr key={story.id} className="hover:bg-gray-50/60 transition-colors">
+                    <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={story.imageUrl || 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80'}
+                          src={story.imageUrl || '/pets/pancho.jpg'}
                           alt={story.title}
-                          className="w-12 h-12 rounded-lg object-cover bg-gray-100 shrink-0"
+                          className="w-12 h-12 rounded-2xl object-cover bg-gray-100 shrink-0 border border-gray-200"
                         />
                         <div className="min-w-0 max-w-[280px]">
                           <div className="font-semibold text-gray-900 truncate">{story.title}</div>
@@ -71,17 +71,17 @@ export default async function AdminStoriesPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-700">
-                      <div className="font-medium text-gray-900">{story.user.name || 'Anonymous'}</div>
+                    <td className="px-5 py-4 text-xs text-gray-700">
+                      <div className="font-semibold text-gray-900">{story.user.name || 'Anonymous'}</div>
                       <div className="text-gray-400">{story.user.email}</div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-600">
+                    <td className="px-5 py-4 text-xs text-gray-600">
                       {story._count.images} photo{story._count.images === 1 ? '' : 's'}
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-400">
+                    <td className="px-5 py-4 text-xs text-gray-400">
                       {new Date(story.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-5 py-4 text-right">
                       <StoryAdminActions storyId={story.id} />
                     </td>
                   </tr>

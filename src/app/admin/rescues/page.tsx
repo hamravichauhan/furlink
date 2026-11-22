@@ -52,21 +52,22 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">Rescue Cases Management</h2>
-          <p className="text-sm text-gray-500">
+          <h2 className="font-heading text-2xl font-black text-[#163829]">Rescue Cases Management</h2>
+          <p className="font-body text-xs sm:text-sm text-[#163829]/70 mt-1">
             {total} total cases reported · {countMap.REPORTED} open · {countMap.IN_PROGRESS} claimed · {countMap.PROOF_SUBMITTED} awaiting proof review · {countMap.DISPUTED} disputed
           </p>
         </div>
         <Link
           href="/rescues/new"
-          className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-full transition shadow-sm"
+          className="bg-[#cc2b3f] hover:bg-[#b02234] text-white font-body text-xs font-semibold px-5 py-2.5 rounded-full transition shadow-xs inline-flex items-center gap-2"
         >
+          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
           + File New Rescue Report
         </Link>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 border-b pb-2 overflow-x-auto">
+      <div className="flex gap-2 border-b border-gray-200 pb-2 overflow-x-auto">
         <FilterTab href="/admin/rescues" active={!statusFilter} label="All" count={total} />
         <FilterTab href="/admin/rescues?status=REPORTED" active={statusFilter === 'REPORTED'} label="Reported (Open)" count={countMap.REPORTED} />
         <FilterTab href="/admin/rescues?status=IN_PROGRESS" active={statusFilter === 'IN_PROGRESS'} label="In Progress" count={countMap.IN_PROGRESS} />
@@ -77,96 +78,92 @@ export default async function AdminRescuesPage({ searchParams }: PageProps) {
       </div>
 
       {/* Rescues Table */}
-      <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-gray-200/80 rounded-3xl overflow-hidden shadow-xs">
         {rescues.length === 0 ? (
-          <div className="p-10 text-center text-sm text-gray-500">
+          <div className="p-10 text-center text-sm font-body text-gray-500">
             No rescue reports found for this status.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
+            <table className="w-full text-sm font-body">
+              <thead className="bg-gray-50/50 border-b border-gray-100 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-4 py-3 text-left">Animal</th>
-                  <th className="px-4 py-3 text-left">Location</th>
-                  <th className="px-4 py-3 text-left">Reported By</th>
-                  <th className="px-4 py-3 text-left">Rescuer Handling</th>
-                  <th className="px-4 py-3 text-left">Status</th>
-                  <th className="px-4 py-3 text-right">Inspect &amp; Actions</th>
+                  <th className="px-5 py-3.5 text-left">Animal</th>
+                  <th className="px-5 py-3.5 text-left">Location</th>
+                  <th className="px-5 py-3.5 text-left">Reported By</th>
+                  <th className="px-5 py-3.5 text-left">Rescuer Handling</th>
+                  <th className="px-5 py-3.5 text-left">Status</th>
+                  <th className="px-5 py-3.5 text-right">Inspect &amp; Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {rescues.map((rescue) => (
-                  <tr key={rescue.id} className="hover:bg-gray-50/80">
-                    <td className="px-4 py-3">
+                  <tr key={rescue.id} className="hover:bg-gray-50/60 transition-colors">
+                    <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={rescue.imageUrl}
-                          alt={rescue.animalType}
-                          className="w-12 h-12 rounded-lg object-cover bg-gray-100 shrink-0"
+                          alt="Animal"
+                          className="w-12 h-12 rounded-2xl object-cover bg-gray-100 shrink-0 border border-gray-200"
                         />
                         <div>
-                          <div className="font-semibold text-gray-900 capitalize flex items-center gap-1.5">
+                          <Link href={`/rescues/${rescue.id}`} className="font-semibold text-[#163829] hover:underline">
                             {rescue.animalType}
-                            {rescue.urgency === 'CRITICAL' && (
-                              <span className="text-[9px] bg-[#cc2b3f] text-white px-1.5 py-0.5 rounded font-mono font-bold">
-                                CRITICAL
-                              </span>
-                            )}
+                          </Link>
+                          <div className="text-xs text-gray-500 line-clamp-1 max-w-[200px]">
+                            {rescue.description}
                           </div>
-                          <div className="text-xs text-gray-400">
-                            {new Date(rescue.createdAt).toLocaleDateString()}
+                          <div className="text-[11px] text-gray-400 mt-0.5">
+                            Reported: {new Date(rescue.createdAt).toLocaleDateString()}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-700 max-w-[200px]">
-                      <div className="font-medium truncate font-mono">{rescue.location}</div>
-                      {rescue.latitude && rescue.longitude && (
-                        <div className="text-gray-400 mt-0.5 font-mono text-[10px]">
-                          GPS: {rescue.latitude.toFixed(4)}, {rescue.longitude.toFixed(4)}
-                        </div>
-                      )}
+                    <td className="px-5 py-4 text-xs">
+                      <div className="font-medium text-gray-900 max-w-[200px] truncate">
+                        {rescue.location}
+                      </div>
+                      <div className="text-gray-400 text-[10px] mt-0.5">
+                        {rescue.latitude ? rescue.latitude.toFixed(4) : 'N/A'}, {rescue.longitude ? rescue.longitude.toFixed(4) : 'N/A'}
+                      </div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-600">
+                    <td className="px-5 py-4 text-xs">
                       <div className="font-medium text-gray-900">{rescue.user.name || 'Anonymous'}</div>
-                      <div className="text-gray-400 truncate max-w-[130px]">{rescue.user.email}</div>
+                      <div className="text-gray-500">{rescue.user.email}</div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-600">
+                    <td className="px-5 py-4 text-xs">
                       {rescue.rescuer ? (
                         <div>
                           <div className="font-medium text-emerald-800">{rescue.rescuer.name || 'Rescuer'}</div>
-                          <div className="text-gray-400 text-[10px]">{rescue.rescuer.email}</div>
+                          <div className="text-gray-500">{rescue.rescuer.email}</div>
                         </div>
                       ) : (
                         <span className="text-gray-400 italic">Unclaimed</span>
                       )}
                     </td>
-                    <td className="px-4 py-3">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase ${
-                        rescue.status === 'REPORTED'
-                          ? 'bg-amber-100 text-amber-800 border-amber-200'
+                    <td className="px-5 py-4">
+                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${
+                        rescue.status === 'RESCUED'
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                           : rescue.status === 'IN_PROGRESS'
-                          ? 'bg-blue-100 text-blue-800 border-blue-200'
+                          ? 'bg-amber-50 text-amber-800 border-amber-200'
                           : rescue.status === 'PROOF_SUBMITTED'
-                          ? 'bg-indigo-100 text-indigo-800 border-indigo-200'
-                          : rescue.status === 'RESCUED'
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                          ? 'bg-blue-50 text-blue-800 border-blue-200'
                           : rescue.status === 'DISPUTED'
-                          ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold'
+                          ? 'bg-rose-50 text-rose-800 border-rose-200'
                           : 'bg-gray-100 text-gray-700 border-gray-200'
                       }`}>
-                        {rescue.status.replace('_', ' ')}
+                        {rescue.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-5 py-4 text-right">
+                      <div className="flex items-center justify-end gap-3">
                         <Link
                           href={`/rescues/${rescue.id}`}
-                          className="font-mono text-xs text-[#cc2b3f] hover:underline font-bold px-2 py-1 rounded bg-[#f2e9db]/50 border border-[#1A2540]/20"
+                          className="text-xs font-body font-semibold text-[#163829] hover:underline"
                         >
-                          View / Audit &rarr;
+                          View &rarr;
                         </Link>
                         <RescueStatusActions
                           rescueId={rescue.id}
@@ -199,10 +196,10 @@ function FilterTab({
   return (
     <Link
       href={href}
-      className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition ${
+      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${
         active
-          ? 'bg-[#1A2540] text-white'
-          : 'text-gray-600 hover:bg-gray-100'
+          ? 'bg-[#163829] text-white shadow-xs'
+          : 'bg-white border border-gray-200 text-[#163829]/70 hover:bg-[#F8FAF8]'
       }`}
     >
       {label} ({count})

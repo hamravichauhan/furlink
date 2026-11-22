@@ -280,20 +280,20 @@ export default function DonationImpactEngine({
           )}
 
           {/* Donation Block Container */}
-          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-200 shadow-xl">
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-200/80 shadow-xs">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left: Interactive Picker */}
               <div className="lg:col-span-7 space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#1A2540]/20 pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
                   <div className="flex items-center gap-2">
-                    <span className="font-heading text-xs uppercase tracking-wider text-[#cc2b3f] font-bold">
+                    <span className="font-heading text-xs uppercase tracking-wider text-emerald-800 font-bold">
                       Direct Care Allocation
                     </span>
                     {/* Currency Selector */}
                     <select
                       value={currency}
                       onChange={(e) => setCurrency(e.target.value as any)}
-                      className="font-body text-[11px] font-semibold bg-white border border-[#1A2540]/30 rounded-full px-2 py-0.5 text-[#1A2540] focus:outline-hidden"
+                      className="font-body text-[11px] font-semibold bg-gray-50 border border-gray-200 rounded-full px-2.5 py-1 text-[#163829] focus:outline-emerald-600"
                     >
                       <option value="INR">INR (₹)</option>
                       <option value="USD">USD ($)</option>
@@ -302,14 +302,14 @@ export default function DonationImpactEngine({
                   </div>
 
                   {/* Frequency Toggle */}
-                  <div className="inline-flex bg-white/70 p-1 rounded-full border border-[#1A2540]/20">
+                  <div className="inline-flex bg-gray-100 p-1 rounded-full border border-gray-200">
                     <button
                       type="button"
                       onClick={() => setFrequency("monthly")}
-                      className={`font-body text-xs font-semibold px-3.5 py-1 rounded-full transition-colors ${
+                      className={`font-body text-xs font-semibold px-3.5 py-1 rounded-full transition-colors cursor-pointer ${
                         frequency === "monthly"
-                          ? "bg-[#cc2b3f] text-[#f2e9db]"
-                          : "text-[#1A2540]/70 hover:text-[#1A2540]"
+                          ? "bg-[#163829] text-white shadow-xs"
+                          : "text-gray-600 hover:text-gray-900"
                       }`}
                     >
                       Monthly Care
@@ -317,10 +317,10 @@ export default function DonationImpactEngine({
                     <button
                       type="button"
                       onClick={() => setFrequency("once")}
-                      className={`font-body text-xs font-semibold px-3.5 py-1 rounded-full transition-colors ${
+                      className={`font-body text-xs font-semibold px-3.5 py-1 rounded-full transition-colors cursor-pointer ${
                         frequency === "once"
-                          ? "bg-[#cc2b3f] text-[#f2e9db]"
-                          : "text-[#1A2540]/70 hover:text-[#1A2540]"
+                          ? "bg-[#163829] text-white shadow-xs"
+                          : "text-gray-600 hover:text-gray-900"
                       }`}
                     >
                       One-Time Gift
@@ -329,14 +329,14 @@ export default function DonationImpactEngine({
                 </div>
 
                 {frequency === "monthly" && (
-                  <div className="bg-white/60 p-3 rounded-xl border border-[#1A2540]/15 font-body text-xs text-[#1A2540]/75">
+                  <div className="bg-emerald-50/70 p-3 rounded-2xl border border-emerald-100 font-body text-xs text-emerald-900">
                     Monthly care guarantees that trauma cases admitted tonight have antibiotics and surgical packs waiting at 06:00. Cancel anytime with one tap.
                   </div>
                 )}
 
                 {/* Tiers Grid */}
                 <div>
-                  <span className="font-heading text-xs uppercase tracking-wider text-[#1A2540]/60 block mb-3 font-bold">
+                  <span className="font-heading text-xs uppercase tracking-wider text-gray-400 block mb-3 font-bold">
                     Choose a direct medical tier
                   </span>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -348,10 +348,10 @@ export default function DonationImpactEngine({
                           setSelectedTier(tier.amount);
                           setCustomAmount("");
                         }}
-                        className={`p-3.5 rounded-2xl border-[1.5px] text-left transition-all cursor-pointer ${
+                        className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                           activeAmount === tier.amount && !customAmount
-                            ? "border-[#cc2b3f] bg-[#cc2b3f] text-[#f2e9db] shadow-sm"
-                            : "border-[#1A2540]/25 bg-white hover:border-[#1A2540] text-[#1A2540]"
+                            ? "border-[#163829] bg-[#163829] text-white shadow-xs"
+                            : "border-gray-200 bg-white hover:border-gray-400 text-gray-800"
                         }`}
                       >
                         <div className="font-heading text-xl font-bold leading-none">
@@ -360,8 +360,8 @@ export default function DonationImpactEngine({
                         <div
                           className={`font-body text-[11px] font-medium mt-1 ${
                             activeAmount === tier.amount && !customAmount
-                              ? "text-[#f2e9db]/85"
-                              : "text-[#cc2b3f]"
+                              ? "text-emerald-100"
+                              : "text-emerald-700"
                           }`}
                         >
                           {tier.impactItem}
@@ -369,12 +369,12 @@ export default function DonationImpactEngine({
                       </button>
                     ))}
 
-                    <div className="p-3 rounded-2xl border-[1.5px] border-[#1A2540]/25 bg-white flex flex-col justify-center">
-                      <label className="font-body text-[10px] uppercase font-bold text-[#1A2540]/60 tracking-wider">
+                    <div className="p-3 rounded-2xl border border-gray-200 bg-white flex flex-col justify-center">
+                      <label className="font-body text-[10px] uppercase font-bold text-gray-400 tracking-wider">
                         Custom Amount
                       </label>
                       <div className="flex items-center gap-1 mt-0.5">
-                        <span className="font-heading text-sm text-[#1A2540] font-bold">
+                        <span className="font-heading text-sm text-gray-600 font-bold">
                           {currencySymbol}
                         </span>
                         <input
@@ -382,7 +382,7 @@ export default function DonationImpactEngine({
                           placeholder="5000"
                           value={customAmount}
                           onChange={(e) => setCustomAmount(e.target.value)}
-                          className="w-full bg-transparent font-heading text-lg font-bold text-[#1A2540] focus:outline-hidden"
+                          className="w-full bg-transparent font-heading text-lg font-bold text-[#163829] focus:outline-hidden"
                         />
                       </div>
                     </div>
@@ -390,8 +390,8 @@ export default function DonationImpactEngine({
                 </div>
 
                 {/* Optional Donor Profile Details for 80G Receipt */}
-                <div className="bg-white p-4 sm:p-5 rounded-2xl border-[1.5px] border-[#1A2540]/20 space-y-3">
-                  <span className="font-heading text-xs uppercase tracking-wider text-[#1A2540] font-bold block">
+                <div className="bg-gray-50/70 p-4 sm:p-5 rounded-2xl border border-gray-200/80 space-y-3">
+                  <span className="font-heading text-xs uppercase tracking-wider text-[#163829] font-bold block">
                     Donor Receipt Details (For Tax Exemption &amp; Acknowledgement)
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -400,24 +400,24 @@ export default function DonationImpactEngine({
                       placeholder="Your Full Name"
                       value={donorName}
                       onChange={(e) => setDonorName(e.target.value)}
-                      className="bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 font-body text-xs text-[#1A2540]"
+                      className="bg-white border border-gray-200 rounded-xl p-2.5 font-body text-xs text-[#163829] focus:outline-emerald-600"
                     />
                     <input
                       type="email"
                       placeholder="Email Address (for receipt)"
                       value={donorEmail}
                       onChange={(e) => setDonorEmail(e.target.value)}
-                      className="bg-[#f2e9db]/30 border border-[#1A2540]/25 rounded-xl p-2.5 font-body text-xs text-[#1A2540]"
+                      className="bg-white border border-gray-200 rounded-xl p-2.5 font-body text-xs text-[#163829] focus:outline-emerald-600"
                     />
                   </div>
                 </div>
 
                 {/* Tangible Translation Statement */}
-                <div className="bg-white p-5 rounded-2xl border-[1.5px] border-[#1A2540]/20 space-y-1.5">
-                  <span className="font-heading text-xs uppercase tracking-wider text-[#cc2b3f] font-bold block">
+                <div className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100 space-y-1.5">
+                  <span className="font-heading text-xs uppercase tracking-wider text-emerald-800 font-bold block">
                     Concrete Output of your {displayAmount(activeAmount)} support:
                   </span>
-                  <p className="font-body text-sm text-[#1A2540] leading-relaxed font-medium">
+                  <p className="font-body text-sm text-[#163829] leading-relaxed font-medium">
                     {customAmount || targetName
                       ? getImpactDescription(activeAmount)
                       : TIERS.find((t) => t.amount === activeAmount)?.tangible}
@@ -430,7 +430,7 @@ export default function DonationImpactEngine({
                     type="button"
                     onClick={handleRazorpayDonate}
                     disabled={loading || demoLoading}
-                    className="btn-enroll-pill w-full py-4 text-center text-xs sm:text-sm tracking-wider shadow-md cursor-pointer disabled:opacity-50"
+                    className="btn-paw-primary w-full py-4 text-center text-xs sm:text-sm font-bold tracking-wider rounded-full shadow-xs cursor-pointer disabled:opacity-50"
                   >
                     {loading
                       ? "OPENING RAZORPAY GATEWAY..."
@@ -442,64 +442,64 @@ export default function DonationImpactEngine({
                       type="button"
                       onClick={handleDemoDonate}
                       disabled={loading || demoLoading}
-                      className="font-mono text-[11px] font-bold uppercase text-[#1A2540]/70 hover:text-[#cc2b3f] hover:underline"
+                      className="font-mono text-[11px] font-bold uppercase text-gray-500 hover:text-emerald-700 hover:underline cursor-pointer"
                     >
                       {demoLoading ? "Processing Test..." : "Or 1-Click Instant Demo Donation (Offline Mode)"}
                     </button>
-                    <span className="font-mono text-[10px] text-gray-500">
+                    <span className="font-mono text-[10px] text-gray-400">
                       Razorpay Test Mode Active
                     </span>
                   </div>
 
-                  <p className="font-body text-[11px] text-[#1A2540]/60 text-center">
+                  <p className="font-body text-[11px] text-gray-400 text-center">
                     100% applied to clinical treatment · Tax exempt under Section 80G
                   </p>
                 </div>
               </div>
 
               {/* Right: Urgent Surgery Case (Sheru) */}
-              <div className="lg:col-span-5 bg-white rounded-2xl border-[1.5px] border-[#1A2540]/25 p-6 flex flex-col justify-between space-y-6">
+              <div className="lg:col-span-5 bg-gray-50/70 rounded-3xl border border-gray-200/80 p-6 flex flex-col justify-between space-y-6">
                 <div>
                   <div className="inline-flex items-center gap-2 bg-[#D8F3DC] border border-[#74C69D] px-3 py-1 rounded-full font-heading text-[11px] uppercase tracking-wider text-[#163829] font-bold">
                     <span className="w-2 h-2 rounded-full bg-[#163829] animate-pulse" />
                     Urgent Inpatient Surgery
                   </div>
 
-                  <h4 className="font-heading text-xl sm:text-2xl text-[#1A2540] mt-3 leading-tight">
+                  <h4 className="font-heading text-xl sm:text-2xl text-[#163829] font-bold mt-3 leading-tight">
                     Surgery for Sheru: Hind-Leg Bone Fixation
                   </h4>
 
-                  <p className="font-body text-xs text-[#1A2540]/75 mt-2.5 leading-relaxed">
+                  <p className="font-body text-xs text-gray-600 mt-2.5 leading-relaxed">
                     Found by a highway patrol team near Belagavi bypass after a severe hit-and-run.
                     Surgical stainless steel pins are required to save both hind limbs from amputation.
                   </p>
 
                   {/* Surgery Progress Bar */}
-                  <div className="mt-6 space-y-2 border-t border-[#1A2540]/15 pt-4">
-                    <div className="flex justify-between font-body text-xs font-semibold text-[#1A2540]">
+                  <div className="mt-6 space-y-2 border-t border-gray-200 pt-4">
+                    <div className="flex justify-between font-body text-xs font-semibold text-[#163829]">
                       <span>Raised: ₹18,400</span>
-                      <span className="text-[#cc2b3f] font-bold">Goal: ₹24,000 (76%)</span>
+                      <span className="text-emerald-700 font-bold">Goal: ₹24,000 (76%)</span>
                     </div>
-                    <div className="w-full h-3 rounded-full bg-[#FAF8FC] border border-[#1A2540]/30 overflow-hidden p-[1px]">
+                    <div className="w-full h-3 rounded-full bg-gray-200 overflow-hidden p-[1px]">
                       <div
-                        className="h-full rounded-full bg-[#cc2b3f] transition-all duration-500"
+                        className="h-full rounded-full bg-emerald-600 transition-all duration-500"
                         style={{ width: "76%" }}
                       />
                     </div>
-                    <p className="font-body text-[11px] text-[#1A2540]/60 text-right">
+                    <p className="font-body text-[11px] text-gray-400 text-right">
                       ₹5,600 still needed before surgery tomorrow morning
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-[#1A2540]/15">
+                <div className="pt-2 border-t border-gray-200">
                   <button
                     type="button"
                     onClick={() => {
                       setCustomAmount("5600");
                       setSelectedTier(5600);
                     }}
-                    className="w-full py-3 rounded-full border-[1.5px] border-[#1A2540] bg-[#f2e9db] hover:bg-white font-body text-xs font-bold text-[#1A2540] transition-colors cursor-pointer"
+                    className="w-full py-3 rounded-full border border-gray-200 bg-white hover:bg-gray-50 font-body text-xs font-bold text-[#163829] transition-colors cursor-pointer shadow-xs"
                   >
                     Sponsor Remaining ₹5,600 for Sheru
                   </button>

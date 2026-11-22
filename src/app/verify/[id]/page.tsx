@@ -33,15 +33,15 @@ export default async function VerifyDetailPage({
   if (request.status !== "PROOF_SUBMITTED" && request.status !== "DISPUTED") {
     return (
       <div className="bg-[#F8FAF8] text-[#163829] min-h-[70vh] flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-8 text-center space-y-4 shadow-sm">
-          <div className="font-mono text-xs uppercase tracking-widest text-[#1A2540] font-bold">[RESOLVED]</div>
-          <h1 className="font-heading uppercase text-2xl font-black">Audit Concluded</h1>
-          <p className="text-xs font-mono uppercase tracking-wider text-[#1A2540]/70">
+        <div className="max-w-md w-full bg-white border border-gray-200/80 rounded-3xl p-8 text-center space-y-4 shadow-xs">
+          <div className="text-xs uppercase tracking-wider text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1 inline-block">Audit Concluded</div>
+          <h1 className="font-heading text-2xl font-bold text-[#163829]">Audit Concluded</h1>
+          <p className="text-xs text-gray-500">
             This request is no longer in the verification queue.
           </p>
           <Link
             href="/verify"
-            className="inline-block bg-[#1A2540] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold"
+            className="inline-block btn-paw-primary px-5 py-2.5 rounded-full text-xs font-bold"
           >
             Back to Queue
           </Link>
@@ -58,35 +58,35 @@ export default async function VerifyDetailPage({
         <div className="flex items-center gap-3 flex-wrap">
           <Link
             href="/admin/verifications"
-            className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline inline-block"
+            className="text-xs text-emerald-700 font-semibold hover:underline inline-block"
           >
             ← Admin Verification Queue
           </Link>
-          <span className="text-[#1A2540]/30 font-mono text-xs">|</span>
+          <span className="text-gray-300 text-xs">|</span>
           <Link
             href="/verify"
-            className="font-mono text-xs uppercase tracking-[0.16em] text-[#1A2540]/70 font-bold hover:underline inline-block"
+            className="text-xs text-gray-500 font-semibold hover:underline inline-block"
           >
             Field Verifier Queue
           </Link>
         </div>
 
-        <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="bg-white border border-gray-200/80 rounded-3xl p-6 sm:p-8 shadow-xs">
           <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
             <div>
-              <span className="font-mono text-[10px] text-[#1A2540]/60 font-bold uppercase tracking-widest block mb-1">
+              <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">
                 Field Surgical Dossier #{request.id.slice(-6).toUpperCase()}
               </span>
-              <h1 className="font-heading uppercase text-2xl sm:text-4xl font-black tracking-tight">{request.location}</h1>
-              <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">
+              <h1 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#163829] tracking-tight">{request.location}</h1>
+              <p className="text-xs text-gray-500 mt-1">
                 {request.animalType} · Estimated count: {request.count}
               </p>
             </div>
             <span
-              className={`font-mono text-[10px] font-bold px-3 py-1 rounded-full border-2 uppercase tracking-wider ${
+              className={`text-xs font-semibold px-3 py-1 rounded-full border shadow-xs ${
                 request.status === "DISPUTED"
-                  ? "bg-white text-[#cc2b3f] border-[#cc2b3f]"
-                  : "bg-white text-[#1A2540] border-[#1A2540]"
+                  ? "bg-rose-50 text-rose-700 border-rose-200"
+                  : "bg-emerald-50 text-emerald-800 border-emerald-200"
               }`}
             >
               {request.status === "DISPUTED"
@@ -95,55 +95,55 @@ export default async function VerifyDetailPage({
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs bg-white rounded-xl p-4 border border-[#1A2540]/20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-gray-50/70 rounded-2xl p-4 border border-gray-100">
             <div>
-              <div className="text-[10px] text-[#1A2540]/60 uppercase">Requester</div>
-              <div className="font-bold text-[#1A2540]">
+              <div className="text-[11px] text-gray-400 uppercase font-semibold">Requester</div>
+              <div className="font-bold text-[#163829]">
                 {request.user.name || "Community Member"}
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-[#1A2540]/60 uppercase">Rescuer</div>
-              <div className="font-bold text-[#1A2540]">
+              <div className="text-[11px] text-gray-400 uppercase font-semibold">Rescuer</div>
+              <div className="font-bold text-[#163829]">
                 {request.rescuer?.name || "Unknown"}
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-[#1A2540]/60 uppercase">Submitted</div>
-              <div className="font-bold text-[#1A2540]">
+              <div className="text-[11px] text-gray-400 uppercase font-semibold">Submitted</div>
+              <div className="font-bold text-[#163829]">
                 {request.proofSubmittedAt
                   ? new Date(request.proofSubmittedAt).toLocaleString("en-IN")
                   : "—"}
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-[#1A2540]/60 uppercase">Clinic</div>
-              <div className="font-bold text-[#1A2540]">{request.clinicName || "—"}</div>
+              <div className="text-[11px] text-gray-400 uppercase font-semibold">Clinic</div>
+              <div className="font-bold text-[#163829]">{request.clinicName || "—"}</div>
             </div>
             {request.veterinarianName && (
               <div className="sm:col-span-2">
-                <div className="text-[10px] text-[#1A2540]/60 uppercase">Attending Veterinarian</div>
-                <div className="font-bold text-[#1A2540]">Dr. {request.veterinarianName}</div>
+                <div className="text-[11px] text-gray-400 uppercase font-semibold">Attending Veterinarian</div>
+                <div className="font-bold text-[#163829]">Dr. {request.veterinarianName}</div>
               </div>
             )}
           </div>
         </div>
 
         {request.status === "DISPUTED" && request.disputeReason && (
-          <div className="border-2 border-[#cc2b3f] bg-white rounded-2xl p-5 shadow-sm">
-            <div className="font-mono text-xs font-bold text-[#cc2b3f] uppercase tracking-wider mb-1">
+          <div className="border border-rose-200 bg-rose-50 rounded-3xl p-5 shadow-xs">
+            <div className="text-xs font-bold text-rose-700 uppercase tracking-wider mb-1">
               Dispute Registered
               {request.disputedBy?.name &&
                 ` · filed by ${request.disputedBy.name}`}
             </div>
-            <p className="font-mono text-xs text-[#1A2540] whitespace-pre-line">
+            <p className="text-xs text-rose-900 whitespace-pre-line leading-relaxed">
               {request.disputeReason}
             </p>
           </div>
         )}
 
-        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
-          <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+        <div className="border border-gray-200/80 rounded-3xl bg-white p-6 shadow-xs">
+          <h2 className="font-heading text-base font-bold text-[#163829] mb-3">
             Surgical Certificate Proof
           </h2>
           {request.completionCertificateUrl ? (
@@ -151,7 +151,7 @@ export default async function VerifyDetailPage({
               href={request.completionCertificateUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block relative w-full h-[480px] rounded-xl overflow-hidden border-2 border-[#1A2540] bg-white"
+              className="block relative w-full h-[480px] rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 shadow-xs"
             >
               <Image
                 src={request.completionCertificateUrl}
@@ -162,25 +162,25 @@ export default async function VerifyDetailPage({
               />
             </a>
           ) : (
-            <p className="font-mono text-xs uppercase text-[#1A2540]/60">No certificate uploaded.</p>
+            <p className="text-xs text-gray-400">No certificate uploaded.</p>
           )}
         </div>
 
-        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
-          <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+        <div className="border border-gray-200/80 rounded-3xl bg-white p-6 shadow-xs">
+          <h2 className="font-heading text-base font-bold text-[#163829] mb-3">
             Rescuer Field Observations
           </h2>
           {request.completionNotes ? (
-            <p className="font-sans text-sm text-[#1A2540] whitespace-pre-line leading-relaxed">
+            <p className="font-body text-sm text-gray-700 whitespace-pre-line leading-relaxed">
               {request.completionNotes}
             </p>
           ) : (
-            <p className="font-mono text-xs uppercase text-[#1A2540]/60">No notes provided.</p>
+            <p className="text-xs text-gray-400">No notes provided.</p>
           )}
         </div>
 
-        <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
-          <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+        <div className="border border-gray-200/80 rounded-3xl bg-white p-6 shadow-xs">
+          <h2 className="font-heading text-base font-bold text-[#163829] mb-3">
             GPS Coordinate Verification
           </h2>
           {request.latitude !== null && request.longitude !== null ? (
@@ -190,13 +190,13 @@ export default async function VerifyDetailPage({
               label={request.location}
             />
           ) : (
-            <p className="font-mono text-xs uppercase text-[#1A2540]/60">No coordinates were provided.</p>
+            <p className="text-xs text-gray-400">No coordinates were provided.</p>
           )}
 
           {request.completionLatitude !== null &&
             request.completionLongitude !== null && (
-              <div className="mt-4 pt-4 border-t-2 border-[#1A2540]/20">
-                <h3 className="font-mono text-xs font-bold text-[#1A2540] mb-2 uppercase tracking-wide">
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <h3 className="text-xs font-bold text-[#163829] mb-2 uppercase tracking-wide">
                   Clinical Completion Location
                 </h3>
                 <MiniMap
@@ -209,7 +209,7 @@ export default async function VerifyDetailPage({
         </div>
 
         {isOwnSubmission ? (
-          <div className="border-2 border-[#cc2b3f] bg-white rounded-2xl p-4 font-mono text-xs uppercase text-[#cc2b3f] font-bold">
+          <div className="border border-rose-200 bg-rose-50 rounded-2xl p-4 text-xs text-rose-700 font-semibold">
             You cannot verify your own submission. Another registered verifier will audit it.
           </div>
         ) : (

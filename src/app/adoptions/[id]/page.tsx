@@ -42,14 +42,14 @@ export default async function PetDetailPage({
     <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-10 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center justify-between border-b-2 border-[#1A2540] pb-4">
+        <div className="flex items-center justify-between border-b border-gray-200 pb-4">
           <Link
             href="/adoptions"
-            className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] hover:underline font-bold"
+            className="font-mono text-xs uppercase tracking-[0.16em] text-[#163829] hover:underline font-bold"
           >
             ← Back to Waiting Wall
           </Link>
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1A2540] border-2 border-[#1A2540] bg-white px-3 py-1 font-bold">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#163829] border border-gray-200 bg-white px-3 py-1 font-bold rounded-full shadow-xs">
             Case Ref: #{pet.id.slice(-6).toUpperCase()}
           </span>
         </div>
@@ -59,48 +59,48 @@ export default async function PetDetailPage({
           {/* Left Column: Portrait, Guardian Info & Medical Record */}
           <div className="lg:col-span-7 space-y-6">
             {/* Main Portrait */}
-            <div className="bg-[#f2e9db] rounded-3xl p-5 border-2 border-[#1A2540] shadow-sm">
-              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border-2 border-[#1A2540] bg-white shadow-xs">
+            <div className="bg-white rounded-3xl p-5 border border-gray-200/80 shadow-xs">
+              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-gray-50 shadow-xs">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={pet.imageUrl}
                   alt={pet.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-3 left-3 bg-[#1A2540] text-[#f2e9db] font-mono text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                <div className="absolute top-3 left-3 bg-[#163829]/90 backdrop-blur-xs text-white text-xs font-semibold px-3 py-1 rounded-full shadow-xs">
                   {pet.species} · {pet.gender}
                 </div>
-                <div className="absolute bottom-3 right-3 bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                <div className="absolute bottom-3 right-3 bg-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-xs">
                   Waiting {daysWaiting} Days
                 </div>
               </div>
 
               {/* Case Stamp Footer */}
-              <div className="mt-4 pt-3 border-t-2 border-[#1A2540]/20 flex items-center justify-between font-mono text-xs uppercase text-[#1A2540]/70 font-bold">
+              <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 font-medium">
                 <span>Arrival: {new Date(pet.createdAt).toLocaleDateString("en-IN")}</span>
-                <span className="text-[#cc2b3f]">Status: {pet.status}</span>
+                <span className="font-semibold text-emerald-700">Status: {pet.status}</span>
               </div>
             </div>
 
             {/* Direct Guardian & Shelter Station Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-7 border-2 border-[#1A2540] shadow-sm space-y-4">
-              <div className="flex items-center justify-between border-b-2 border-[#1A2540]/15 pb-3">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#cc2b3f] font-bold">
-                  Caregiver &amp; Location Docket
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-xs space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                <span className="text-xs uppercase tracking-wider text-emerald-800 font-bold">
+                  Caregiver &amp; Shelter Docket
                 </span>
-                <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded-md border border-[#1A2540] bg-[#f2e9db]">
+                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-800">
                   Verified Guardian
                 </span>
               </div>
 
               <div>
-                <h3 className="font-heading text-2xl font-black text-[#1A2540] leading-tight">
+                <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#163829] leading-tight">
                   {ownerName}
                 </h3>
-                <p className="font-mono text-xs text-[#1A2540]/70 uppercase tracking-wide mt-1">
+                <p className="text-xs text-gray-500 mt-1">
                   Facility: {location}
                 </p>
-                <p className="font-mono text-xs text-[#1A2540]/70 uppercase tracking-wide mt-0.5">
+                <p className="text-xs text-gray-500 mt-0.5">
                   Visiting &amp; Interaction Hours: {visitingHours}
                 </p>
               </div>
@@ -108,7 +108,7 @@ export default async function PetDetailPage({
               <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="flex-1 py-3 px-4 bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-xs uppercase tracking-wider font-bold rounded-full text-center transition shadow-sm"
+                  className="flex-1 py-3 px-4 btn-paw-primary text-xs font-bold rounded-full text-center transition shadow-xs"
                 >
                   Call Guardian ({contactPhone})
                 </a>
@@ -116,7 +116,7 @@ export default async function PetDetailPage({
                   href={`https://wa.me/${cleanPhone}?text=${waInquiryText}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-3 px-4 bg-[#f2e9db] hover:bg-white border-2 border-[#1A2540] text-[#1A2540] font-mono text-xs uppercase tracking-wider font-bold rounded-full text-center transition"
+                  className="flex-1 py-3 px-4 bg-white hover:bg-gray-50 border border-gray-200 text-[#163829] text-xs font-semibold rounded-full text-center transition shadow-xs"
                 >
                   WhatsApp Inquiries
                 </a>
@@ -124,38 +124,38 @@ export default async function PetDetailPage({
             </div>
 
             {/* Narrative & Temperament */}
-            <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-2 border-[#1A2540] shadow-sm space-y-6">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-6">
               <div>
-                <span className="font-mono text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+                <span className="text-xs uppercase tracking-wider text-emerald-800 font-bold block mb-1">
                   Individual Case Dossier
                 </span>
-                <h1 className="font-heading text-3xl sm:text-4xl font-black uppercase text-[#1A2540]">
+                <h1 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#163829]">
                   Meet {pet.name}
                 </h1>
-                <div className="font-mono text-xs text-[#cc2b3f] font-bold mt-1 uppercase">
+                <div className="text-xs text-emerald-700 font-semibold mt-1">
                   {pet.breed} · {pet.age} · Verified No-Kill Sanctuary
                 </div>
-                <p className="text-sm text-[#1A2540] mt-4 leading-relaxed whitespace-pre-line font-sans">
+                <p className="text-sm text-gray-700 mt-4 leading-relaxed whitespace-pre-line font-body">
                   {pet.description}
                 </p>
               </div>
 
               {/* Clinical Verification Grid */}
-              <div className="border-t-2 border-[#1A2540]/15 pt-5 space-y-3">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#1A2540] font-bold block">
+              <div className="border-t border-gray-100 pt-5 space-y-3">
+                <span className="text-xs uppercase tracking-wider text-gray-500 font-bold block">
                   Veterinary Medical Checklist
                 </span>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-mono text-xs">
-                  <div className="p-3 bg-white rounded-xl border-2 border-[#1A2540] text-[#1A2540]">
-                    <span className="font-bold text-[#cc2b3f] block text-[10px] uppercase">Sterilization</span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+                  <div className="p-3 bg-gray-50/80 rounded-2xl border border-gray-200 text-[#163829]">
+                    <span className="font-bold text-emerald-800 block text-[10px] uppercase">Sterilization</span>
                     TNVR Certified
                   </div>
-                  <div className="p-3 bg-white rounded-xl border-2 border-[#1A2540] text-[#1A2540]">
-                    <span className="font-bold text-[#cc2b3f] block text-[10px] uppercase">Vaccinations</span>
+                  <div className="p-3 bg-gray-50/80 rounded-2xl border border-gray-200 text-[#163829]">
+                    <span className="font-bold text-emerald-800 block text-[10px] uppercase">Vaccinations</span>
                     7-in-1 + Anti-Rabies
                   </div>
-                  <div className="p-3 bg-white rounded-xl border-2 border-[#1A2540] text-[#1A2540]">
-                    <span className="font-bold text-[#cc2b3f] block text-[10px] uppercase">Deworming</span>
+                  <div className="p-3 bg-gray-50/80 rounded-2xl border border-gray-200 text-[#163829]">
+                    <span className="font-bold text-emerald-800 block text-[10px] uppercase">Deworming</span>
                     Clinical Protocol
                   </div>
                 </div>
@@ -165,15 +165,15 @@ export default async function PetDetailPage({
 
           {/* Right Column: Interactive Adoption Intake Form */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-2 border-[#1A2540] shadow-sm">
-              <div className="border-b-2 border-[#1A2540]/20 pb-4 mb-6">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs">
+              <div className="border-b border-gray-100 pb-4 mb-6">
+                <span className="text-xs uppercase tracking-wider text-emerald-800 font-bold block mb-1">
                   Adoption Application
                 </span>
-                <h2 className="font-heading text-2xl font-black uppercase text-[#1A2540]">
+                <h2 className="font-heading text-xl sm:text-2xl font-bold text-[#163829]">
                   Apply for {pet.name}
                 </h2>
-                <p className="font-mono text-xs text-[#1A2540]/75 mt-1 leading-relaxed uppercase">
+                <p className="text-xs text-gray-500 mt-1 leading-relaxed">
                   Fill the home questionnaire. {ownerName} will review your housing details and call you during your chosen window.
                 </p>
               </div>
@@ -189,20 +189,20 @@ export default async function PetDetailPage({
             </div>
 
             {/* Medical Meal Support Alternative */}
-            <div className="bg-white rounded-2xl border-2 border-[#1A2540] p-5 flex items-center justify-between gap-4 shadow-sm">
+            <div className="bg-emerald-50/60 rounded-3xl border border-emerald-100 p-5 flex items-center justify-between gap-4 shadow-xs">
               <div>
-                <span className="font-heading uppercase text-sm text-[#1A2540] font-black block">
+                <span className="font-heading text-sm text-[#163829] font-bold block">
                   Cannot adopt right now?
                 </span>
-                <p className="font-mono text-[11px] text-[#1A2540]/70 mt-0.5 uppercase tracking-tight">
+                <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">
                   Sponsor {pet.name}&apos;s nutrition and medical care while they wait for their family.
                 </p>
               </div>
               <Link
                 href={`/donate?pet=${encodeURIComponent(pet.name)}&amount=450`}
-                className="btn-enroll-pill px-4 py-2 text-xs font-bold shrink-0 whitespace-nowrap"
+                className="btn-paw-primary px-4 py-2.5 text-xs font-bold rounded-full shrink-0 whitespace-nowrap shadow-xs"
               >
-                SPONSOR ₹450 &rarr;
+                Sponsor ₹450 &rarr;
               </Link>
             </div>
           </div>

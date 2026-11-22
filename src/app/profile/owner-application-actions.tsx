@@ -70,7 +70,7 @@ export default function OwnerApplicationActions({
         type="button"
         onClick={() => handle("PENDING")}
         disabled={loading}
-        className="font-mono text-[11px] font-bold uppercase tracking-wider border-2 border-[#1A2540] rounded-full px-3.5 py-1.5 bg-white hover:bg-[#f2e9db] disabled:opacity-50 cursor-pointer text-[#1A2540]"
+        className="font-mono text-[11px] font-bold uppercase tracking-wider border border-gray-200 rounded-full px-3.5 py-1.5 bg-white hover:bg-gray-50 disabled:opacity-50 cursor-pointer text-[#163829] shadow-xs"
       >
         {loading ? "Updating..." : "Revert Decision"}
       </button>

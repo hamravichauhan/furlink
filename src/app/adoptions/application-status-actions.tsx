@@ -36,18 +36,18 @@ export default function ApplicationStatusActions({
   if (currentStatus === "PENDING") {
     return (
       <div className="flex items-center gap-2">
-        {error && <span className="font-mono text-[10px] text-[#cc2b3f] font-bold">{error}</span>}
+        {error && <span className="font-body text-xs text-[#cc2b3f] font-semibold">{error}</span>}
         <button
           onClick={() => handle("APPROVED")}
           disabled={loading}
-          className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] font-mono text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full transition disabled:opacity-50 cursor-pointer shadow-sm"
+          className="bg-[#163829] hover:bg-[#0D2818] text-white font-body text-xs font-semibold px-4 py-1.5 rounded-full transition disabled:opacity-50 cursor-pointer shadow-xs"
         >
           {loading ? "…" : "Approve"}
         </button>
         <button
           onClick={() => handle("REJECTED")}
           disabled={loading}
-          className="border border-[#cc2b3f] text-[#cc2b3f] bg-white hover:bg-[#cc2b3f] hover:text-white font-mono text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full transition disabled:opacity-50 cursor-pointer"
+          className="border border-rose-200 text-[#cc2b3f] bg-rose-50 hover:bg-[#cc2b3f] hover:text-white font-body text-xs font-semibold px-4 py-1.5 rounded-full transition disabled:opacity-50 cursor-pointer"
         >
           Reject
         </button>
@@ -57,11 +57,11 @@ export default function ApplicationStatusActions({
 
   return (
     <div className="flex items-center gap-2">
-      {error && <span className="font-mono text-[10px] text-[#cc2b3f] font-bold">{error}</span>}
+      {error && <span className="font-body text-xs text-[#cc2b3f] font-semibold">{error}</span>}
       <button
         onClick={() => handle("PENDING")}
         disabled={loading}
-        className="font-mono text-[11px] font-bold uppercase tracking-wider border border-[#1A2540] rounded-full px-3.5 py-1.5 bg-white hover:bg-[#f2e9db] disabled:opacity-50 cursor-pointer"
+        className="font-body text-xs font-semibold border border-gray-200 rounded-full px-3.5 py-1 bg-white hover:bg-gray-50 text-[#163829] disabled:opacity-50 cursor-pointer transition"
       >
         {loading ? "…" : "Revert"}
       </button>

@@ -27,90 +27,90 @@ export default async function AdminAdoptionsPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">Adoption Management</h2>
-          <p className="text-sm text-gray-500">
+          <h2 className="font-heading text-2xl font-black text-[#163829]">Adoption Management</h2>
+          <p className="font-body text-xs sm:text-sm text-[#163829]/70 mt-1">
             {applications.length} application{applications.length === 1 ? '' : 's'} · {pendingApps.length} pending review · {pets.length} pets in catalog
           </p>
         </div>
         <Link
           href="/adoptions/new"
-          className="bg-[#cc2b3f] hover:bg-[#b02435] text-[#f2e9db] font-mono text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-full transition shadow-sm"
+          className="btn-paw-primary px-5 py-2.5 text-xs font-semibold shadow-xs"
         >
           + List New Pet for Adoption
         </Link>
       </div>
 
       {/* Applications Section */}
-      <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
-        <div className="p-4 bg-gray-50 border-b flex items-center justify-between">
-          <h3 className="font-semibold text-sm text-gray-800">
+      <div className="bg-white border border-gray-200/80 rounded-3xl overflow-hidden shadow-xs">
+        <div className="p-5 bg-gray-50/70 border-b border-gray-100 flex items-center justify-between">
+          <h3 className="font-heading font-black text-base text-[#163829]">
             Adoption Applications ({applications.length})
           </h3>
-          <span className="text-xs text-amber-700 font-medium">
+          <span className="text-xs font-body font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
             {pendingApps.length} awaiting decision
           </span>
         </div>
 
         {applications.length === 0 ? (
-          <div className="p-8 text-center text-sm text-gray-500">
+          <div className="p-10 text-center text-sm font-body text-gray-500">
             No adoption applications received yet.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
+            <table className="w-full text-sm font-body">
+              <thead className="bg-gray-50/50 border-b border-gray-100 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-4 py-3 text-left">Pet & Caregiver</th>
-                  <th className="px-4 py-3 text-left">Applicant & Schedule</th>
-                  <th className="px-4 py-3 text-left">Direct Outreach</th>
-                  <th className="px-4 py-3 text-left">Housing & Experience</th>
-                  <th className="px-4 py-3 text-left">Status</th>
-                  <th className="px-4 py-3 text-right">Action</th>
+                  <th className="px-5 py-3.5 text-left">Pet &amp; Caregiver</th>
+                  <th className="px-5 py-3.5 text-left">Applicant &amp; Schedule</th>
+                  <th className="px-5 py-3.5 text-left">Direct Outreach</th>
+                  <th className="px-5 py-3.5 text-left">Housing &amp; Experience</th>
+                  <th className="px-5 py-3.5 text-left">Status</th>
+                  <th className="px-5 py-3.5 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {applications.map((app) => (
-                  <tr key={app.id} className="hover:bg-gray-50/80">
-                    <td className="px-4 py-3">
+                  <tr key={app.id} className="hover:bg-gray-50/60 transition-colors">
+                    <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={app.petImageUrl}
                           alt={app.petName}
-                          className="w-12 h-12 rounded-lg object-cover bg-gray-100 shrink-0 border border-gray-200"
+                          className="w-12 h-12 rounded-2xl object-cover bg-gray-100 shrink-0 border border-gray-200"
                         />
                         <div>
-                          <Link href={`/adoptions/${app.petId}`} className="font-semibold text-gray-900 hover:underline">
+                          <Link href={`/adoptions/${app.petId}`} className="font-semibold text-[#163829] hover:underline">
                             {app.petName}
                           </Link>
                           <div className="text-xs text-gray-500">{app.petSpecies}</div>
-                          <div className="font-mono text-[10px] text-gray-400 uppercase mt-0.5">
+                          <div className="text-[11px] text-gray-400 mt-0.5">
                             Guardian: {app.petOwnerName || 'FurLink Care Team'}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3">
-                      <div className="font-medium text-gray-900">{app.fullName}</div>
+                    <td className="px-5 py-4">
+                      <div className="font-semibold text-gray-900">{app.fullName}</div>
                       <div className="text-xs text-gray-500">{app.applicantEmail}</div>
-                      <div className="mt-1 inline-block border border-amber-300 bg-amber-50 text-amber-900 font-mono text-[10px] font-bold px-2 py-0.5 rounded">
+                      <div className="mt-1.5 inline-block border border-amber-200 bg-amber-50 text-amber-900 text-[10px] font-semibold px-2 py-0.5 rounded-full">
                         Call Window: {app.preferredCallTime || 'Anytime'}
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-xs">
-                      <div className="font-mono font-medium text-gray-800">{app.phone}</div>
+                    <td className="px-5 py-4 text-xs">
+                      <div className="font-semibold text-gray-800">{app.phone}</div>
                       <div className="text-gray-500 max-w-[170px] truncate text-[11px]">
                         {app.address}
                       </div>
                       <div className="mt-1">
-                        <span className="font-mono text-[9px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded inline-block font-semibold">
-                          AES-256 Decrypted
+                        <span className="text-[10px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold">
+                          AES-256 Protected
                         </span>
                       </div>
                       <div className="flex items-center gap-2 mt-2">
                         <a
                           href={`tel:${app.phone.replace(/\s+/g, '')}`}
-                          className="inline-flex items-center font-mono text-[10.5px] uppercase tracking-wider font-bold bg-[#1A2540] text-[#f2e9db] hover:bg-[#cc2b3f] px-2.5 py-1 rounded transition-colors"
+                          className="inline-flex items-center text-xs font-semibold bg-[#163829] text-white hover:bg-[#0D2818] px-3 py-1 rounded-full transition-colors"
                         >
                           Call
                         </a>
@@ -120,39 +120,39 @@ export default async function AdminAdoptionsPage() {
                           )}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center font-mono text-[10.5px] uppercase tracking-wider font-bold bg-emerald-700 text-white hover:bg-emerald-800 px-2.5 py-1 rounded transition-colors"
+                          className="inline-flex items-center text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 px-3 py-1 rounded-full transition-colors"
                         >
                           WhatsApp
                         </a>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-600 max-w-[210px]">
+                    <td className="px-5 py-4 text-xs text-gray-600 max-w-[210px]">
                       <div className="space-y-1">
                         <div>
-                          <span className="font-mono text-[10px] uppercase font-bold text-gray-400">Housing: </span>
-                          <span className="text-gray-800">{app.housingType || 'Not specified'}</span>
+                          <span className="font-semibold text-gray-400 text-[11px]">Housing: </span>
+                          <span className="text-gray-800 font-medium">{app.housingType || 'Not specified'}</span>
                         </div>
                         <div>
-                          <span className="font-mono text-[10px] uppercase font-bold text-gray-400">Exp: </span>
-                          <span className="text-gray-800">{app.priorExperience || 'Not specified'}</span>
+                          <span className="font-semibold text-gray-400 text-[11px]">Exp: </span>
+                          <span className="text-gray-800 font-medium">{app.priorExperience || 'Not specified'}</span>
                         </div>
                         <p className="line-clamp-2 leading-relaxed text-[11px] text-gray-500 mt-1" title={app.reason}>
                           {app.reason}
                         </p>
                       </div>
                     </td>
-                    <td className="px-4 py-3">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase tracking-wider ${
+                    <td className="px-5 py-4">
+                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${
                         app.status === 'APPROVED'
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                           : app.status === 'REJECTED'
-                          ? 'bg-rose-100 text-rose-800 border-rose-200'
-                          : 'bg-amber-100 text-amber-800 border-amber-200'
+                          ? 'bg-rose-50 text-rose-800 border-rose-200'
+                          : 'bg-amber-50 text-amber-800 border-amber-200'
                       }`}>
                         {app.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-5 py-4 text-right">
                       <ApplicationStatusActions
                         applicationId={app.id}
                         currentStatus={app.status}
@@ -167,66 +167,69 @@ export default async function AdminAdoptionsPage() {
       </div>
 
       {/* Pet Catalog Management */}
-      <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
-        <div className="p-4 bg-gray-50 border-b flex items-center justify-between">
-          <h3 className="font-semibold text-sm text-gray-800">
-            Pet Catalog ({pets.length})
+      <div className="bg-white border border-gray-200/80 rounded-3xl overflow-hidden shadow-xs">
+        <div className="p-5 bg-gray-50/70 border-b border-gray-100 flex items-center justify-between">
+          <h3 className="font-heading font-black text-base text-[#163829]">
+            Pet Catalog Registry ({pets.length})
           </h3>
-          <Link href="/adoptions/new" className="text-xs font-mono font-bold uppercase tracking-wider text-[#cc2b3f] hover:underline">
-            + Add pet
+          <Link
+            href="/adoptions/new"
+            className="text-xs font-body font-semibold text-[#163829] hover:underline"
+          >
+            + Add pet &rarr;
           </Link>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b text-xs text-gray-500 uppercase tracking-wider">
+          <table className="w-full text-sm font-body">
+            <thead className="bg-gray-50/50 border-b border-gray-100 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
               <tr>
-                <th className="px-4 py-3 text-left">Pet</th>
-                <th className="px-4 py-3 text-left">Details</th>
-                <th className="px-4 py-3 text-left">Status</th>
-                <th className="px-4 py-3 text-left">Applications</th>
-                <th className="px-4 py-3 text-left">Listed Date</th>
-                <th className="px-4 py-3 text-right">Action</th>
+                <th className="px-5 py-3.5 text-left">Pet</th>
+                <th className="px-5 py-3.5 text-left">Details</th>
+                <th className="px-5 py-3.5 text-left">Status</th>
+                <th className="px-5 py-3.5 text-left">Applications</th>
+                <th className="px-5 py-3.5 text-left">Listed Date</th>
+                <th className="px-5 py-3.5 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {pets.map((p) => (
-                <tr key={p.id} className="hover:bg-gray-50/80">
-                  <td className="px-4 py-3">
+                <tr key={p.id} className="hover:bg-gray-50/60 transition-colors">
+                  <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={p.imageUrl}
                         alt={p.name}
-                        className="w-10 h-10 rounded-lg object-cover bg-gray-100 shrink-0"
+                        className="w-11 h-11 rounded-2xl object-cover bg-gray-100 shrink-0 border border-gray-200"
                       />
                       <div className="font-semibold text-gray-900">{p.name}</div>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-xs text-gray-600">
+                  <td className="px-5 py-4 text-xs text-gray-600">
                     {p.species} · {p.gender} · {p.age} {p.breed ? `· ${p.breed}` : ''}
                   </td>
-                  <td className="px-4 py-3">
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase ${
+                  <td className="px-5 py-4">
+                    <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${
                       p.status === 'AVAILABLE'
-                        ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                        ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                         : p.status === 'PENDING'
-                        ? 'bg-amber-100 text-amber-800 border-amber-200'
+                        ? 'bg-amber-50 text-amber-800 border-amber-200'
                         : 'bg-gray-100 text-gray-700 border-gray-200'
                     }`}>
                       {p.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-xs text-gray-700">
+                  <td className="px-5 py-4 text-xs text-gray-700">
                     {p._count.applications} applicant{p._count.applications === 1 ? '' : 's'}
                   </td>
-                  <td className="px-4 py-3 text-xs text-gray-500">
+                  <td className="px-5 py-4 text-xs text-gray-500">
                     {new Date(p.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-5 py-4 text-right">
                     <Link
                       href={`/adoptions/${p.id}`}
-                      className="text-xs font-mono font-bold uppercase tracking-wider text-[#cc2b3f] hover:underline"
+                      className="text-xs font-body font-semibold text-[#163829] hover:underline"
                     >
                       View Profile →
                     </Link>

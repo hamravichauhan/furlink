@@ -10,7 +10,7 @@ const TABS = [
   { href: '/admin/sterilization', label: 'TNVR Sterilization', code: '04' },
   { href: '/admin/verifications', label: 'Verification Queue', code: '05' },
   { href: '/admin/donations', label: 'Medical Donations', code: '06' },
-  { href: '/admin/stories', label: 'Recovery Stories', code: '07' },
+  { href: '/admin/stories', label: 'FurStories', code: '07' },
   { href: '/admin/users', label: 'Guardian Users', code: '08' },
   { href: '/admin/analytics', label: 'Analytics & Impact', code: '09' },
 ];
@@ -19,33 +19,37 @@ export default function AdminNavTabs() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex gap-1.5 border-b-2 border-[#1A2540] overflow-x-auto pb-0 scrollbar-none">
-      {TABS.map((tab) => {
-        const active = tab.exact
-          ? pathname === tab.href
-          : pathname === tab.href || pathname.startsWith(tab.href + '/');
+    <div className="bg-white p-1.5 rounded-2xl border border-gray-200 shadow-xs overflow-x-auto scrollbar-none">
+      <nav className="flex items-center gap-1.5 min-w-max">
+        {TABS.map((tab) => {
+          const active = tab.exact
+            ? pathname === tab.href
+            : pathname === tab.href || pathname.startsWith(tab.href + '/');
 
-        return (
-          <Link
-            key={tab.href}
-            href={tab.href}
-            className={`px-3.5 py-2.5 transition whitespace-nowrap border-t-2 border-x-2 -mb-[2px] rounded-t-xl font-mono text-[11px] uppercase tracking-[0.14em] cursor-pointer ${
-              active
-                ? 'border-[#1A2540] bg-[#f2e9db] text-[#1A2540] font-bold border-b-2 border-b-[#f2e9db] shadow-xs'
-                : 'border-transparent text-[#1A2540]/60 hover:text-[#1A2540] hover:bg-white/50'
-            }`}
-          >
-            <span
-              className={`mr-1.5 font-bold ${
-                active ? 'text-[#cc2b3f]' : 'text-[#1A2540]/40'
+          return (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={`px-3.5 py-2 rounded-xl font-body text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                active
+                  ? 'bg-[#163829] text-white shadow-xs'
+                  : 'text-[#163829]/70 hover:text-[#163829] hover:bg-[#F8FAF8]'
               }`}
             >
-              {tab.code}
-            </span>
-            <span>{tab.label}</span>
-          </Link>
-        );
-      })}
-    </nav>
+              <span
+                className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
+                  active
+                    ? 'bg-[#D8F3DC] text-[#163829]'
+                    : 'bg-gray-100 text-gray-500'
+                }`}
+              >
+                {tab.code}
+              </span>
+              <span>{tab.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </div>
   );
 }

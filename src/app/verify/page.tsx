@@ -49,62 +49,63 @@ export default async function VerifyPage({ searchParams }: PageProps) {
   return (
     <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-10 px-4 sm:px-6 md:px-10">
       <div className="max-w-5xl mx-auto space-y-8">
-        <div className="flex items-center justify-between border-b-2 border-[#1A2540]/20 pb-3">
+        <div className="flex items-center justify-between border-b border-gray-200/80 pb-3">
           <Link
             href="/admin/verifications"
-            className="font-mono text-xs uppercase tracking-[0.16em] text-[#cc2b3f] font-bold hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold hover:underline underline-offset-4"
           >
             ← Back to Admin Console
           </Link>
-          <span className="font-mono text-[10px] uppercase text-[#1A2540]/60">
+          <span className="text-xs text-gray-400">
             Surgical Audit Portal
           </span>
         </div>
 
-        <div className="border-b-2 border-[#1A2540] pb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="border-b border-gray-100 pb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="border-2 border-[#1A2540] bg-[#1A2540] text-[#f2e9db] font-mono text-[9.5px] uppercase tracking-[0.18em] px-2.5 py-0.5 font-bold">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-[#163829] border border-emerald-100 text-xs font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 Clinical Audit
               </span>
             </div>
-            <h1 className="font-heading uppercase text-3xl sm:text-5xl font-black tracking-tight text-[#1A2540] leading-none">
+            <h1 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-[#163829] leading-tight">
               Verification Queue
             </h1>
           </div>
-          <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 max-w-sm">
+          <p className="text-xs text-gray-500 max-w-sm leading-relaxed">
             Review sterilization certificates submitted by field rescuers. Verify legitimate proofs or dispute those that need re-examination.
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div
-            className={`border-2 rounded-2xl p-5 ${
-              pending.length > 0 ? "bg-white border-[#cc2b3f]" : "bg-[#f2e9db] border-[#1A2540]"
+            className={`rounded-3xl p-6 border shadow-xs ${
+              pending.length > 0 ? "bg-white border-rose-200" : "bg-white border-gray-200/80"
             }`}
           >
-            <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#1A2540]/70">
+            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               Awaiting Review
             </div>
-            <div className="font-heading font-black text-4xl mt-1 text-[#cc2b3f]">
+            <div className="font-heading font-extrabold text-3xl sm:text-4xl mt-1 text-rose-700">
               {pending.length}
             </div>
-            <div className="text-xs font-mono uppercase text-[#1A2540]/70 mt-1">
+            <div className="text-xs text-gray-500 mt-1">
               {pending.length === 0 ? "Nothing to review right now" : "Certificates to verify"}
             </div>
           </div>
           <div
-            className={`border-2 rounded-2xl p-5 ${
-              disputed.length > 0 ? "bg-white border-[#cc2b3f]" : "bg-[#f2e9db] border-[#1A2540]"
+            className={`rounded-3xl p-6 border shadow-xs ${
+              disputed.length > 0 ? "bg-white border-amber-300" : "bg-white border-gray-200/80"
             }`}
           >
-            <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#1A2540]/70">
+            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               Disputed
             </div>
-            <div className="font-heading font-black text-4xl mt-1 text-[#1A2540]">
+            <div className="font-heading font-extrabold text-3xl sm:text-4xl mt-1 text-[#163829]">
               {disputed.length}
             </div>
-            <div className="text-xs font-mono uppercase text-[#1A2540]/70 mt-1">
+            <div className="text-xs text-gray-500 mt-1">
               {disputed.length === 0 ? "No open disputes" : "Needs clinical resolution"}
             </div>
           </div>
@@ -120,16 +121,16 @@ export default async function VerifyPage({ searchParams }: PageProps) {
               <Link
                 key={tab.key ?? "all"}
                 href={href}
-                className={`font-mono text-xs uppercase tracking-[0.14em] font-bold px-4 py-2 rounded-full border-2 transition ${
+                className={`text-xs font-semibold px-4 py-2 rounded-full border transition shadow-xs ${
                   active
-                    ? "bg-[#1A2540] text-[#f2e9db] border-[#1A2540]"
-                    : "bg-white text-[#1A2540] border-[#1A2540] hover:bg-[#f2e9db]"
+                    ? "bg-[#163829] text-white border-[#163829]"
+                    : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
                 }`}
               >
                 {tab.label}
                 <span
-                  className={`ml-2 ${
-                    active ? "text-[#f2e9db]/70" : "text-[#1A2540]/60"
+                  className={`ml-1.5 ${
+                    active ? "text-emerald-200" : "text-gray-400"
                   }`}
                 >
                   ({tab.count})
@@ -140,18 +141,18 @@ export default async function VerifyPage({ searchParams }: PageProps) {
         </div>
 
         {filtered.length === 0 ? (
-          <div className="p-12 text-center border-2 border-[#1A2540] bg-[#f2e9db] rounded-2xl shadow-sm">
-            <span className="font-mono text-xs uppercase tracking-[0.18em] font-bold text-[#cc2b3f] border-2 border-[#cc2b3f] bg-white px-3 py-1 inline-block mb-3">
+          <div className="p-12 text-center border border-gray-200/80 bg-white rounded-3xl shadow-xs">
+            <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1 inline-block mb-3">
               Queue Clear
             </span>
-            <p className="font-heading font-black text-xl text-[#1A2540]">
+            <p className="font-heading font-bold text-xl text-[#163829]">
               {statusFilter === "DISPUTED"
                 ? "No open disputes. All reviews cleared."
                 : statusFilter === "PROOF_SUBMITTED"
                   ? "No proofs awaiting review."
                   : "All caught up - nothing to verify."}
             </p>
-            <p className="text-xs font-mono uppercase tracking-wider text-[#1A2540]/60 mt-2">
+            <p className="text-xs text-gray-400 mt-2">
               New submissions will appear here automatically.
             </p>
           </div>
@@ -161,46 +162,43 @@ export default async function VerifyPage({ searchParams }: PageProps) {
               <Link
                 key={item.id}
                 href={`/verify/${item.id}`}
-                className="block bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl hover:border-[#cc2b3f] shadow-sm transition overflow-hidden"
+                className="block bg-white border border-gray-200/80 rounded-3xl hover:border-emerald-600 shadow-xs transition overflow-hidden"
               >
                 <div className="flex">
                   <div
                     className={`w-2 shrink-0 ${
-                      item.status === "DISPUTED" ? "bg-[#cc2b3f]" : "bg-[#1A2540]"
+                      item.status === "DISPUTED" ? "bg-rose-500" : "bg-emerald-600"
                     }`}
                   />
-                  <div className="flex-1 p-5">
+                  <div className="flex-1 p-6">
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className="text-[10px] text-[#1A2540]/60 font-mono font-bold">
-                            {ANIMAL_TAGS[item.animalType] || "[CASE]"}
-                          </span>
-                          <span className="font-heading font-black text-[#1A2540] text-lg uppercase">
+                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                          <span className="font-heading font-bold text-[#163829] text-lg">
                             {item.animalType}
                           </span>
-                          <span className="text-xs font-mono uppercase bg-white text-[#1A2540] border border-[#1A2540] px-2.5 py-0.5 rounded-full font-bold">
+                          <span className="text-xs font-semibold bg-gray-50 text-gray-700 border border-gray-200 px-2.5 py-0.5 rounded-full">
                             {item.count} {item.count === 1 ? "animal" : "animals"}
                           </span>
                           {item.status === "DISPUTED" && (
-                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-[#cc2b3f] text-[#cc2b3f] bg-white uppercase tracking-wider">
+                            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border border-rose-200 text-rose-700 bg-rose-50">
                               Disputed
                             </span>
                           )}
                         </div>
-                        <p className="text-xs font-mono text-[#1A2540] break-words line-clamp-1 uppercase tracking-wide">
+                        <p className="text-xs text-gray-700 break-words line-clamp-1">
                           Sector: {item.location}
                         </p>
                         {item.clinicName && (
-                          <p className="text-xs font-mono text-[#1A2540]/80 mt-1 uppercase">
+                          <p className="text-xs text-gray-500 mt-1">
                             Clinic: {item.clinicName}
                             {item.veterinarianName &&
                               ` · Dr. ${item.veterinarianName}`}
                           </p>
                         )}
-                        <p className="text-xs font-mono text-[#1A2540]/60 mt-2 uppercase">
+                        <p className="text-xs text-gray-400 mt-2">
                           Submitted by{" "}
-                          <span className="font-bold text-[#1A2540]">
+                          <span className="font-medium text-gray-700">
                             {item.rescuerName || "a rescuer"}
                           </span>
                           {item.proofSubmittedAt &&
@@ -209,7 +207,7 @@ export default async function VerifyPage({ searchParams }: PageProps) {
                       </div>
 
                       {item.certificateUrl && (
-                        <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-[#1A2540] bg-white shrink-0">
+                        <div className="w-20 h-20 rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 shrink-0 shadow-xs">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={item.certificateUrl}
@@ -221,11 +219,11 @@ export default async function VerifyPage({ searchParams }: PageProps) {
                     </div>
 
                     {item.status === "DISPUTED" && item.disputeReason && (
-                      <div className="mt-4 pt-3 border-t-2 border-[#cc2b3f]/20 bg-white -m-5 mt-4 p-3 rounded-b-xl">
-                        <span className="text-xs font-mono font-bold text-[#cc2b3f] uppercase">
+                      <div className="mt-4 pt-3 border-t border-rose-100 bg-rose-50/50 -m-6 mt-4 p-4 rounded-b-3xl">
+                        <span className="text-xs font-bold text-rose-700">
                           Dispute reason:
                         </span>{" "}
-                        <span className="text-xs font-mono text-[#1A2540]">
+                        <span className="text-xs text-rose-900">
                           &ldquo;{item.disputeReason}&rdquo;
                         </span>
                       </div>

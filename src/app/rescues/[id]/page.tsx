@@ -77,86 +77,86 @@ export default async function RescueDetailPage({ params }: PageProps) {
     <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-10 px-4 sm:px-6 md:px-10">
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Top Navigation */}
-        <div className="flex items-center justify-between border-b border-[#1A2540]/20 pb-4">
+        <div className="flex items-center justify-between border-b border-gray-200/80 pb-4">
           <Link
             href="/rescues"
-            className="font-mono text-xs font-bold text-[#1A2540]/80 hover:text-[#cc2b3f] transition flex items-center gap-1"
+            className="inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold hover:underline underline-offset-4"
           >
-            &larr; BACK TO FIELD RESCUES FEED
+            ← Back to Incidents
           </Link>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-[#1A2540]/60">
-              CASE #{rescue.id.slice(-6).toUpperCase()}
+            <span className="font-mono text-xs text-gray-400">
+              Case #{rescue.id.slice(-6).toUpperCase()}
             </span>
           </div>
         </div>
 
         {/* Masthead Banner */}
-        <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-4">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 flex-wrap mb-1">
+              <div className="flex items-center gap-2 flex-wrap mb-2">
                 <span
-                  className={`font-mono text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${meta.border} ${meta.bg} ${meta.text}`}
+                  className={`text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full border ${meta.border} ${meta.bg} ${meta.text}`}
                 >
                   {meta.label}
                 </span>
                 {rescue.urgency === 'CRITICAL' && (
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-[#cc2b3f] bg-[#cc2b3f] text-white">
-                    CRITICAL EMERGENCY
+                  <span className="text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
+                    Critical Emergency
                   </span>
                 )}
               </div>
-              <h1 className="font-heading text-3xl sm:text-4xl text-[#1A2540] tracking-tight">
+              <h1 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#163829] tracking-tight">
                 {rescue.animalType} Trauma Dispatch · {rescue.location}
               </h1>
             </div>
-            <div className="text-left sm:text-right font-mono text-xs text-[#1A2540]/70">
-              <div>Filed on {new Date(rescue.createdAt).toLocaleDateString('en-IN')}</div>
+            <div className="text-left sm:text-right text-xs text-gray-500">
+              <div>Filed {new Date(rescue.createdAt).toLocaleDateString('en-IN')}</div>
               <div>By {rescue.user.name || rescue.user.email}</div>
             </div>
           </div>
-          <p className="font-body text-xs text-[#1A2540]/80 border-t border-[#1A2540]/15 pt-3">
+          <p className="text-xs sm:text-sm text-gray-600 border-t border-gray-100 pt-3 leading-relaxed">
             {meta.desc}
           </p>
         </div>
 
         {/* Stepper Progress Bar */}
-        <div className="bg-[#f2e9db] rounded-2xl p-5 border-[1.5px] border-[#1A2540]/25 shadow-sm overflow-x-auto">
-          <div className="flex items-center justify-between min-w-[500px] gap-2 text-center font-mono text-xs">
+        <div className="bg-white rounded-3xl p-5 border border-gray-200/80 shadow-xs overflow-x-auto">
+          <div className="flex items-center justify-between min-w-[500px] gap-2 text-center text-xs">
             {/* Step 1 */}
             <div className="flex-1">
-              <div className="w-8 h-8 mx-auto rounded-full bg-[#1A2540] text-[#f2e9db] flex items-center justify-center font-bold">
+              <div className="w-8 h-8 mx-auto rounded-full bg-[#163829] text-white flex items-center justify-center font-bold">
                 1
               </div>
-              <div className="font-bold text-[#1A2540] mt-1.5 text-[11px] uppercase">
+              <div className="font-bold text-[#163829] mt-1.5 text-[11px] uppercase">
                 Reported
               </div>
-              <div className="text-[10px] text-gray-500">
+              <div className="text-[10px] text-gray-400">
                 {rescue.user.name || 'Citizen'}
               </div>
             </div>
-            <div className="w-12 h-0.5 bg-[#1A2540]/30" />
+            <div className="w-12 h-0.5 bg-gray-200" />
 
             {/* Step 2 */}
             <div className="flex-1">
               <div
                 className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold ${
                   rescue.status !== 'REPORTED'
-                    ? 'bg-[#1A2540] text-[#f2e9db]'
-                    : 'bg-gray-200 text-gray-600'
+                    ? 'bg-[#163829] text-white'
+                    : 'bg-gray-100 text-gray-400'
                 }`}
               >
                 2
               </div>
-              <div className="font-bold text-[#1A2540] mt-1.5 text-[11px] uppercase">
+              <div className="font-bold text-[#163829] mt-1.5 text-[11px] uppercase">
                 Claimed
               </div>
-              <div className="text-[10px] text-gray-500">
+              <div className="text-[10px] text-gray-400">
                 {rescue.rescuer?.name || 'Awaiting Rescuer'}
               </div>
             </div>
-            <div className="w-12 h-0.5 bg-[#1A2540]/30" />
+            <div className="w-12 h-0.5 bg-gray-200" />
 
             {/* Step 3 */}
             <div className="flex-1">
@@ -165,20 +165,20 @@ export default async function RescueDetailPage({ params }: PageProps) {
                   rescue.status === 'PROOF_SUBMITTED' ||
                   rescue.status === 'RESCUED' ||
                   rescue.status === 'CLOSED'
-                    ? 'bg-[#1A2540] text-[#f2e9db]'
-                    : 'bg-gray-200 text-gray-600'
+                    ? 'bg-[#163829] text-white'
+                    : 'bg-gray-100 text-gray-400'
                 }`}
               >
                 3
               </div>
-              <div className="font-bold text-[#1A2540] mt-1.5 text-[11px] uppercase">
+              <div className="font-bold text-[#163829] mt-1.5 text-[11px] uppercase">
                 Medical Proof
               </div>
-              <div className="text-[10px] text-gray-500">
+              <div className="text-[10px] text-gray-400">
                 {rescue.clinicName || 'Clinic Treatment'}
               </div>
             </div>
-            <div className="w-12 h-0.5 bg-[#1A2540]/30" />
+            <div className="w-12 h-0.5 bg-gray-200" />
 
             {/* Step 4 */}
             <div className="flex-1">
@@ -187,16 +187,16 @@ export default async function RescueDetailPage({ params }: PageProps) {
                   rescue.status === 'RESCUED' || rescue.status === 'CLOSED'
                     ? 'bg-emerald-700 text-white'
                     : rescue.status === 'DISPUTED'
-                    ? 'bg-[#cc2b3f] text-white'
-                    : 'bg-gray-200 text-gray-600'
+                    ? 'bg-rose-600 text-white'
+                    : 'bg-gray-100 text-gray-400'
                 }`}
               >
                 4
               </div>
-              <div className="font-bold text-[#1A2540] mt-1.5 text-[11px] uppercase">
+              <div className="font-bold text-[#163829] mt-1.5 text-[11px] uppercase">
                 {rescue.status === 'DISPUTED' ? 'Disputed' : 'Verified'}
               </div>
-              <div className="text-[10px] text-gray-500">
+              <div className="text-[10px] text-gray-400">
                 {rescue.verifiedBy?.name || (rescue.status === 'DISPUTED' ? 'Flagged' : 'Audit Board')}
               </div>
             </div>
@@ -204,8 +204,8 @@ export default async function RescueDetailPage({ params }: PageProps) {
         </div>
 
         {/* Action Controls Section */}
-        <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl">
-          <h3 className="font-heading text-xl text-[#1A2540] mb-4">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs">
+          <h3 className="font-heading text-lg font-bold text-[#163829] mb-4">
             Case Actions &amp; Lifecycle Controls
           </h3>
           <RescueActions
@@ -223,17 +223,17 @@ export default async function RescueDetailPage({ params }: PageProps) {
         {/* Visual Photographic Evidence Matrix */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Card 1: Distress Report Photo */}
-          <div className="bg-[#f2e9db] rounded-3xl p-6 border-[1.5px] border-[#1A2540]/25 shadow-md flex flex-col justify-between">
+          <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs flex flex-col justify-between">
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-[#1A2540]/15 pb-2">
-                <span className="font-mono text-xs font-bold uppercase text-[#cc2b3f]">
-                  [DISPATCH RECORD] Before Treatment
+              <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-rose-700">
+                  Before Treatment
                 </span>
-                <span className="font-body text-[11px] text-[#1A2540]/70">
+                <span className="text-xs text-gray-400">
                   By {rescue.user.name || 'Citizen'}
                 </span>
               </div>
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-[#1A2540]/30 bg-white">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={rescue.imageUrl}
@@ -242,15 +242,15 @@ export default async function RescueDetailPage({ params }: PageProps) {
                 />
               </div>
               <div className="space-y-1.5 pt-2">
-                <div className="font-body text-xs font-bold text-[#1A2540]">
+                <div className="text-xs font-bold text-[#163829]">
                   Location: {rescue.location}
                 </div>
                 {rescue.latitude && rescue.longitude && (
-                  <div className="font-mono text-[11px] text-[#cc2b3f]">
+                  <div className="font-mono text-xs text-emerald-700">
                     GPS: {rescue.latitude.toFixed(4)}°N, {rescue.longitude.toFixed(4)}°E
                   </div>
                 )}
-                <p className="font-body text-xs text-[#1A2540]/80 leading-relaxed border-t border-[#1A2540]/15 pt-2">
+                <p className="text-xs text-gray-600 leading-relaxed border-t border-gray-100 pt-2">
                   {rescue.description}
                 </p>
               </div>
@@ -258,13 +258,13 @@ export default async function RescueDetailPage({ params }: PageProps) {
           </div>
 
           {/* Card 2: Medical Treatment Proof & Bill */}
-          <div className="bg-[#f2e9db] rounded-3xl p-6 border-[1.5px] border-[#1A2540]/25 shadow-md flex flex-col justify-between">
+          <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs flex flex-col justify-between">
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-[#1A2540]/15 pb-2">
-                <span className="font-mono text-xs font-bold uppercase text-emerald-800">
-                  [CLINIC RECORD] After Care &amp; Invoice
+              <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">
+                  After Care &amp; Invoice
                 </span>
-                <span className="font-body text-[11px] text-[#1A2540]/70">
+                <span className="text-xs text-gray-400">
                   {rescue.rescuer ? `By ${rescue.rescuer.name || 'Rescuer'}` : 'Pending Proof'}
                 </span>
               </div>
@@ -272,7 +272,7 @@ export default async function RescueDetailPage({ params }: PageProps) {
               {rescue.proofImageUrl ? (
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="relative aspect-square rounded-2xl overflow-hidden border border-[#1A2540]/30 bg-white">
+                    <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={rescue.proofImageUrl}
@@ -285,7 +285,7 @@ export default async function RescueDetailPage({ params }: PageProps) {
                     </div>
 
                     {rescue.treatmentBillUrl ? (
-                      <div className="relative aspect-square rounded-2xl overflow-hidden border border-[#1A2540]/30 bg-white">
+                      <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={rescue.treatmentBillUrl}
@@ -296,45 +296,45 @@ export default async function RescueDetailPage({ params }: PageProps) {
                           href={rescue.treatmentBillUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="absolute bottom-1 left-1 bg-black/75 text-white text-[9px] font-mono px-2 py-0.5 rounded hover:bg-[#cc2b3f]"
+                          className="absolute bottom-1 left-1 bg-black/75 text-white text-[9px] font-mono px-2 py-0.5 rounded hover:bg-emerald-700"
                         >
                           View Bill &rarr;
                         </a>
                       </div>
                     ) : (
-                      <div className="aspect-square rounded-2xl border border-dashed border-gray-400 flex items-center justify-center p-3 text-center text-xs text-gray-500">
+                      <div className="aspect-square rounded-2xl border border-dashed border-gray-200 flex items-center justify-center p-3 text-center text-xs text-gray-400">
                         No bill uploaded
                       </div>
                     )}
                   </div>
 
-                  <div className="space-y-1.5 pt-2 border-t border-[#1A2540]/15">
-                    <div className="font-body text-xs font-bold text-[#1A2540]">
+                  <div className="space-y-1.5 pt-2 border-t border-gray-100">
+                    <div className="text-xs font-bold text-[#163829]">
                       Clinic: {rescue.clinicName}
                     </div>
                     {rescue.veterinarianName && (
-                      <div className="font-body text-xs text-[#1A2540]/80">
+                      <div className="text-xs text-gray-600">
                         Veterinarian: {rescue.veterinarianName}
                       </div>
                     )}
                     {rescue.treatmentCost !== null && rescue.treatmentCost !== undefined && (
-                      <div className="font-mono text-xs text-emerald-800 font-bold">
+                      <div className="text-xs text-emerald-800 font-bold">
                         Certified Expense: ₹{rescue.treatmentCost.toLocaleString('en-IN')}
                       </div>
                     )}
                     {rescue.completionNotes && (
-                      <p className="font-body text-xs text-[#1A2540]/80 leading-relaxed pt-1">
+                      <p className="text-xs text-gray-600 leading-relaxed pt-1">
                         <strong>Clinical Notes:</strong> {rescue.completionNotes}
                       </p>
                     )}
                   </div>
                 </div>
               ) : (
-                <div className="py-16 text-center space-y-2 border border-dashed border-[#1A2540]/25 rounded-2xl">
-                  <span className="font-mono text-xs uppercase text-[#1A2540]/60 font-bold block">
-                    [AWAITING MEDICAL PROOF]
+                <div className="py-16 text-center space-y-2 border border-dashed border-gray-200 rounded-2xl">
+                  <span className="text-xs uppercase text-gray-400 font-bold block">
+                    Awaiting Medical Proof
                   </span>
-                  <p className="font-body text-xs text-[#1A2540]/70 max-w-xs mx-auto">
+                  <p className="text-xs text-gray-500 max-w-xs mx-auto">
                     Once the rescuer completes clinic treatment, the post-care photo and certified invoice receipt will appear here.
                   </p>
                 </div>
@@ -345,38 +345,38 @@ export default async function RescueDetailPage({ params }: PageProps) {
 
         {/* Verification & Audit Details (if verified or resolved) */}
         {(rescue.verifiedAt || rescue.outcome || rescue.verificationNote) && (
-          <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-3">
-            <span className="font-mono text-xs uppercase font-bold text-emerald-800 block">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-3">
+            <span className="text-xs uppercase font-bold text-emerald-800 block">
               Official Administration Certification
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-y border-[#1A2540]/15 py-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-y border-gray-100 py-3">
               <div>
-                <span className="font-body text-[10px] text-[#1A2540]/60 uppercase font-bold block">
+                <span className="text-[10px] text-gray-400 uppercase font-bold block">
                   Audited By
                 </span>
-                <span className="font-body text-xs font-bold text-[#1A2540]">
+                <span className="text-xs font-bold text-[#163829]">
                   {rescue.verifiedBy?.name || 'Central Board'}
                 </span>
               </div>
               <div>
-                <span className="font-body text-[10px] text-[#1A2540]/60 uppercase font-bold block">
+                <span className="text-[10px] text-gray-400 uppercase font-bold block">
                   Date Certified
                 </span>
-                <span className="font-body text-xs font-bold text-[#1A2540]">
+                <span className="text-xs font-bold text-[#163829]">
                   {rescue.verifiedAt ? new Date(rescue.verifiedAt).toLocaleDateString('en-IN') : 'Pending'}
                 </span>
               </div>
               <div>
-                <span className="font-body text-[10px] text-[#1A2540]/60 uppercase font-bold block">
+                <span className="text-[10px] text-gray-400 uppercase font-bold block">
                   Post-Rescue Disposition
                 </span>
-                <span className="font-mono text-xs font-bold text-[#cc2b3f]">
+                <span className="text-xs font-bold text-emerald-700">
                   {rescue.outcome || 'TERRITORIAL_RELEASE'}
                 </span>
               </div>
             </div>
             {rescue.verificationNote && (
-              <p className="font-body text-xs text-[#1A2540]/80 leading-relaxed">
+              <p className="text-xs text-gray-600 leading-relaxed">
                 <strong>Audit Note:</strong> {rescue.verificationNote}
               </p>
             )}

@@ -36,37 +36,38 @@ export default async function DonatePage({ searchParams }: PageProps) {
 
   return (
     <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-12 px-4 sm:px-6 md:px-8">
-      <div className="max-w-6xl mx-auto space-y-10">
+      <div className="max-w-6xl mx-auto space-y-8">
         {/* Masthead */}
-        <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-10 border-[1.5px] border-[#1A2540]/25 shadow-xl flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-[#163829] border border-emerald-100 text-xs font-semibold mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Direct Clinical Emergency Fund · Belagavi
-            </span>
-            <h1 className="font-heading text-4xl sm:text-6xl text-[#1A2540] tracking-tight">
+            </div>
+            <h1 className="font-heading text-3xl sm:text-5xl font-extrabold text-[#163829] tracking-tight">
               Where Your Donation Goes
             </h1>
-            <p className="font-body text-sm sm:text-base text-[#1A2540]/80 max-w-xl mt-3 leading-relaxed">
+            <p className="font-body text-sm sm:text-base text-gray-600 max-w-xl mt-3 leading-relaxed">
               We operate without executive salaries, administrative retainers, or advertising agencies.
               Every rupee is translated directly into surgical sterile sets, antibiotics, and daily
               nourishment for recovering animals.
             </p>
           </div>
 
-          <div className="flex items-center gap-6 bg-white p-5 rounded-2xl border-[1.5px] border-[#1A2540]/25 shadow-sm">
+          <div className="flex items-center gap-6 bg-gray-50/80 p-5 rounded-2xl border border-gray-200/80 shadow-xs">
             <div>
-              <div className="font-body text-[10px] text-[#1A2540]/60 uppercase font-bold tracking-wider">
+              <div className="font-body text-[11px] text-gray-500 uppercase font-bold tracking-wider">
                 Direct Mobilized
               </div>
-              <div className="font-heading text-2xl sm:text-3xl text-[#1A2540] mt-0.5">
+              <div className="font-heading font-extrabold text-2xl sm:text-3xl text-[#163829] mt-0.5">
                 ₹{raised.toLocaleString("en-IN")}
               </div>
             </div>
-            <div className="border-l-[1.5px] border-[#1A2540]/20 pl-6">
-              <div className="font-body text-[10px] text-[#1A2540]/60 uppercase font-bold tracking-wider">
+            <div className="border-l border-gray-200 pl-6">
+              <div className="font-body text-[11px] text-gray-500 uppercase font-bold tracking-wider">
                 Casework Sponsors
               </div>
-              <div className="font-heading text-2xl sm:text-3xl text-[#cc2b3f] mt-0.5">
+              <div className="font-heading font-extrabold text-2xl sm:text-3xl text-emerald-700 mt-0.5">
                 {donorCount}
               </div>
             </div>
@@ -81,26 +82,26 @@ export default async function DonatePage({ searchParams }: PageProps) {
         />
 
         {/* Transparency Ledger */}
-        <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 border-[1.5px] border-[#1A2540]/25 shadow-xl space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1A2540]/20 pb-4">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
             <div>
-              <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 block">
                 Clinical Transparency Ledger
               </span>
-              <h2 className="font-heading text-2xl text-[#1A2540] mt-1">
+              <h2 className="font-heading font-extrabold text-xl sm:text-2xl text-[#163829] mt-1">
                 Recent Direct Medical Allocations
               </h2>
             </div>
             <Link
               href="/admin/donations"
-              className="font-body text-xs font-semibold text-[#cc2b3f] hover:underline"
+              className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 hover:underline"
             >
               Examine Full Public Ledger &rarr;
             </Link>
           </div>
 
           {recent.length === 0 ? (
-            <div className="py-10 text-center font-body text-xs text-[#1A2540]/60 bg-white/60 rounded-2xl border border-dashed border-[#1A2540]/30 p-4">
+            <div className="py-10 text-center font-body text-xs text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200 p-4">
               No recent ledger entries today. Allocate the first clinical recovery meal above.
             </div>
           ) : (
@@ -108,19 +109,19 @@ export default async function DonatePage({ searchParams }: PageProps) {
               {recent.map((d) => (
                 <div
                   key={d.id}
-                  className="bg-white rounded-2xl p-4 border-[1.5px] border-[#1A2540]/20 shadow-xs flex flex-col justify-between"
+                  className="bg-gray-50/70 rounded-2xl p-4 border border-gray-200/80 shadow-xs flex flex-col justify-between"
                 >
                   <div className="flex items-baseline justify-between">
-                    <span className="font-body text-xs font-bold text-[#1A2540]">
+                    <span className="font-body text-xs font-bold text-[#163829]">
                       Compassionate Patron
                     </span>
-                    <span className="font-heading text-lg font-bold text-[#cc2b3f]">
+                    <span className="font-heading font-bold text-lg text-emerald-800">
                       ₹{d.amount.toLocaleString("en-IN")}
                     </span>
                   </div>
-                  <div className="font-body text-[11px] text-[#1A2540]/60 mt-3 pt-2 border-t border-[#1A2540]/15 flex justify-between">
+                  <div className="font-body text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-200/80 flex justify-between">
                     <span>{new Date(d.createdAt).toLocaleDateString("en-IN")}</span>
-                    <span>{d.paymentId ? "Verified Voucher" : "Direct Medical Credit"}</span>
+                    <span className="font-medium text-emerald-700">{d.paymentId ? "Verified Voucher" : "Direct Medical Credit"}</span>
                   </div>
                 </div>
               ))}

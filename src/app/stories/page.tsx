@@ -71,51 +71,52 @@ export default async function StoriesPage({ searchParams }: PageProps) {
 
   return (
     <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-12 px-4 sm:px-6 md:px-8">
-      <div className="max-w-6xl mx-auto space-y-10">
+      <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-10 border-[1.5px] border-[#1A2540]/25 shadow-xl flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
-              FurStories Community Archive · Belagavi
-            </span>
-            <h1 className="font-heading text-4xl sm:text-6xl text-[#1A2540] tracking-tight">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-[#163829] border border-emerald-100 text-xs font-semibold mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Community Recovery Archive
+            </div>
+            <h1 className="font-heading text-3xl sm:text-5xl font-extrabold text-[#163829] tracking-tight">
               FurStories
             </h1>
-            <p className="font-body text-sm sm:text-base text-[#1A2540]/80 max-w-xl mt-2 leading-relaxed">
+            <p className="font-body text-sm sm:text-base text-gray-600 max-w-xl mt-2 leading-relaxed">
               Documented community accounts of acute roadside rescue, intensive clinical rehabilitation, and lifelong adoptive bonds.
             </p>
           </div>
           <Link
             href="/stories/new"
-            className="btn-enroll-pill px-6 py-3 text-xs font-bold shadow-sm whitespace-nowrap"
+            className="btn-paw-primary px-6 py-3.5 text-xs font-bold rounded-full shadow-xs whitespace-nowrap self-start md:self-auto"
           >
-            SHARE RECOVERY STORY &rarr;
+            + Share Recovery Story
           </Link>
         </div>
 
         {/* Filters */}
-        <div className="bg-[#f2e9db] rounded-2xl p-4 border-[1.5px] border-[#1A2540]/20">
+        <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-xs">
           <StoriesFilter isSignedIn={!!dbUser} />
         </div>
 
         {/* Feed */}
         {stories.length === 0 ? (
-          <div className="bg-[#f2e9db] rounded-3xl border-[1.5px] border-dashed border-[#1A2540]/30 p-16 text-center max-w-xl mx-auto space-y-4">
-            <h3 className="font-heading text-2xl text-[#1A2540]">
+          <div className="bg-white rounded-3xl border border-dashed border-gray-300 p-16 text-center max-w-xl mx-auto space-y-4 shadow-xs">
+            <h3 className="font-heading text-xl font-bold text-[#163829]">
               {isFiltered
-                ? "No case files match your search criteria."
-                : "No recovery stories published in this sector yet."}
+                ? "No stories match your search criteria"
+                : "No recovery stories published in this sector yet"}
             </h3>
-            <p className="font-body text-xs text-[#1A2540]/70">
+            <p className="font-body text-xs text-gray-500">
               {isFiltered
-                ? "Try clearing your search terms."
+                ? "Try clearing your search terms or adjusting filters."
                 : "Share the journey of an animal whose transformation you witnessed."}
             </p>
             <Link
               href="/stories/new"
-              className="inline-block mt-2 btn-enroll-pill px-5 py-2.5 text-xs font-bold"
+              className="inline-block mt-2 btn-paw-primary px-5 py-2.5 text-xs font-bold rounded-full"
             >
-              Document Initial Case
+              Document First Case
             </Link>
           </div>
         ) : (
@@ -138,22 +139,22 @@ export default async function StoriesPage({ searchParams }: PageProps) {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="bg-[#f2e9db] rounded-2xl p-4 border-[1.5px] border-[#1A2540]/20 flex items-center justify-between font-body text-xs font-bold">
+          <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-xs flex items-center justify-between font-body text-xs font-medium">
             <Link
               href={buildHref({ page: currentPage - 1 })}
-              className={`px-4 py-2 rounded-full border border-[#1A2540] bg-white text-[#1A2540] ${
-                currentPage <= 1 ? "pointer-events-none opacity-40" : "hover:bg-[#FAF8FC]"
+              className={`px-4 py-2 rounded-full border border-gray-200 bg-white text-[#163829] shadow-xs ${
+                currentPage <= 1 ? "pointer-events-none opacity-40" : "hover:bg-gray-50"
               }`}
             >
               &larr; Previous Page
             </Link>
-            <span className="text-[#1A2540]/70">
+            <span className="text-gray-500">
               Page {currentPage} of {totalPages}
             </span>
             <Link
               href={buildHref({ page: currentPage + 1 })}
-              className={`px-4 py-2 rounded-full border border-[#1A2540] bg-white text-[#1A2540] ${
-                currentPage >= totalPages ? "pointer-events-none opacity-40" : "hover:bg-[#FAF8FC]"
+              className={`px-4 py-2 rounded-full border border-gray-200 bg-white text-[#163829] shadow-xs ${
+                currentPage >= totalPages ? "pointer-events-none opacity-40" : "hover:bg-gray-50"
               }`}
             >
               Next Page &rarr;

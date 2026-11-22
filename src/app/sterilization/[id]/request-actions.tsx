@@ -104,8 +104,8 @@ export default function RequestActions({
     if (!hasAnyAction) return null;
 
     return (
-      <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
-        <h2 className="font-heading uppercase text-base font-black text-[#1A2540] mb-3">
+      <div className="border border-gray-200/80 rounded-3xl bg-white p-6 shadow-xs">
+        <h2 className="font-heading text-base font-bold text-[#163829] mb-3">
           Field Operational Actions
         </h2>
         <div className="flex flex-wrap gap-2.5">
@@ -147,7 +147,7 @@ export default function RequestActions({
           {canCancel && (
             <button
               onClick={() => setMode("cancel")}
-              className="border-2 border-[#cc2b3f] text-[#cc2b3f] bg-white hover:bg-[#cc2b3f] hover:text-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition cursor-pointer"
+              className="border border-rose-200 text-rose-700 bg-white hover:bg-rose-50 px-5 py-2.5 rounded-full text-xs font-semibold transition cursor-pointer shadow-xs"
             >
               {isRescuer ? "Back out of this request" : "Cancel request"}
             </button>
@@ -158,7 +158,7 @@ export default function RequestActions({
   }
 
   return (
-    <div className="border-2 border-[#1A2540] rounded-2xl bg-[#f2e9db] p-6 shadow-sm">
+    <div className="border border-gray-200/80 rounded-3xl bg-white p-6 shadow-xs">
       {error && (
         <div className="p-3 mb-4 font-mono text-xs text-[#cc2b3f] bg-white border-2 border-[#cc2b3f] rounded-xl font-bold">
           {error}
@@ -292,10 +292,10 @@ function ActionButton({
   return (
     <button
       onClick={onClick}
-      className={`font-mono text-xs uppercase tracking-wider font-bold px-5 py-2.5 rounded-full transition shadow-sm cursor-pointer ${
+      className={`text-xs font-semibold px-5 py-2.5 rounded-full transition shadow-xs cursor-pointer ${
         isPrimary
-          ? "bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db]"
-          : "border-2 border-[#cc2b3f] bg-white text-[#cc2b3f] hover:bg-[#cc2b3f] hover:text-white"
+          ? "btn-paw-primary"
+          : "border border-rose-200 bg-white text-rose-700 hover:bg-rose-50"
       }`}
     >
       {label}
@@ -314,9 +314,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#1A2540] mb-1.5">{label}</label>
+      <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">{label}</label>
       {children}
-      {hint && <p className="font-mono text-[10px] text-[#1A2540]/60 mt-1 uppercase tracking-tight">{hint}</p>}
+      {hint && <p className="text-[11px] text-gray-400 mt-1">{hint}</p>}
     </div>
   );
 }
@@ -347,15 +347,15 @@ function Shell({
       className="space-y-4"
     >
       <div>
-        <h3 className="font-heading uppercase text-lg font-black text-[#1A2540]">{title}</h3>
-        <p className="font-mono text-xs uppercase tracking-wider text-[#1A2540]/70 mt-1">{hint}</p>
+        <h3 className="font-heading text-lg font-bold text-[#163829]">{title}</h3>
+        <p className="text-xs text-gray-500 mt-1">{hint}</p>
       </div>
       {children}
       <div className="flex gap-2.5 pt-2">
         <button
           type="submit"
           disabled={loading}
-          className="bg-[#1A2540] hover:bg-[#cc2b3f] text-[#f2e9db] px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition disabled:opacity-50 cursor-pointer shadow-sm"
+          className="btn-paw-primary px-5 py-2.5 rounded-full text-xs font-bold transition disabled:opacity-50 cursor-pointer shadow-xs"
         >
           {loading ? "Processing…" : (submitLabel ?? "Confirm")}
         </button>
@@ -363,7 +363,7 @@ function Shell({
           type="button"
           onClick={onCancel}
           disabled={loading}
-          className="border-2 border-[#1A2540] bg-white px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#FAF8FC] cursor-pointer"
+          className="border border-gray-200 bg-white text-gray-700 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 cursor-pointer shadow-xs"
         >
           Cancel
         </button>
