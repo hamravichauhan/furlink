@@ -20,8 +20,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "FurLink — No-Kill Animal Rescue, Adoption & Medical Sanctuary",
-  description: "A material case-file animal welfare initiative where every animal has a name before a number. Track waiting days, sponsor recovery meals, or adopt a rescued companion.",
+  title: "FurLink – Rescue, Adopt & Care | Web-Based Animal Welfare Platform",
+  description: "A centralized platform for emergency animal rescue reporting, loving pet adoptions, transparent donations, stray sterilization (TNVR), and inspiring FurStories.",
 };
 
 export default function RootLayout({

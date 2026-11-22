@@ -76,14 +76,13 @@ export default async function StoriesPage({ searchParams }: PageProps) {
         <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-10 border-[1.5px] border-[#1A2540]/25 shadow-xl flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
-              Field Documentation Archive · Belagavi
+              FurStories Community Archive · Belagavi
             </span>
             <h1 className="font-heading text-4xl sm:text-6xl text-[#1A2540] tracking-tight">
-              Stories That Ended Well
+              FurStories
             </h1>
             <p className="font-body text-sm sm:text-base text-[#1A2540]/80 max-w-xl mt-2 leading-relaxed">
-              Documented community accounts of acute roadside rescue, weeks of intensive clinical rehabilitation,
-              and permanent adoptive bonds.
+              Documented community accounts of acute roadside rescue, intensive clinical rehabilitation, and lifelong adoptive bonds.
             </p>
           </div>
           <Link

@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    /* Pawpals Modern Organic Adoption Palette */
+    /* FurLink Modern Organic Adoption Palette */
     --canvas: #F8FAF8;
     --forest: #163829;
     --forest-dark: #0D2818;
@@ -45,7 +45,7 @@
   }
 }
 
-/* Pawpals Modern Pill Button System */
+/* FurLink Modern Pill Button System */
 .btn-paw-primary {
   background-color: #163829;
   color: #FFFFFF;

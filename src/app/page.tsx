@@ -14,7 +14,7 @@ export const dynamic = "force-static";
 export default function PetAdoptionHomePage() {
   return (
     <div className="w-full bg-[#F8FAF8]">
-      {/* 1. Hero: Pawpals Organic Mint Hero + 3 Floating Pet Badges */}
+      {/* 1. Hero: FurLink Organic Mint Hero + 3 Floating Pet Badges */}
       <ShelterHero />
 
       {/* 2. Adoptable Pets: 4-Column Vibrant Grid + Search & Filter Pills */}

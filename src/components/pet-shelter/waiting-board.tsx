@@ -97,7 +97,7 @@ export default function WaitingBoard() {
           </div>
         </div>
 
-        {/* 4-Column Vibrant Pet Grid Matching PawPals Aesthetic */}
+        {/* 4-Column Vibrant Pet Grid Matching FurLink Aesthetic */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {filteredAnimals.map((animal) => {
             return (

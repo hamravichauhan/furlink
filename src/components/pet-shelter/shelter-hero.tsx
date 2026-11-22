@@ -9,29 +9,36 @@ export default function ShelterHero() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Hero Copy & CTA Buttons */}
-          <div className="lg:col-span-6 space-y-6 sm:space-y-8 text-left">
+          <div className="lg:col-span-6 space-y-6 sm:space-y-7 text-left">
+            {/* SRS Eyebrow */}
+            <div className="inline-flex items-center gap-2 bg-[#D8F3DC] text-[#163829] px-3.5 py-1.5 rounded-full text-xs font-bold font-body">
+              <span className="w-2 h-2 rounded-full bg-[#163829] animate-pulse" />
+              <span>FurLink · Rescue, Adopt &amp; Care</span>
+            </div>
+
             <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl text-[#163829] tracking-tight leading-[1.08] font-black">
-              Find Your Pawfect Companion Today!
+              Connecting Animal Rescue, Adoption &amp; Lifesaving Care
             </h1>
 
             <p className="font-body text-base sm:text-lg text-[#163829]/75 leading-relaxed max-w-xl">
-              Browse through our adoptable friends from local shelters around you.
-              Every animal is verified, vaccinated, sterilized, and waiting for a loving home.
+              A unified platform connecting compassionate citizens, rescuers, and veterinarians.
+              Report emergency roadside rescues, adopt vaccinated &amp; sterilized companions, sponsor trauma recovery, and celebrate inspiring FurStories.
             </p>
 
             {/* CTA Buttons */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <Link
                 href="#adoptable-pets"
-                className="btn-paw-primary px-8 py-3.5 text-sm sm:text-base font-semibold shadow-md inline-flex items-center justify-center text-center"
+                className="btn-paw-primary px-7 py-3.5 text-sm sm:text-base font-semibold shadow-md inline-flex items-center justify-center text-center"
               >
-                Browse Pets
+                Browse Adoptable Pets
               </Link>
               <Link
-                href="#care-guides"
-                className="btn-paw-secondary px-8 py-3.5 text-sm sm:text-base font-semibold inline-flex items-center justify-center text-center"
+                href="/rescues/new"
+                className="bg-[#cc2b3f] hover:bg-[#b02234] text-white px-6 py-3.5 text-sm sm:text-base font-semibold rounded-full shadow-md inline-flex items-center gap-2 justify-center text-center transition"
               >
-                Learn More About Pet Care
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                Report Emergency Rescue
               </Link>
             </div>
 
@@ -39,15 +46,15 @@ export default function ShelterHero() {
             <div className="pt-2 flex items-center gap-6 text-xs text-[#163829]/60 font-body">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#163829]" />
-                <span>100% No-Kill Verified</span>
+                <span>24/7 Roadside Rescue</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#163829]" />
-                <span>Medically Checked</span>
+                <span>Humane TNVR &amp; Vaccines</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#163829]" />
-                <span>Transparent Adoption</span>
+                <span>100% Transparent Care</span>
               </div>
             </div>
           </div>
