@@ -97,7 +97,7 @@ export default function WaitingBoard() {
           </div>
         </div>
 
-        {/* 4-Column Vibrant Pet Grid */}
+        {/* 4-Column Vibrant Pet Grid Matching PawPals Aesthetic */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {filteredAnimals.map((animal) => {
             return (
@@ -106,37 +106,27 @@ export default function WaitingBoard() {
                 onClick={() => setSelectedAnimal(animal)}
                 className="group relative cursor-pointer"
               >
-                {/* Colorful Rounded Card with Vibrant Solid / Pastel Background */}
+                {/* Colorful Rounded Card with Vibrant Solid / Studio Background */}
                 <div
-                  className="relative aspect-[3/4] sm:aspect-[4/5] rounded-[24px] overflow-hidden p-3 flex flex-col justify-between transition-transform duration-300 group-hover:-translate-y-1.5 shadow-sm group-hover:shadow-lg"
+                  className="relative aspect-[3/4] sm:aspect-[4/5] rounded-[28px] overflow-hidden transition-all duration-300 group-hover:-translate-y-2 shadow-sm group-hover:shadow-xl"
                   style={{ backgroundColor: animal.cardBg }}
                 >
-                  {/* Urgent / Days Badge (Subtle top pill) */}
-                  <div className="flex justify-between items-center z-10">
-                    <span className="bg-white/80 backdrop-blur-xs text-[#163829] text-[10px] font-bold px-2 py-0.5 rounded-full shadow-2xs">
-                      {animal.species}
-                    </span>
-                    <span className="bg-black/20 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
-                      {animal.daysWaiting}d waiting
-                    </span>
-                  </div>
-
-                  {/* Animal Image */}
-                  <div className="absolute inset-x-2 top-8 bottom-16 sm:bottom-18 flex items-center justify-center overflow-hidden rounded-2xl">
+                  {/* Real Animal Photo filling card with clean edge-to-edge presentation */}
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={animal.imageUrl}
                       alt={animal.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
 
                   {/* Floating White Bottom Card Overlay (Exact Match to Screenshot) */}
-                  <div className="relative z-10 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-md border border-black/5 text-left">
-                    <h3 className="font-heading text-sm sm:text-base font-black text-[#163829] leading-tight truncate">
+                  <div className="absolute bottom-3 left-3 right-3 z-10 bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 shadow-md border border-black/5 text-left transition-all duration-300 group-hover:bg-white group-hover:shadow-lg">
+                    <h3 className="font-heading text-base sm:text-lg font-black text-[#163829] leading-tight truncate">
                       {animal.name}
                     </h3>
-                    <div className="text-[11px] sm:text-xs text-gray-500 font-medium flex items-center gap-1.5 mt-0.5">
+                    <div className="text-xs sm:text-[13px] text-gray-500 font-medium flex items-center gap-1.5 mt-0.5">
                       <span>{animal.gender === "Male" ? "♂" : "♀"} {animal.gender}</span>
                       <span>·</span>
                       <span>{animal.age}</span>

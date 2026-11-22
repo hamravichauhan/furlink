@@ -170,8 +170,6 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     cardBg: "#F4A261", // Warm Terracotta Orange
     badgeColor: "#D97706",
     imageUrl: "/pets/bella.jpg",
-    badgeColor: "#D97706",
-    imageUrl: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80",
     caseRef: "CASE #B-0544",
     medicalStatus: "Spayed, fully vaccinated, indoor litter box certified.",
     personality: ["Playful explorer", "Feather-toy master", "Sweet chirper"],

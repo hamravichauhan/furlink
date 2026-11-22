@@ -53,51 +53,51 @@ export default function ShelterHero() {
           </div>
 
           {/* Right Column: Hero Visual with Organic Mint Shape and 3 Floating Pet Badges */}
-          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[420px] sm:min-h-[500px]">
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[440px] sm:min-h-[520px]">
             {/* Organic Soft Mint Curved Backdrop */}
             <div
-              className="absolute w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] bg-[#D8F3DC] opacity-90 rounded-[48%_52%_58%_42%/42%_58%_42%_58%] transition-transform duration-700 hover:scale-105"
+              className="absolute w-[320px] h-[320px] sm:w-[460px] sm:h-[460px] bg-[#D8F3DC] opacity-90 rounded-[48%_52%_58%_42%/42%_58%_42%_58%] transition-transform duration-700 hover:scale-105 pointer-events-none"
               style={{
                 filter: "blur(0.5px)",
               }}
             />
 
-            {/* Central Hero Dog: Real smiling puppy with green bandana */}
-            <div className="relative z-10 w-[260px] sm:w-[340px] aspect-[4/5] rounded-[36px] overflow-hidden shadow-xl border-4 border-white/80">
+            {/* Central Hero Dog: Real cutout puppy seamlessly sitting on the organic mint backdrop */}
+            <div className="relative z-10 w-[260px] sm:w-[360px] flex items-center justify-center transition-transform duration-500 hover:scale-105 drop-shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/pets/hero-dog.jpg"
-                alt="Pawfect companion dog with bandana"
-                className="w-full h-full object-cover"
+                src="/pets/hero-dog.png"
+                alt="Pawfect companion dog"
+                className="w-full h-auto max-h-[440px] object-contain"
               />
             </div>
 
-            {/* Floating Badge 1: Yellow circle with curious dog (Top-Left) */}
-            <div className="absolute z-20 top-2 sm:top-6 left-2 sm:left-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#F9C74F] p-1.5 shadow-lg border-2 border-white transition-transform duration-300 hover:scale-110">
+            {/* Floating Badge 1: Yellow circle with real dog (Top-Left) */}
+            <div className="absolute z-20 top-2 sm:top-6 left-2 sm:left-8 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#F9C74F] p-1 shadow-xl border-2 border-white transition-transform duration-300 hover:scale-110">
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/pets/badge-pug.jpg"
-                  alt="Curious puppy"
+                  alt="Curious dog"
                   className="w-full h-full object-cover"
                 />
               </div>
             </div>
 
-            {/* Floating Badge 2: Sky Blue circle with playful kitten looking up (Bottom-Left) */}
-            <div className="absolute z-20 bottom-4 sm:bottom-6 left-6 sm:left-16 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#70B8F5] p-1.5 shadow-lg border-2 border-white transition-transform duration-300 hover:scale-110">
+            {/* Floating Badge 2: Sky Blue circle with real cat looking up (Bottom-Left) */}
+            <div className="absolute z-20 bottom-2 sm:bottom-4 left-4 sm:left-12 w-22 h-22 sm:w-28 sm:h-28 rounded-full bg-[#70B8F5] p-1 shadow-xl border-2 border-white transition-transform duration-300 hover:scale-110">
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/pets/badge-cat.jpg"
-                  alt="Playful kitten"
+                  alt="Playful cat"
                   className="w-full h-full object-cover"
                 />
               </div>
             </div>
 
-            {/* Floating Badge 3: Coral Orange circle with fluffy puppy (Right-Center) */}
-            <div className="absolute z-20 top-1/2 -translate-y-1/2 right-0 sm:right-6 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#F4A261] p-1.5 shadow-lg border-2 border-white transition-transform duration-300 hover:scale-110">
+            {/* Floating Badge 3: Coral Orange circle with real puppy (Right-Center) */}
+            <div className="absolute z-20 top-1/2 -translate-y-1/2 right-0 sm:right-4 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#F4A261] p-1 shadow-xl border-2 border-white transition-transform duration-300 hover:scale-110">
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
