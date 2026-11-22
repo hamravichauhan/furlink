@@ -35,7 +35,7 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     colorway: "cream",
     cardBg: "#5B9BD5", // Vibrant Sky Blue
     badgeColor: "#FBBF24",
-    imageUrl: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "/pets/pancho.jpg",
     caseRef: "CASE #B-0118",
     isUrgent: true,
     medicalStatus: "Sterilized (TNVR), fully vaccinated (7-in-1), right hind paw healed after splint.",
@@ -55,7 +55,7 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     colorway: "crimson",
     cardBg: "#F9C74F", // Vibrant Sunny Yellow
     badgeColor: "#F59E0B",
-    imageUrl: "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "/pets/ms-milly.jpg",
     caseRef: "CASE #B-0142",
     medicalStatus: "Sterilized, dewormed, anti-rabies certified, zero chronic conditions.",
     personality: ["Alert & sweet", "Master of head tilts", "Food-motivated learner"],
@@ -74,7 +74,7 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     colorway: "cream",
     cardBg: "#74C69D", // Soft Meadow Sage
     badgeColor: "#10B981",
-    imageUrl: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "/pets/ringo.jpg",
     caseRef: "CASE #B-0201",
     medicalStatus: "Sterilized, full dental clean, healthy energetic appetite.",
     personality: ["Gentle cuddle bug", "Playful spirit", "Eager to please"],
@@ -93,7 +93,7 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     colorway: "crimson",
     cardBg: "#2A9D8F", // Deep Teal
     badgeColor: "#0D9488",
-    imageUrl: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "/pets/william.jpg",
     caseRef: "CASE #B-0239",
     medicalStatus: "Complete orthopedic clearance, sterilized, microchipped.",
     personality: ["Patient guardian", "Low-bark demeanor", "Leash champion"],
@@ -112,7 +112,7 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     colorway: "cream",
     cardBg: "#95D5B2", // Fresh Mint Green
     badgeColor: "#059669",
-    imageUrl: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "/pets/asher.jpg",
     caseRef: "CASE #B-0408",
     medicalStatus: "Fully healed from road trauma, weight-bearing rehabilitation 100% complete.",
     personality: ["Resilient fighter", "Enthusiastic tail-wagger", "Deeply loyal"],
@@ -131,7 +131,7 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     colorway: "crimson",
     cardBg: "#E76F51", // Rich Coral Crimson
     badgeColor: "#DC2626",
-    imageUrl: "https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "/pets/axel.jpg",
     caseRef: "CASE #B-0488",
     medicalStatus: "Neutered, vaccinated, full health certificate issued.",
     personality: ["Attentive scout", "Gentle walker", "Affectionate friend"],
@@ -150,7 +150,7 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     colorway: "cream",
     cardBg: "#A8DADC", // Soft Powder Blue
     badgeColor: "#0284C7",
-    imageUrl: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "/pets/queen-sofia.jpg",
     caseRef: "CASE #B-0512",
     medicalStatus: "Spayed, feline leukemia negative, flea and tick cleared.",
     personality: ["Gentle purr machine", "Independent napper", "Lap lover"],
@@ -168,6 +168,8 @@ export const SHELTER_ANIMALS: ShelterAnimal[] = [
     oneLiner: "Playful acrobat rescued from a spice warehouse. Will investigate every playful feather.",
     colorway: "crimson",
     cardBg: "#F4A261", // Warm Terracotta Orange
+    badgeColor: "#D97706",
+    imageUrl: "/pets/bella.jpg",
     badgeColor: "#D97706",
     imageUrl: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80",
     caseRef: "CASE #B-0544",

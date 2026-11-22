@@ -13,8 +13,8 @@ interface Props {
 }
 
 export default function TransformationReveal({
-  beforeImage = "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=900&q=80",
-  afterImage = "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80",
+  beforeImage = "/pets/chotu-recovery.jpg",
+  afterImage = "/pets/ringo.jpg",
   name = "Chotu",
   daysToRecovery = 114,
   quote = "The day we brought Chotu home, he didn't know what carpet felt like. Now he curls up between us on the sofa every evening like he's always belonged there.",

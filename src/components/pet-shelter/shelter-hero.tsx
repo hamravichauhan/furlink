@@ -66,7 +66,7 @@ export default function ShelterHero() {
             <div className="relative z-10 w-[260px] sm:w-[340px] aspect-[4/5] rounded-[36px] overflow-hidden shadow-xl border-4 border-white/80">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80"
+                src="/pets/hero-dog.jpg"
                 alt="Pawfect companion dog with bandana"
                 className="w-full h-full object-cover"
               />
@@ -77,7 +77,7 @@ export default function ShelterHero() {
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=300&q=80"
+                  src="/pets/badge-pug.jpg"
                   alt="Curious puppy"
                   className="w-full h-full object-cover"
                 />
@@ -89,7 +89,7 @@ export default function ShelterHero() {
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80"
+                  src="/pets/badge-cat.jpg"
                   alt="Playful kitten"
                   className="w-full h-full object-cover"
                 />
@@ -101,7 +101,7 @@ export default function ShelterHero() {
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1591160690555-5debfba289f0?auto=format&fit=crop&w=300&q=80"
+                  src="/pets/badge-pup.jpg"
                   alt="Fluffy puppy"
                   className="w-full h-full object-cover"
                 />
