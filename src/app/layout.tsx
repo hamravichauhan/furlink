@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${leagueSpartan.variable} ${poppins.variable}`}>
-        <body className="font-body bg-[#f3c9d5] text-[#1A2540] antialiased selection:bg-[#cc2b3f] selection:text-[#f2e9db] min-h-screen flex flex-col">
+        <body className="font-body bg-[#F8FAF8] text-[#163829] antialiased selection:bg-[#163829] selection:text-white min-h-screen flex flex-col">
           <ShelterNavbar />
           <main className="flex-1">{children}</main>
           <ShelterFooter />

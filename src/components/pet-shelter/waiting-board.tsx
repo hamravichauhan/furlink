@@ -1,265 +1,256 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { SHELTER_ANIMALS, ShelterAnimal, AnimalLineIcon } from "./animals-data";
+import { SHELTER_ANIMALS, ShelterAnimal } from "./animals-data";
 
 export default function WaitingBoard() {
   const [selectedAnimal, setSelectedAnimal] = useState<ShelterAnimal | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedType, setSelectedType] = useState<"All" | "Dog" | "Cat">("All");
+  const [selectedAge, setSelectedAge] = useState<string>("All");
+
+  const filteredAnimals = useMemo(() => {
+    return SHELTER_ANIMALS.filter((animal) => {
+      const matchesSearch =
+        animal.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        animal.breed.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesType = selectedType === "All" || animal.species === selectedType;
+
+      const matchesAge =
+        selectedAge === "All" ||
+        (selectedAge === "Puppy/Kitten" && animal.age.includes("1 year")) ||
+        (selectedAge === "Adult" && (animal.age.includes("2 years") || animal.age.includes("3 years")));
+
+      return matchesSearch && matchesType && matchesAge;
+    });
+  }, [searchQuery, selectedType, selectedAge]);
 
   return (
-    <section id="waiting-board" className="py-16 sm:py-24 px-4 sm:px-6 md:px-8">
+    <section id="adoptable-pets" className="py-12 sm:py-20 px-4 sm:px-6 md:px-8 bg-[#F8FAF8]">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <span className="text-[#cc2b3f] font-heading text-xs tracking-widest uppercase block mb-2 font-bold">
-            Live Sanctuary Census
-          </span>
-          <h2 className="font-heading text-3xl sm:text-5xl text-[#1A2540] tracking-tight">
-            The Waiting Board: eight animals ready for home
-          </h2>
-          <p className="font-body text-sm sm:text-base text-[#1A2540]/75 mt-3 leading-relaxed">
-            Every badge is an individual animal waiting in our clinical sanctuary. Those waiting the longest are listed first.
-            Click any badge to inspect their case file, sponsor a medical meal, or begin an adoption.
-          </p>
-        </div>
+        {/* Section Header & Search / Filter Bar */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+          <div>
+            <h2 className="font-heading text-3xl sm:text-4xl text-[#163829] tracking-tight font-black">
+              Adoptable Pets
+            </h2>
+            <p className="font-body text-xs sm:text-sm text-[#163829]/65 mt-1">
+              Find your next companion from our certified no-kill sanctuary.
+            </p>
+          </div>
 
-        {/* The Waiting Board Cream Sheet Panel */}
-        <div className="relative bg-[#f2e9db] rounded-3xl p-6 sm:p-10 md:p-12 shadow-2xl border-[1.5px] border-[#1A2540]/25">
-          {/* Sheet Header Information */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b-[1.5px] border-[#1A2540]/20 pb-4 mb-8 gap-3">
-            <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[#cc2b3f] inline-block animate-pulse" />
-              <span className="font-heading text-xs sm:text-sm uppercase tracking-wider text-[#1A2540] font-bold">
-                Belagavi Sanctuary Station · Live Census · No-Kill Verified
+          {/* Search & Filters */}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Search Input */}
+            <div className="relative min-w-[220px] sm:min-w-[260px]">
+              <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
               </span>
+              <input
+                type="text"
+                placeholder="Search for Pets..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-full bg-white border border-gray-200 focus:outline-none focus:border-[#163829] text-[#163829] placeholder-gray-400 transition shadow-2xs"
+              />
             </div>
-            <div className="flex items-center gap-4 font-body text-xs text-[#1A2540]/65 font-medium">
-              <span>8 Active Badges</span>
-              <span>·</span>
-              <span>Sorted by days waiting</span>
-              <span>·</span>
-              <span>All medically cleared</span>
-            </div>
-          </div>
 
-          {/* 4x2 Grid (2-up on mobile) */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {SHELTER_ANIMALS.map((animal, index) => {
-              const isFirst = index === 0;
-              const isCrimson = animal.colorway === "crimson";
+            {/* Type Filter */}
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value as "All" | "Dog" | "Cat")}
+              className="px-3.5 py-2 text-xs sm:text-sm rounded-full bg-white border border-gray-200 text-[#163829] focus:outline-none focus:border-[#163829] transition cursor-pointer shadow-2xs font-medium"
+            >
+              <option value="All">Type ▾</option>
+              <option value="Dog">Dogs</option>
+              <option value="Cat">Cats</option>
+            </select>
 
-              return (
-                <div
-                  key={animal.id}
-                  onClick={() => setSelectedAnimal(animal)}
-                  className="group relative cursor-pointer"
-                >
-                  {/* Kiss-Cut Die Line Contour */}
-                  <div className="relative p-1.5 sm:p-2 rounded-[24px] border-[1.5px] border-dashed border-[#1A2540] bg-[#f2e9db] transition-all duration-200 group-hover:border-[#cc2b3f]">
-                    {/* Chunky Rounded Animal Badge WITH REAL VISIBLE PET PHOTO */}
-                    <div
-                      className={`relative w-full rounded-2xl p-3 sm:p-4 border-[1.5px] border-[#1A2540] flex flex-col justify-between shadow-sm transition-transform duration-200 group-hover:-translate-y-1 ${
-                        isCrimson
-                          ? "bg-[#cc2b3f] text-[#f2e9db]"
-                          : "bg-[#f2e9db] text-[#cc2b3f] ring-[2px] ring-[#cc2b3f]"
-                      }`}
-                      style={
-                        isFirst
-                          ? {
-                              clipPath:
-                                "polygon(0 0, 100% 0, 100% calc(100% - 32px), calc(100% - 32px) 100%, 0 100%)",
-                            }
-                          : undefined
-                      }
-                    >
-                      {/* Numeral, Days Counter & Line Icon */}
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="font-heading text-2xl sm:text-3xl font-black leading-none tracking-tight block">
-                            {animal.number}
-                          </span>
-                          <span
-                            className={`font-body text-[9.5px] sm:text-[10px] uppercase font-bold tracking-wider mt-1 block px-2 py-0.5 rounded-full ${
-                              isCrimson ? "bg-white/20 text-[#f2e9db]" : "bg-[#cc2b3f]/15 text-[#cc2b3f]"
-                            }`}
-                          >
-                            Waiting {animal.daysWaiting} days
-                          </span>
-                        </div>
-                        <div className="p-1.5 rounded-lg border border-current/25 shrink-0 bg-white/10">
-                          <AnimalLineIcon species={animal.species} className="w-5 h-5" />
-                        </div>
-                      </div>
+            {/* Age Filter */}
+            <select
+              value={selectedAge}
+              onChange={(e) => setSelectedAge(e.target.value)}
+              className="px-3.5 py-2 text-xs sm:text-sm rounded-full bg-white border border-gray-200 text-[#163829] focus:outline-none focus:border-[#163829] transition cursor-pointer shadow-2xs font-medium"
+            >
+              <option value="All">Age ▾</option>
+              <option value="Puppy/Kitten">1 Year & Under</option>
+              <option value="Adult">2 - 3 Years</option>
+            </select>
 
-                      {/* Prominent Pet Photo Portrait */}
-                      <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden border-[1.5px] border-[#1A2540] my-2.5 bg-slate-900 shadow-2xs">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={animal.imageUrl}
-                          alt={animal.name}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute bottom-1.5 left-1.5 bg-[#1A2540]/80 backdrop-blur-xs text-[#f2e9db] font-body text-[8.5px] font-bold px-2 py-0.5 rounded-md">
-                          {animal.gender} · {animal.age}
-                        </div>
-                      </div>
-
-                      {/* Animal Name, Breed & Personality Snippet */}
-                      <div>
-                        <div className="font-heading text-base sm:text-lg font-bold leading-tight">
-                          {animal.name}
-                        </div>
-                        <div
-                          className={`font-body text-[11px] mt-0.5 font-medium ${
-                            isCrimson ? "text-[#f2e9db]/75" : "text-[#cc2b3f]/80"
-                          }`}
-                        >
-                          {animal.breed}
-                        </div>
-                        <p
-                          className={`font-body text-[10px] sm:text-[10.5px] mt-1.5 line-clamp-2 leading-relaxed ${
-                            isCrimson ? "text-[#f2e9db]/85" : "text-[#1A2540]/80"
-                          }`}
-                        >
-                          &ldquo;{animal.oneLiner}&rdquo;
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* ANIMAL 01 (RANI) LIFTED CORNER: Folded triangle & Hatched peel shadow */}
-                    {isFirst && (
-                      <>
-                        <div
-                          className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 w-8 h-8 rounded-br-2xl bg-hatch-pattern pointer-events-none"
-                          style={{
-                            clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
-                          }}
-                        />
-
-                        <div
-                          className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 w-8 h-8 pointer-events-none shadow-md"
-                          style={{
-                            background: "linear-gradient(135deg, #f2e9db 50%, #cc2b3f 50%)",
-                            clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                            transform: "rotate(180deg)",
-                            filter: "drop-shadow(-2px -2px 3px rgba(26, 37, 64, 0.25))",
-                          }}
-                        />
-
-                        <div className="absolute -bottom-3 -right-2 bg-[#1A2540] text-[#f2e9db] font-body text-[9.5px] font-bold px-2.5 py-0.5 rounded-full shadow-md border border-[#f2e9db] pointer-events-none">
-                          Urgent foster
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Sub-label */}
-                  <div className="mt-2 text-center">
-                    <span className="font-body text-[11px] text-[#1A2540]/70 group-hover:text-[#cc2b3f] transition-colors font-medium">
-                      Inspect {animal.name}&apos;s case &rarr;
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Board Footer Action */}
-          <div className="mt-10 pt-6 border-t-[1.5px] border-[#1A2540]/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="font-body text-xs text-[#1A2540]/70 text-center sm:text-left">
-              Every animal is vaccinated, sterilized (TNVR), dewormed, and microchipped prior to home placement.
-            </div>
+            {/* See All Link */}
             <Link
               href="/adoptions"
-              className="btn-enroll-pill px-6 py-2.5 text-xs tracking-wider"
+              className="text-xs sm:text-sm font-semibold text-[#163829] hover:underline flex items-center gap-1 ml-auto md:ml-2"
             >
-              VIEW ALL WAITING CASES
+              <span>See All</span>
+              <span>&rarr;</span>
             </Link>
           </div>
         </div>
 
-        {/* Modal: Animal Dossier Inspection */}
+        {/* 4-Column Vibrant Pet Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {filteredAnimals.map((animal) => {
+            return (
+              <div
+                key={animal.id}
+                onClick={() => setSelectedAnimal(animal)}
+                className="group relative cursor-pointer"
+              >
+                {/* Colorful Rounded Card with Vibrant Solid / Pastel Background */}
+                <div
+                  className="relative aspect-[3/4] sm:aspect-[4/5] rounded-[24px] overflow-hidden p-3 flex flex-col justify-between transition-transform duration-300 group-hover:-translate-y-1.5 shadow-sm group-hover:shadow-lg"
+                  style={{ backgroundColor: animal.cardBg }}
+                >
+                  {/* Urgent / Days Badge (Subtle top pill) */}
+                  <div className="flex justify-between items-center z-10">
+                    <span className="bg-white/80 backdrop-blur-xs text-[#163829] text-[10px] font-bold px-2 py-0.5 rounded-full shadow-2xs">
+                      {animal.species}
+                    </span>
+                    <span className="bg-black/20 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                      {animal.daysWaiting}d waiting
+                    </span>
+                  </div>
+
+                  {/* Animal Image */}
+                  <div className="absolute inset-x-2 top-8 bottom-16 sm:bottom-18 flex items-center justify-center overflow-hidden rounded-2xl">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={animal.imageUrl}
+                      alt={animal.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl"
+                    />
+                  </div>
+
+                  {/* Floating White Bottom Card Overlay (Exact Match to Screenshot) */}
+                  <div className="relative z-10 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-md border border-black/5 text-left">
+                    <h3 className="font-heading text-sm sm:text-base font-black text-[#163829] leading-tight truncate">
+                      {animal.name}
+                    </h3>
+                    <div className="text-[11px] sm:text-xs text-gray-500 font-medium flex items-center gap-1.5 mt-0.5">
+                      <span>{animal.gender === "Male" ? "♂" : "♀"} {animal.gender}</span>
+                      <span>·</span>
+                      <span>{animal.age}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {filteredAnimals.length === 0 && (
+          <div className="text-center py-16 bg-white rounded-3xl border border-gray-200 mt-6">
+            <p className="text-sm font-semibold text-gray-500">
+              No adoptable pets matched your search filters.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedType("All");
+                setSelectedAge("All");
+              }}
+              className="mt-3 text-xs font-bold text-[#163829] underline"
+            >
+              Reset all filters
+            </button>
+          </div>
+        )}
+
+        {/* Modal: Full Animal Inspection Dossier */}
         {selectedAnimal && (
           <div
-            className="fixed inset-0 z-50 bg-[#1A2540]/60 backdrop-blur-xs flex items-center justify-center p-4"
+            className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
             onClick={() => setSelectedAnimal(null)}
           >
             <div
-              className="bg-[#f2e9db] rounded-3xl p-6 sm:p-8 max-w-xl w-full border-[2px] border-[#1A2540] shadow-2xl relative max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-gray-200 shadow-2xl relative max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-start justify-between border-b-[1.5px] border-[#1A2540]/20 pb-4 mb-4">
+              {/* Header */}
+              <div className="flex items-start justify-between border-b border-gray-100 pb-4 mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-2xl bg-[#cc2b3f] text-[#f2e9db] flex items-center justify-center font-heading text-2xl font-bold shrink-0">
-                    {selectedAnimal.number}
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center font-heading text-xl font-bold text-white shrink-0"
+                    style={{ backgroundColor: selectedAnimal.cardBg }}
+                  >
+                    {selectedAnimal.gender === "Male" ? "♂" : "♀"}
                   </div>
                   <div>
-                    <h3 className="font-heading text-2xl text-[#1A2540] leading-tight font-black">
+                    <h3 className="font-heading text-2xl text-[#163829] font-black leading-tight">
                       {selectedAnimal.name}
                     </h3>
-                    <div className="font-body text-xs text-[#cc2b3f] font-semibold mt-0.5">
-                      {selectedAnimal.breed} · {selectedAnimal.age} · {selectedAnimal.gender}
+                    <div className="font-body text-xs text-gray-500 font-medium mt-0.5">
+                      {selectedAnimal.breed} · {selectedAnimal.age} · Waiting {selectedAnimal.daysWaiting} days
                     </div>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedAnimal(null)}
-                  className="w-8 h-8 rounded-full border border-[#1A2540]/30 text-[#1A2540] flex items-center justify-center font-heading text-sm hover:bg-[#1A2540] hover:text-[#f2e9db] transition-colors cursor-pointer"
+                  className="w-8 h-8 rounded-full bg-gray-100 text-gray-700 flex items-center justify-center font-bold hover:bg-gray-200 transition cursor-pointer"
                 >
-                  X
+                  ✕
                 </button>
               </div>
 
-              {/* Photo & Days Badge */}
-              <div className="relative aspect-[16/10] w-full rounded-2xl border-[1.5px] border-[#1A2540] overflow-hidden mb-4 bg-slate-100">
+              {/* Photo */}
+              <div
+                className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden mb-4 p-2"
+                style={{ backgroundColor: selectedAnimal.cardBg }}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={selectedAnimal.imageUrl}
                   alt={selectedAnimal.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-xl"
                 />
-                <div className="absolute top-3 left-3 bg-[#1A2540] text-[#f2e9db] font-body text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                  Waiting {selectedAnimal.daysWaiting} Days
-                </div>
-                <div className="absolute top-3 right-3 bg-[#f2e9db] text-[#cc2b3f] font-body text-xs font-bold px-3 py-1 rounded-full border border-[#cc2b3f] shadow-md">
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-xs text-[#163829] font-body text-xs font-bold px-3 py-1 rounded-full shadow-sm">
                   {selectedAnimal.caseRef}
                 </div>
               </div>
 
-              {/* Honest Story Line */}
-              <p className="font-body text-sm text-[#1A2540] leading-relaxed mb-4 italic">
+              {/* Quote */}
+              <p className="font-body text-sm text-[#163829]/90 italic mb-4 bg-[#F8FAF8] p-3 rounded-xl border border-gray-100">
                 &ldquo;{selectedAnimal.oneLiner}&rdquo;
               </p>
 
-              {/* Clinical Medical Status */}
-              <div className="bg-white/70 p-3.5 rounded-2xl border border-[#1A2540]/15 mb-4">
-                <span className="font-heading text-xs uppercase tracking-wider text-[#cc2b3f] font-bold block mb-1">
-                  Clinical &amp; Health Record
+              {/* Medical Record */}
+              <div className="bg-[#D8F3DC]/40 p-3.5 rounded-2xl border border-[#D8F3DC] mb-4">
+                <span className="font-heading text-xs uppercase tracking-wider text-[#163829] font-bold block mb-1">
+                  Health &amp; Clinical Certification
                 </span>
-                <p className="font-body text-xs text-[#1A2540]/80 leading-relaxed">
+                <p className="font-body text-xs text-[#163829]/80 leading-relaxed">
                   {selectedAnimal.medicalStatus}
                 </p>
               </div>
 
-              {/* Personality & Environment */}
+              {/* Personality */}
               <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="bg-white/70 p-3 rounded-xl border border-[#1A2540]/15">
-                  <span className="font-heading text-[11px] uppercase tracking-wider text-[#1A2540] font-bold block mb-1">
+                <div className="bg-[#F8FAF8] p-3 rounded-xl border border-gray-100">
+                  <span className="font-heading text-[11px] uppercase tracking-wider text-[#163829] font-bold block mb-1">
                     Temperament
                   </span>
-                  <ul className="space-y-1 font-body text-[11px] text-[#1A2540]/75">
+                  <ul className="space-y-1 font-body text-[11px] text-gray-600">
                     {selectedAnimal.personality.map((p, i) => (
                       <li key={i}>• {p}</li>
                     ))}
                   </ul>
                 </div>
-                <div className="bg-white/70 p-3 rounded-xl border border-[#1A2540]/15">
-                  <span className="font-heading text-[11px] uppercase tracking-wider text-[#1A2540] font-bold block mb-1">
-                    Recommended Home
+                <div className="bg-[#F8FAF8] p-3 rounded-xl border border-gray-100">
+                  <span className="font-heading text-[11px] uppercase tracking-wider text-[#163829] font-bold block mb-1">
+                    Ideal Home
                   </span>
-                  <ul className="space-y-1 font-body text-[11px] text-[#1A2540]/75">
+                  <ul className="space-y-1 font-body text-[11px] text-gray-600">
                     {selectedAnimal.goodWith.map((g, i) => (
                       <li key={i}>• {g}</li>
                     ))}
@@ -267,21 +258,21 @@ export default function WaitingBoard() {
                 </div>
               </div>
 
-              {/* Dual Actions in Modal */}
+              {/* CTA Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/adoptions"
                   onClick={() => setSelectedAnimal(null)}
-                  className="flex-1 btn-enroll-pill py-3 text-center text-xs tracking-wider"
+                  className="flex-1 btn-paw-primary py-3 text-center text-xs sm:text-sm font-semibold tracking-wide"
                 >
-                  START ADOPTION FOR {selectedAnimal.name.toUpperCase()}
+                  Start Adoption for {selectedAnimal.name}
                 </Link>
                 <Link
                   href={`/donate?pet=${encodeURIComponent(selectedAnimal.name)}&amount=450`}
                   onClick={() => setSelectedAnimal(null)}
-                  className="px-5 py-3 rounded-full border border-[#1A2540] font-body text-xs font-bold hover:bg-white text-center transition-colors"
+                  className="px-5 py-3 rounded-full border border-gray-300 font-body text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-50 text-center transition"
                 >
-                  SPONSOR MEALS (₹450)
+                  Sponsor Meal (₹450)
                 </Link>
               </div>
             </div>

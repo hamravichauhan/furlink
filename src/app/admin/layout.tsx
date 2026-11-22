@@ -38,7 +38,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#f3c9d5] text-[#1A2540]">
+    <div className="min-h-screen bg-[#F8FAF8] text-[#163829]">
       {/* Top Dedicated Admin Navigation Bar */}
       <div className="border-b-2 border-[#1A2540] bg-[#f2e9db] px-4 sm:px-6 md:px-10 py-3 shadow-xs">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">

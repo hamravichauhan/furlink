@@ -12,7 +12,7 @@ export default async function NewSterilizationPage() {
   ]);
 
   return (
-    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-12 px-4 sm:px-6 md:px-8">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-12 px-4 sm:px-6 md:px-8">
       <div className="max-w-3xl mx-auto space-y-8">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between border-b border-[#1A2540]/20 pb-4">

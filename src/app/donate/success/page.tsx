@@ -23,7 +23,7 @@ export default async function DonationSuccessPage({
     : null;
 
   return (
-    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-[85vh] flex items-center justify-center p-6">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-[85vh] flex items-center justify-center p-6">
       <div className="max-w-lg w-full bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-8 sm:p-10 text-center space-y-6 shadow-sm relative overflow-hidden">
         {/* Kiss-cut corner stamp badge */}
         <div className="inline-block border-2 border-[#cc2b3f] bg-white text-[#cc2b3f] px-3.5 py-1 text-xs font-mono uppercase tracking-[0.18em] font-bold">

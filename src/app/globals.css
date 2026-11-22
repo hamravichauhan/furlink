@@ -5,42 +5,72 @@
 
 @layer base {
   :root {
-    /* Kiss-Cut Sticker Sheet Material System Palette */
-    --blush: #f3c9d5;
-    --navy: #1A2540;
-    --crimson: #cc2b3f;
-    --cream: #f2e9db;
-    --blossom: #EF9CC0;
+    /* Pawpals Modern Organic Adoption Palette */
+    --canvas: #F8FAF8;
+    --forest: #163829;
+    --forest-dark: #0D2818;
+    --mint-soft: #D8F3DC;
+    --mint-light: #E8F5E9;
+    --periwinkle: #4F5BD5;
+    --periwinkle-soft: #ECEEFD;
 
-    --background: #f3c9d5;
-    --foreground: #1A2540;
-    --card: #f2e9db;
-    --card-foreground: #1A2540;
-    --primary: #cc2b3f;
-    --primary-foreground: #f2e9db;
-    --border: #1A2540;
+    --background: #F8FAF8;
+    --foreground: #163829;
+    --card: #FFFFFF;
+    --card-foreground: #163829;
+    --primary: #163829;
+    --primary-foreground: #FFFFFF;
+    --border: #E2E8F0;
   }
 
   body {
-    background-color: var(--blush);
-    color: var(--navy);
+    background-color: var(--canvas);
+    color: var(--forest);
     font-family: var(--font-body), "Poppins", system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
   }
 
-  /* Headings: League Spartan 800 */
+  /* Headings: League Spartan / Rounded Grotesque */
   h1, h2, h3, h4, h5, h6, .font-heading {
     font-family: var(--font-heading), "League Spartan", sans-serif;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: var(--navy);
+    color: var(--forest);
   }
 
   .font-body {
     font-family: var(--font-body), "Poppins", system-ui, sans-serif;
   }
+}
+
+/* Pawpals Modern Pill Button System */
+.btn-paw-primary {
+  background-color: #163829;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-paw-primary:hover {
+  background-color: #0E291D;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 56, 41, 0.15);
+}
+
+.btn-paw-secondary {
+  background-color: #ECEEFD;
+  color: #4F5BD5;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.btn-paw-secondary:hover {
+  background-color: #E2E5FD;
+  transform: translateY(-1px);
 }
 
 /* Material Patterns */

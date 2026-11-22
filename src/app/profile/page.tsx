@@ -78,7 +78,7 @@ export default async function ProfilePage() {
   );
 
   return (
-    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-14 px-4 sm:px-6 md:px-10">
       <div className="max-w-5xl mx-auto space-y-10">
         {/* User Dossier Card */}
         <div className="bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-6 sm:p-8 shadow-sm">

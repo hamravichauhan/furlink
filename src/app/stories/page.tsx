@@ -70,7 +70,7 @@ export default async function StoriesPage({ searchParams }: PageProps) {
   const isFiltered = !!q || mine;
 
   return (
-    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-12 px-4 sm:px-6 md:px-8">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-12 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto space-y-10">
         {/* Header */}
         <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-10 border-[1.5px] border-[#1A2540]/25 shadow-xl flex flex-col md:flex-row md:items-end justify-between gap-6">

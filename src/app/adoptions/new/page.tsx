@@ -36,7 +36,7 @@ export default function NewPetPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f3c9d5] text-[#1A2540] py-12 px-4 sm:px-6 md:px-10">
+    <div className="min-h-screen bg-[#F8FAF8] text-[#163829] py-12 px-4 sm:px-6 md:px-10">
       <div className="max-w-xl mx-auto space-y-8">
         <div className="border-b-2 border-[#1A2540] pb-5 flex items-center justify-between">
           <Link

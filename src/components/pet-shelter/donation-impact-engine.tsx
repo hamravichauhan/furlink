@@ -280,7 +280,7 @@ export default function DonationImpactEngine({
           )}
 
           {/* Donation Block Container */}
-          <div className="bg-[#f2e9db] rounded-3xl p-6 sm:p-10 border-[1.5px] border-[#1A2540]/25 shadow-xl">
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-200 shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left: Interactive Picker */}
               <div className="lg:col-span-7 space-y-6">
@@ -460,8 +460,8 @@ export default function DonationImpactEngine({
               {/* Right: Urgent Surgery Case (Sheru) */}
               <div className="lg:col-span-5 bg-white rounded-2xl border-[1.5px] border-[#1A2540]/25 p-6 flex flex-col justify-between space-y-6">
                 <div>
-                  <div className="inline-flex items-center gap-2 bg-[#f3c9d5] border border-[#cc2b3f] px-3 py-1 rounded-full font-heading text-[11px] uppercase tracking-wider text-[#cc2b3f] font-bold">
-                    <span className="w-2 h-2 rounded-full bg-[#cc2b3f] animate-pulse" />
+                  <div className="inline-flex items-center gap-2 bg-[#D8F3DC] border border-[#74C69D] px-3 py-1 rounded-full font-heading text-[11px] uppercase tracking-wider text-[#163829] font-bold">
+                    <span className="w-2 h-2 rounded-full bg-[#163829] animate-pulse" />
                     Urgent Inpatient Surgery
                   </div>
 

@@ -30,7 +30,7 @@ export default function NewStoryPage() {
   };
 
   return (
-    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-14 px-4 sm:px-6 md:px-10">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-14 px-4 sm:px-6 md:px-10">
       <div className="max-w-2xl mx-auto space-y-8">
         <div className="border-b-2 border-[#1A2540] pb-5 flex items-center justify-between">
           <Link

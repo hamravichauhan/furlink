@@ -20,10 +20,10 @@ const TEAM = [
 
 export default function SanctuarySeal() {
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8">
+    <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 bg-[#F8FAF8]">
       <div className="max-w-6xl mx-auto space-y-12">
         {/* The Arced-Text Roundel Seal & Mission Statement */}
-        <div className="bg-[#f2e9db] rounded-3xl p-8 sm:p-12 border-[1.5px] border-[#1A2540]/25 shadow-xl">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-gray-200 shadow-xl">
           <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-12">
             {/* Roundel Seal */}
             <div className="shrink-0">
@@ -46,30 +46,30 @@ export default function SanctuarySeal() {
                   />
                 </defs>
 
-                {/* Crimson Circle */}
+                {/* Forest Green Circle */}
                 <circle
                   cx="100"
                   cy="100"
                   r="95"
-                  fill="#cc2b3f"
-                  stroke="#1A2540"
+                  fill="#163829"
+                  stroke="#74C69D"
                   strokeWidth="2"
                 />
 
-                {/* Dashed Cream Inner Ring */}
+                {/* Dashed Soft Mint Inner Ring */}
                 <circle
                   cx="100"
                   cy="100"
                   r="56"
                   fill="none"
-                  stroke="#f2e9db"
+                  stroke="#D8F3DC"
                   strokeWidth="1.5"
                   strokeDasharray="3.5 3.5"
                 />
 
                 {/* Top Arced Text */}
                 <text
-                  fill="#f2e9db"
+                  fill="#D8F3DC"
                   fontSize="8.5"
                   fontWeight="800"
                   fontFamily="'League Spartan', sans-serif"
@@ -86,7 +86,7 @@ export default function SanctuarySeal() {
 
                 {/* Bottom Arced Text */}
                 <text
-                  fill="#f2e9db"
+                  fill="#D8F3DC"
                   fontSize="8"
                   fontWeight="700"
                   fontFamily="'League Spartan', sans-serif"
@@ -101,9 +101,9 @@ export default function SanctuarySeal() {
                   </textPath>
                 </text>
 
-                {/* Centered Cream Rescue Paw & Heart Mark */}
+                {/* Centered Mint Rescue Paw & Heart Mark */}
                 <g
-                  stroke="#f2e9db"
+                  stroke="#74C69D"
                   strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -111,24 +111,24 @@ export default function SanctuarySeal() {
                   transform="translate(86, 86)"
                 >
                   <path d="M14 22 C14 22, 6 16, 6 9 C6 5.5, 9 3, 12 5 L14 7 L16 5 C19 3, 22 5.5, 22 9 C22 16, 14 22, 14 22 Z" />
-                  <circle cx="10" cy="10" r="1" fill="#f2e9db" />
-                  <circle cx="18" cy="10" r="1" fill="#f2e9db" />
+                  <circle cx="10" cy="10" r="1" fill="#74C69D" />
+                  <circle cx="18" cy="10" r="1" fill="#74C69D" />
                 </g>
               </svg>
             </div>
 
             {/* Charter Narrative */}
             <div className="space-y-3 text-center sm:text-left">
-              <span className="font-heading text-xs tracking-widest uppercase text-[#cc2b3f] font-bold block">
+              <span className="font-heading text-xs tracking-widest uppercase text-[#163829] font-bold block">
                 Ethical Operating Charter
               </span>
-              <h3 className="font-heading text-2xl sm:text-3xl text-[#1A2540]">
+              <h3 className="font-heading text-2xl sm:text-3xl text-[#163829] font-black">
                 We never euthanize for shelter space or time.
               </h3>
-              <p className="font-body text-sm text-[#1A2540]/85 leading-relaxed">
-                If an animal takes 10 days or 600 days to find their family, they remain safe, fed, vaccinated, and cared for in our shelter. Every case is treated as an individual life with dignity, not a statistic on an overflow roster.
+              <p className="font-body text-sm text-[#163829]/80 leading-relaxed">
+                If an animal takes 10 days or 600 days to find their family, they remain safe, fed, vaccinated, and cared for in our sanctuary. Every case is treated as an individual life with dignity, not a statistic on an overflow roster.
               </p>
-              <div className="pt-2 font-body text-xs text-[#1A2540]/70 flex flex-wrap items-center justify-center sm:justify-start gap-4">
+              <div className="pt-2 font-body text-xs text-[#163829]/70 flex flex-wrap items-center justify-center sm:justify-start gap-4">
                 <span>100% Volunteer Board</span>
                 <span>·</span>
                 <span>Zero Administrative Overhead</span>
@@ -142,10 +142,10 @@ export default function SanctuarySeal() {
         {/* Real-Feeling People Behind It & Transparency Strip */}
         <div>
           <div className="text-center max-w-md mx-auto mb-8">
-            <span className="font-heading text-xs uppercase tracking-widest text-[#cc2b3f] font-bold block mb-1">
+            <span className="font-heading text-xs uppercase tracking-widest text-[#163829] font-bold block mb-1">
               Field Caregivers
             </span>
-            <h3 className="font-heading text-2xl sm:text-3xl text-[#1A2540]">
+            <h3 className="font-heading text-2xl sm:text-3xl text-[#163829] font-black">
               The people behind the cases
             </h3>
           </div>
@@ -154,16 +154,16 @@ export default function SanctuarySeal() {
             {TEAM.map((member, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl border-[1.5px] border-[#1A2540]/20 p-6 flex flex-col justify-between shadow-xs"
+                className="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col justify-between shadow-2xs hover:shadow-md transition"
               >
                 <div>
-                  <div className="font-heading text-lg text-[#1A2540]">
+                  <div className="font-heading text-lg text-[#163829] font-bold">
                     {member.name}
                   </div>
-                  <div className="font-body text-xs text-[#cc2b3f] font-semibold mt-0.5">
+                  <div className="font-body text-xs text-[#74C69D] font-semibold mt-0.5">
                     {member.role}
                   </div>
-                  <p className="font-body text-xs text-[#1A2540]/80 mt-3 leading-relaxed italic">
+                  <p className="font-body text-xs text-[#163829]/80 mt-3 leading-relaxed italic">
                     &ldquo;{member.quote}&rdquo;
                   </p>
                 </div>
@@ -172,14 +172,14 @@ export default function SanctuarySeal() {
           </div>
 
           {/* Transparency Strip */}
-          <div className="mt-8 bg-[#1A2540] text-[#f2e9db] rounded-2xl p-5 border border-[#1A2540] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-8 bg-[#163829] text-white rounded-2xl p-5 border border-[#163829] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[#cc2b3f]" />
-              <span className="font-heading text-sm text-[#f2e9db]">
+              <span className="w-3 h-3 rounded-full bg-[#74C69D]" />
+              <span className="font-heading text-sm text-white font-bold">
                 100% Public Funds Direct-to-Care Guarantee
               </span>
             </div>
-            <div className="font-body text-xs text-[#f2e9db]/70 text-center sm:text-right">
+            <div className="font-body text-xs text-white/70 text-center sm:text-right">
               Audited by licensed chartered accountants · Public receipts on /donate
             </div>
           </div>

@@ -32,7 +32,7 @@ export default async function VerifyDetailPage({
 
   if (request.status !== "PROOF_SUBMITTED" && request.status !== "DISPUTED") {
     return (
-      <div className="bg-[#f3c9d5] text-[#1A2540] min-h-[70vh] flex items-center justify-center p-6">
+      <div className="bg-[#F8FAF8] text-[#163829] min-h-[70vh] flex items-center justify-center p-6">
         <div className="max-w-md w-full bg-[#f2e9db] border-2 border-[#1A2540] rounded-2xl p-8 text-center space-y-4 shadow-sm">
           <div className="font-mono text-xs uppercase tracking-widest text-[#1A2540] font-bold">[RESOLVED]</div>
           <h1 className="font-heading uppercase text-2xl font-black">Audit Concluded</h1>
@@ -53,7 +53,7 @@ export default async function VerifyDetailPage({
   const isOwnSubmission = request.rescuerId === dbUser?.id;
 
   return (
-    <div className="bg-[#f3c9d5] text-[#1A2540] min-h-screen py-10 px-4 sm:px-6 md:px-10">
+    <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-10 px-4 sm:px-6 md:px-10">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center gap-3 flex-wrap">
           <Link
