@@ -4,14 +4,19 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { SHELTER_ANIMALS, ShelterAnimal } from "./animals-data";
 
-export default function WaitingBoard() {
+interface WaitingBoardProps {
+  initialAnimals?: ShelterAnimal[];
+}
+
+export default function WaitingBoard({ initialAnimals }: WaitingBoardProps = {}) {
+  const animalsList = initialAnimals && initialAnimals.length > 0 ? initialAnimals : SHELTER_ANIMALS;
   const [selectedAnimal, setSelectedAnimal] = useState<ShelterAnimal | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<"All" | "Dog" | "Cat">("All");
   const [selectedAge, setSelectedAge] = useState<string>("All");
 
   const filteredAnimals = useMemo(() => {
-    return SHELTER_ANIMALS.filter((animal) => {
+    return animalsList.filter((animal) => {
       const matchesSearch =
         animal.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         animal.breed.toLowerCase().includes(searchQuery.toLowerCase());
@@ -25,7 +30,7 @@ export default function WaitingBoard() {
 
       return matchesSearch && matchesType && matchesAge;
     });
-  }, [searchQuery, selectedType, selectedAge]);
+  }, [animalsList, searchQuery, selectedType, selectedAge]);
 
   return (
     <section id="adoptable-pets" className="py-12 sm:py-20 px-4 sm:px-6 md:px-8 bg-[#F8FAF8]">
