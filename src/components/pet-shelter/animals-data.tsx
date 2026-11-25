@@ -23,23 +23,23 @@ export interface ShelterAnimal {
 
 export const SHELTER_ANIMALS: ShelterAnimal[] = [
   {
-    id: "pet-pancho",
+    id: "pet-rani",
     number: "01",
-    name: "Pancho",
+    name: "Rani",
     species: "Dog",
-    breed: "French Bulldog Mix",
-    age: "2 years",
-    gender: "Male",
-    daysWaiting: 142,
-    oneLiner: "Charming pup in a cozy jacket who loves brisk morning walks and calm sofa snuggles.",
+    breed: "Indie Pariah",
+    age: "1.5 years",
+    gender: "Female",
+    daysWaiting: 28,
+    oneLiner: "Gentle and intelligent golden Indie rescued from Camp area, fully vaccinated and ready to love.",
     colorway: "cream",
     cardBg: "#5B9BD5", // Vibrant Sky Blue
     badgeColor: "#FBBF24",
-    imageUrl: "/pets/pancho.jpg",
+    imageUrl: "/pets/rani.jpg",
     caseRef: "CASE #B-0118",
     isUrgent: true,
     medicalStatus: "Sterilized (TNVR), fully vaccinated (7-in-1), right hind paw healed after splint.",
-    personality: ["Calm companion", "House-trained", "Curious explorer"],
+    personality: ["Gentle companion", "House-trained", "Loyal observer"],
     goodWith: ["Apartment living", "Gentle cats", "Family homes"],
   },
   {
@@ -210,7 +210,7 @@ export const ADOPTED_ALUMNI: AdoptedAlumni[] = [
     adoptionDate: "Oct 19",
     city: "Pune",
     familyQuote: "The happiest, most loyal family member we could have ever wished for.",
-    imageUrl: "/pets/chotu.jpg",
+    imageUrl: "/pets/recovery-after.jpg",
   },
   {
     number: "03",

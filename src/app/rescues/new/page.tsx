@@ -3,16 +3,42 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { createRescueReport } from "@/actions/rescue";
 import ImageUpload from "@/components/image-upload";
 
 export default function NewRescuePage() {
   const router = useRouter();
+  const { isLoaded, isSignedIn } = useUser();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [locating, setLocating] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
+
+  if (isLoaded && !isSignedIn) {
+    return (
+      <div className="bg-[#F8FAF8] text-[#163829] min-h-[75vh] flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-3xl border border-gray-200/80 p-8 text-center space-y-4 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 mx-auto flex items-center justify-center text-xl">
+            🚨
+          </div>
+          <h2 className="font-heading text-xl font-bold text-[#163829]">
+            Sign in to Report an Animal Rescue
+          </h2>
+          <p className="font-body text-xs text-gray-600 leading-relaxed">
+            Emergency reports are tied to verified community accounts so responders can contact you and coordinate on-site rescue dispatch.
+          </p>
+          <Link
+            href="/sign-in?redirect_url=/rescues/new"
+            className="btn-paw-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold shadow-xs hover:scale-[1.02] transition-transform"
+          >
+            Sign In to Report &rarr;
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const handleGetLocation = () => {
     if (!navigator.geolocation) {

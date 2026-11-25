@@ -58,6 +58,10 @@ export default function RescueActions({
   // 1. Claim Rescue
   const handleClaim = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!currentUserId) {
+      window.location.href = `/sign-in?redirect_url=/rescues/${rescueId}`;
+      return;
+    }
     setLoading(true);
     setErrorMsg('');
     try {
@@ -101,6 +105,10 @@ export default function RescueActions({
   // 3. Submit Medical Proof
   const handleSubmitProof = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!currentUserId) {
+      window.location.href = `/sign-in?redirect_url=/rescues/${rescueId}`;
+      return;
+    }
     if (!proofImageUrl) {
       setErrorMsg('Please upload a post-treatment photo of the animal.');
       return;
@@ -154,6 +162,10 @@ export default function RescueActions({
   // 5. Dispute Case (Citizen / Community)
   const handleDispute = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!currentUserId) {
+      window.location.href = `/sign-in?redirect_url=/rescues/${rescueId}`;
+      return;
+    }
     setLoading(true);
     setErrorMsg('');
     try {
@@ -228,12 +240,28 @@ export default function RescueActions({
         <div className="flex flex-wrap items-center gap-3">
           {/* Claim Button: Available when status is REPORTED */}
           {status === 'REPORTED' && (
-            <button
-              onClick={() => setMode('claim')}
-              className="btn-enroll-pill px-6 py-3 text-xs font-bold tracking-wider shadow-sm cursor-pointer"
-            >
-              I WILL HANDLE THIS RESCUE &rarr;
-            </button>
+            currentUserId ? (
+              <button
+                onClick={() => setMode('claim')}
+                className="btn-enroll-pill px-6 py-3 text-xs font-bold tracking-wider shadow-sm cursor-pointer"
+              >
+                I WILL HANDLE THIS RESCUE &rarr;
+              </button>
+            ) : (
+              <a
+                href={`/sign-in?redirect_url=/rescues/${rescueId}`}
+                className="btn-enroll-pill px-6 py-3 text-xs font-bold tracking-wider shadow-sm inline-flex items-center gap-1.5"
+              >
+                SIGN IN TO CLAIM THIS RESCUE &rarr;
+              </a>
+            )
+          )}
+
+          {/* Prompt when IN_PROGRESS and user is not signed in */}
+          {status === 'IN_PROGRESS' && !currentUserId && (
+            <p className="text-xs text-gray-500 font-body">
+              This case is active with a volunteer rescuer. Sign in if you are the assigned rescuer to submit clinic bills.
+            </p>
           )}
 
           {/* Submit Proof Button: Available when IN_PROGRESS and user is rescuer (or admin) */}
@@ -266,16 +294,25 @@ export default function RescueActions({
           )}
 
           {/* Citizen Dispute Button: Available when PROOF_SUBMITTED, RESCUED, or CLOSED */}
-          {(status === 'PROOF_SUBMITTED' || status === 'RESCUED' || status === 'CLOSED') &&
-            currentUserId &&
-            !isRescuer && (
-              <button
-                onClick={() => setMode('dispute')}
-                className="font-mono text-xs font-bold uppercase border border-[#cc2b3f] text-[#cc2b3f] hover:bg-[#cc2b3f] hover:text-white px-4 py-2.5 rounded-full transition cursor-pointer"
+          {(status === 'PROOF_SUBMITTED' || status === 'RESCUED' || status === 'CLOSED') && (
+            currentUserId ? (
+              !isRescuer && (
+                <button
+                  onClick={() => setMode('dispute')}
+                  className="font-mono text-xs font-bold uppercase border border-[#cc2b3f] text-[#cc2b3f] hover:bg-[#cc2b3f] hover:text-white px-4 py-2.5 rounded-full transition cursor-pointer"
+                >
+                  Report Concern / Dispute Rescue
+                </button>
+              )
+            ) : (
+              <a
+                href={`/sign-in?redirect_url=/rescues/${rescueId}`}
+                className="font-mono text-xs font-bold uppercase border border-gray-300 text-gray-600 hover:border-[#cc2b3f] hover:text-[#cc2b3f] px-4 py-2.5 rounded-full transition"
               >
-                Report Concern / Dispute Rescue
-              </button>
-            )}
+                Sign In to Dispute or Flag Concern
+              </a>
+            )
+          )}
 
           {/* Admin Dispute Resolution: Available when DISPUTED and user is Admin */}
           {status === 'DISPUTED' && isAdmin && (

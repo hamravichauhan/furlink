@@ -59,7 +59,7 @@ export default async function AdminStoriesPage() {
                       <div className="flex items-center gap-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={story.imageUrl || '/pets/pancho.jpg'}
+                          src={story.imageUrl || '/pets/recovery-after.jpg'}
                           alt={story.title}
                           className="w-12 h-12 rounded-2xl object-cover bg-gray-100 shrink-0 border border-gray-200"
                         />

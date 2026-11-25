@@ -69,7 +69,7 @@ export default function ConversationalMatcher() {
     } else {
       let selected: ShelterAnimal[] = [];
       if (updated.space === "apartment" || updated.energy === "calm") {
-        selected = [SHELTER_ANIMALS[0], SHELTER_ANIMALS[6], SHELTER_ANIMALS[2]]; // Pancho, Queen Sofia, Ringo
+        selected = [SHELTER_ANIMALS[0], SHELTER_ANIMALS[6], SHELTER_ANIMALS[2]]; // Rani, Queen Sofia, Ringo
       } else if (updated.energy === "high" || updated.space === "yard") {
         selected = [SHELTER_ANIMALS[1], SHELTER_ANIMALS[5], SHELTER_ANIMALS[3]]; // Ms. Milly, Axel, William II
       } else {

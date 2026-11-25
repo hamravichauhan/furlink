@@ -49,8 +49,11 @@ export async function createDonationOrder(
     return { success: false, error: 'Payment gateway not configured.' };
   }
 
-  // Attach the Clerk-synced user if signed in; guests get null.
+  // Require authenticated member so donation is tied to donor ledger
   const dbUser = await getOrCreateCurrentUser();
+  if (!dbUser) {
+    return { success: false, error: 'Please sign in with your FurLink member account to donate.' };
+  }
 
   try {
     const order = await razorpay.orders.create({
@@ -58,9 +61,9 @@ export async function createDonationOrder(
       currency: 'INR',
       receipt: `furlink_${Date.now()}`,
       notes: {
-        userId: dbUser?.id ?? 'guest',
-        donorName: donorName || dbUser?.name || 'Anonymous',
-        donorEmail: donorEmail || dbUser?.email || '',
+        userId: dbUser.id,
+        donorName: donorName || dbUser.name || 'Anonymous',
+        donorEmail: donorEmail || dbUser.email || '',
         sponsorshipType: sponsorshipType || 'GENERAL_CARE',
         targetName: targetName || 'General Healthcare Fund',
         source: 'furlink_web',
@@ -183,6 +186,10 @@ export async function createOfflineTestDonation(
   }
 
   const dbUser = await getOrCreateCurrentUser();
+  if (!dbUser) {
+    return { success: false, error: 'Please sign in with your FurLink member account to donate.' };
+  }
+
   const timestamp = Date.now();
   const paymentId = `pay_demo_${timestamp}`;
   const orderId = `order_demo_${timestamp}`;
@@ -190,7 +197,7 @@ export async function createOfflineTestDonation(
   try {
     const donation = await prisma.donation.create({
       data: {
-        userId: dbUser?.id ?? null,
+        userId: dbUser.id,
         amount: Math.round(amountRupees),
         currency: 'INR',
         paymentId,

@@ -366,11 +366,22 @@ export default async function SterilizationDetailPage({
         />
 
         {!isSignedIn && (
-          <div className="border border-gray-200/80 bg-white rounded-3xl p-5 text-xs text-center text-gray-500 shadow-xs">
-            <Link href="/sign-in" className="text-emerald-700 hover:underline font-semibold">
-              Sign In
-            </Link>{" "}
-            with authorized credentials to interact with this docket.
+          <div className="border border-emerald-200/80 bg-emerald-50/60 rounded-3xl p-6 text-center space-y-3 shadow-xs">
+            <div className="w-10 h-10 rounded-2xl bg-white border border-emerald-200 text-[#163829] mx-auto flex items-center justify-center font-bold text-base shadow-xs">
+              🏥
+            </div>
+            <h3 className="font-heading text-base font-bold text-[#163829]">
+              Volunteer / Verifier Sign In Required
+            </h3>
+            <p className="font-body text-xs text-gray-600 max-w-sm mx-auto leading-relaxed">
+              Sterilization scheduling, municipal TNVR surgical proofs, and clinical audits require an authenticated volunteer rescuer or verifier account.
+            </p>
+            <Link
+              href={`/sign-in?redirect_url=/sterilization/${request.id}`}
+              className="btn-paw-primary inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold shadow-xs hover:scale-[1.02] transition-transform"
+            >
+              Sign In to Interact with Case &rarr;
+            </Link>
           </div>
         )}
       </div>

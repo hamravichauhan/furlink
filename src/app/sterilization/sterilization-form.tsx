@@ -119,43 +119,48 @@ export default function SterilizationForm({
     setLoading(false);
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="p-8 bg-emerald-50/60 border border-emerald-200/80 rounded-3xl text-center space-y-4 shadow-xs">
+        <div className="w-12 h-12 rounded-2xl bg-white border border-emerald-200 text-[#163829] mx-auto flex items-center justify-center font-bold text-xl shadow-xs">
+          🏥
+        </div>
+        <div>
+          <h2 className="font-heading text-xl font-bold text-[#163829]">
+            Member Sign In Required
+          </h2>
+          <p className="font-body text-xs text-gray-600 mt-1.5 max-w-md mx-auto leading-relaxed">
+            Lodging a municipal TNVR sterilization request requires a verified FurLink member account so animal welfare officers can coordinate safe street capture, surgical scheduling, and territory release.
+          </p>
+        </div>
+        <Link
+          href="/sign-in?redirect_url=/sterilization/new"
+          className="btn-paw-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold shadow-xs hover:scale-[1.02] transition-transform"
+        >
+          Sign In to Lodge TNVR Request &rarr;
+        </Link>
+      </div>
+    );
+  }
+
   const disabled = loading;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* User / Quota Banner */}
-      {isAuthenticated ? (
-        <div className="p-4 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-950 font-body text-xs flex flex-wrap items-center justify-between gap-3 shadow-xs">
-          <div>
-            <span className="font-semibold block text-[#163829]">
-              Logged in as {displayName}
-            </span>
-            <span className="text-[11px] text-gray-500">
-              Dispatches linked to your FurLink verification record
-            </span>
-          </div>
-          <span className="font-mono text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-300">
-            {effectiveQuota.remainingToday} of {effectiveQuota.dailyLimit} remaining today
+      <div className="p-4 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-950 font-body text-xs flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div>
+          <span className="font-semibold block text-[#163829]">
+            Logged in as {displayName}
+          </span>
+          <span className="text-[11px] text-gray-500">
+            Dispatches linked to your FurLink verification record
           </span>
         </div>
-      ) : (
-        <div className="p-4 rounded-2xl border border-amber-200 bg-amber-50 text-amber-950 font-body text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-          <div>
-            <span className="font-bold block text-amber-900">
-              Notice: Rescuer dispatch requires an active FurLink account
-            </span>
-            <span className="text-[11px] text-amber-800/80">
-              You can prepare the field details below now, but please sign in to complete dispatch.
-            </span>
-          </div>
-          <Link
-            href="/sign-in?redirect_url=/sterilization/new"
-            className="px-3.5 py-1.5 rounded-full border border-amber-300 bg-white hover:bg-amber-100/50 font-semibold text-xs text-amber-900 shrink-0 shadow-xs"
-          >
-            Sign In &rarr;
-          </Link>
-        </div>
-      )}
+        <span className="font-mono text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-300">
+          {effectiveQuota.remainingToday} of {effectiveQuota.dailyLimit} remaining today
+        </span>
+      </div>
 
       {errorMsg && (
         <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-700 font-body text-xs font-semibold flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs">

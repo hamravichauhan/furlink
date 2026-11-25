@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getOrCreateCurrentUser } from "@/lib/auth-sync";
 import AdoptionForm from "./adoption-form";
 
 export const dynamic = "force-dynamic";
@@ -12,14 +13,17 @@ export default async function PetDetailPage({
 }) {
   const { id } = await params;
 
-  const pet = await prisma.pet.findUnique({
-    where: { id },
-    include: {
-      applications: {
-        select: { id: true, status: true },
+  const [pet, currentUser] = await Promise.all([
+    prisma.pet.findUnique({
+      where: { id },
+      include: {
+        applications: {
+          select: { id: true, status: true },
+        },
       },
-    },
-  });
+    }),
+    getOrCreateCurrentUser(),
+  ]);
 
   if (!pet) notFound();
 
@@ -185,6 +189,7 @@ export default async function PetDetailPage({
                 ownerName={pet.ownerName}
                 contactPhone={pet.contactPhone}
                 location={pet.location}
+                currentUserId={currentUser?.id || null}
               />
             </div>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getOrCreateCurrentUser } from "@/lib/auth-sync";
 import { getSterilizationQuota } from "@/actions/sterilization";
 import SterilizationForm from "../sterilization-form";
@@ -6,10 +7,12 @@ import SterilizationForm from "../sterilization-form";
 export const dynamic = "force-dynamic";
 
 export default async function NewSterilizationPage() {
-  const [dbUser, quota] = await Promise.all([
-    getOrCreateCurrentUser(),
-    getSterilizationQuota(),
-  ]);
+  const dbUser = await getOrCreateCurrentUser();
+  if (!dbUser) {
+    redirect("/sign-in?redirect_url=/sterilization/new");
+  }
+
+  const quota = await getSterilizationQuota();
 
   return (
     <div className="bg-[#F8FAF8] text-[#163829] min-h-screen py-12 px-4 sm:px-6 md:px-8">

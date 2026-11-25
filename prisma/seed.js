@@ -141,20 +141,20 @@ async function main() {
     },
   });
 
-  const petChotu = await prisma.pet.create({
+  const petKaju = await prisma.pet.create({
     data: {
-      name: 'Chotu',
+      name: 'Kaju',
       species: 'Dog',
       breed: 'Terrier Indie Mix',
       age: '2 years',
       gender: 'Male',
-      description: 'Rescued from a storm drain at 4 weeks. An observant, attentive listener in a cozy yellow sweater. Sterilized, dewormed, anti-rabies certified, zero chronic conditions.',
-      imageUrl: '/pets/chotu.jpg',
+      description: 'Rescued from a storm drain at 4 weeks. An observant, attentive listener who loves gentle head pats. Sterilized, dewormed, anti-rabies certified, zero chronic conditions.',
+      imageUrl: '/pets/recovery-after.jpg',
       status: 'AVAILABLE',
       userId: user.id,
       ownerName: 'Rahul Patil (Foster Volunteer)',
       contactPhone: '+91 99887 66554',
-      contactEmail: 'foster.chotu@furlink.org',
+      contactEmail: 'foster.kaju@furlink.org',
       location: 'RPD College Road, Belagavi',
       visitingHours: '11:00 AM - 5:00 PM Weekends',
     },
@@ -269,15 +269,15 @@ async function main() {
     },
   });
 
-  const petPancho = await prisma.pet.create({
+  const petTommy = await prisma.pet.create({
     data: {
-      name: 'Pancho',
+      name: 'Tommy',
       species: 'Dog',
-      breed: 'French Bulldog Mix',
+      breed: 'Indie Hound Mix',
       age: '2 years',
       gender: 'Male',
-      description: 'Charming companion in a cozy jacket who loves brisk morning walks and calm sofa snuggles. Sterilized, vaccinated, calm with cats.',
-      imageUrl: '/pets/pancho.jpg',
+      description: 'Charming companion who loves brisk morning walks and calm sofa snuggles. Sterilized, vaccinated, calm with cats.',
+      imageUrl: '/pets/asher.jpg',
       status: 'AVAILABLE',
       userId: jayesh.id,
       ownerName: 'Jayesh Patel (Guardian)',
@@ -377,12 +377,12 @@ async function main() {
 
   await prisma.adoptionApplication.create({
     data: {
-      petId: petPancho.id,
+      petId: petTommy.id,
       userId: rina.id,
       fullName: 'Rina Sharma',
       phone: encrypt('+91 98233 44556'),
       address: encrypt('Flat 4B, Silver Heights, Camp, Belagavi'),
-      reason: 'I am a veterinary nurse and would love to adopt Pancho as my personal companion.',
+      reason: 'I am a veterinary nurse and would love to adopt Tommy as my personal companion.',
       preferredCallTime: 'Morning (10 AM - 1 PM)',
       housingType: 'Apartment',
       priorExperience: 'Veterinary Nurse & Animal Caregiver',
@@ -495,7 +495,7 @@ async function main() {
       location: 'Shahapur Vegetable Market, Belagavi',
       latitude: 15.8340,
       longitude: 74.5180,
-      imageUrl: '/pets/pancho.jpg',
+      imageUrl: '/pets/asher.jpg',
       status: 'DISPUTED',
       disputedById: user.id,
       disputedAt: new Date(Date.now() - 6 * 60 * 60 * 1000),
@@ -673,18 +673,17 @@ Today, dog fights have stopped completely, the pack is calm and beloved by every
   await prisma.furStory.create({
     data: {
       userId: user.id,
-      title: 'The Miracle of Chotu: 114 Days to a Forever Family',
-      content: `Chotu was rescued from an open stormwater channel at barely four weeks old, soaking wet, dehydrated, and suffering from acute hypothermia.
+      title: 'From Roadside Cast to Pure Joy: Bruno’s 45-Day Recovery',
+      content: `Bruno was rescued near the Belagavi bypass after suffering a fractured hind leg in a severe hit-and-run incident.
 
-With round-the-clock syringe feeding, veterinary antibiotic nebulization, and intensive rehabilitation, his spirit never wavered. Today, he prances in his cozy yellow sweater and brings infinite sunshine to his adoptive family.
+Following immediate surgical stabilization, orthopedic casting, and 45 days of intensive veterinary foster care, his bones completely fused. Today, he lives with Pooja and Sameer in Tilakwadi, completely healthy, running, and smiling every morning.
 
 Every rescue case is worth the fight. Thank you to everyone who supports FurLink!`,
-      imageUrl: '/pets/chotu-after.jpg',
+      imageUrl: '/pets/recovery-after.jpg',
       images: {
         create: [
-          { url: '/pets/chotu-before.jpg', order: 0 },
-          { url: '/pets/chotu.jpg', order: 1 },
-          { url: '/pets/chotu-after.jpg', order: 2 },
+          { url: '/pets/recovery-before.jpg', order: 0 },
+          { url: '/pets/recovery-after.jpg', order: 1 },
         ],
       },
     },

@@ -7,6 +7,7 @@ const ADMIN_EMAILS = [
   'ravichauhanbhai26@gmail.com',
   '2305040.stu@dmscollege.ac.in',
   'admin@furlink.org',
+  'admin.test@furlink.org',
 ];
 
 export function isEmailRecognizedAdmin(email?: string | null): boolean {
@@ -28,22 +29,17 @@ export function isEmailRecognizedAdmin(email?: string | null): boolean {
 }
 
 export async function getOrCreateCurrentUser() {
-  // 1. Try Clerk auth session first
+  // 1. Try Clerk auth session
   try {
     const { userId } = await auth();
 
     if (userId) {
-      const cookieStore = await cookies();
-      const demoRole = cookieStore.get('furlink_demo_user')?.value?.toUpperCase();
-
       // Check if user already exists in DB
       const existing = await prisma.user.findUnique({ where: { id: userId } });
 
       if (existing) {
         let role = existing.role;
-        if (demoRole === 'ADMIN' || demoRole === 'VERIFIER' || demoRole === 'USER') {
-          role = demoRole as any;
-        } else if (isEmailRecognizedAdmin(existing.email)) {
+        if (isEmailRecognizedAdmin(existing.email)) {
           role = 'ADMIN';
         }
         if (role !== existing.role) {
@@ -69,10 +65,6 @@ export async function getOrCreateCurrentUser() {
 
           if (isRecognizedAdmin) {
             role = 'ADMIN';
-          }
-
-          if (demoRole === 'ADMIN' || demoRole === 'VERIFIER' || demoRole === 'USER') {
-            role = demoRole;
           }
 
           if (email) {
@@ -126,60 +118,6 @@ export async function getOrCreateCurrentUser() {
     }
   }
 
-  // 2. Check for offline/demo user cookie
-  try {
-    const cookieStore = await cookies();
-    const demoRole = cookieStore.get('furlink_demo_user')?.value?.toLowerCase();
-
-    if (demoRole) {
-      const demoUsers = {
-        admin: {
-          id: 'demo-admin-id',
-          email: 'admin@furlink.org',
-          name: 'Neha Narvekar (Admin)',
-          role: 'ADMIN' as const,
-        },
-        verifier: {
-          id: 'demo-verifier-id',
-          email: 'verifier@furlink.org',
-          name: 'Dr. Ramesh Sharma (Verifier)',
-          role: 'VERIFIER' as const,
-        },
-        user: {
-          id: 'demo-user-id',
-          email: 'user@furlink.org',
-          name: 'Rahul Patil (Member)',
-          role: 'USER' as const,
-        },
-      };
-
-      const target = demoUsers[demoRole as keyof typeof demoUsers];
-      if (target) {
-        return await prisma.user.upsert({
-          where: { id: target.id },
-          update: { role: target.role, name: target.name, email: target.email },
-          create: target,
-        });
-      }
-    }
-  } catch {
-    // Cookies not readable in this context
-  }
-
-  // 3. Fallback: Default to demo admin for local testing so admin console features work out-of-the-box
-  try {
-    return await prisma.user.upsert({
-      where: { id: 'demo-admin-id' },
-      update: { role: 'ADMIN', name: 'Neha Narvekar (Admin)', email: 'admin@furlink.org' },
-      create: {
-        id: 'demo-admin-id',
-        email: 'admin@furlink.org',
-        name: 'Neha Narvekar (Admin)',
-        role: 'ADMIN',
-      },
-    });
-  } catch (dbErr) {
-    console.error('Failed to create demo admin fallback user:', dbErr);
-    return null;
-  }
+  // 2. Unauthenticated guest: strictly return null
+  return null;
 }

@@ -72,14 +72,8 @@ export default function ShelterNavbar() {
           ) : (
             <div className="flex items-center gap-2">
               <Link
-                href="/admin"
-                className="font-body text-xs text-[#163829]/70 hover:text-[#163829] px-2 py-1"
-              >
-                Admin Portal
-              </Link>
-              <Link
                 href="/sign-in"
-                className="font-body text-xs text-[#163829] font-medium hover:text-[#163829]/70 px-2 py-1"
+                className="font-body text-xs text-[#163829] font-semibold hover:text-[#163829]/70 px-3 py-1.5 rounded-full hover:bg-black/5 transition"
               >
                 Sign In
               </Link>

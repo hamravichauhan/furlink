@@ -22,7 +22,7 @@ export default function ShelterStickyBar() {
         <span className="w-2.5 h-2.5 rounded-full bg-[#74C69D] animate-pulse shrink-0" />
         <div className="min-w-0">
           <span className="font-heading text-xs sm:text-sm text-white truncate block font-bold">
-            Pancho is waiting · Ready for adoption
+            Rani is waiting · Ready for adoption
           </span>
           <span className="font-body text-[10px] text-white/70 hidden sm:block">
             No-kill sanctuary · Medically certified

@@ -12,29 +12,16 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let user = await getOrCreateCurrentUser();
+  const user = await getOrCreateCurrentUser();
 
-  // If not logged in, directly use the local demo admin account with zero redirects or login required
+  // If not logged in, redirect to sign-in with return URL
   if (!user) {
-    user =
-      (await prisma.user.findUnique({ where: { id: "demo-admin-id" } })) ||
-      (await prisma.user.findFirst({ where: { role: "ADMIN" } })) ||
-      (await prisma.user.create({
-        data: {
-          id: "demo-admin-id",
-          email: "admin@furlink.org",
-          name: "Neha Narvekar (Admin)",
-          role: "ADMIN",
-        },
-      }));
+    redirect("/sign-in?redirect_url=/admin");
   }
 
-  // If logged in with an account, automatically promote to ADMIN so access is never blocked
+  // If logged in with an account, require ADMIN role
   if (!hasRole(user, "ADMIN")) {
-    user = await prisma.user.update({
-      where: { id: user.id },
-      data: { role: "ADMIN" },
-    });
+    redirect("/");
   }
 
   return (

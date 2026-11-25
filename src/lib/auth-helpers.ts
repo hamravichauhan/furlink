@@ -25,25 +25,24 @@ export async function requireUser() {
   return user;
 }
 
-import { prisma } from '@/lib/prisma';
-
 export async function requireVerifier() {
-  let user = await getOrCreateCurrentUser();
+  const user = await getOrCreateCurrentUser();
   if (!user) {
-    user =
-      (await prisma.user.findUnique({ where: { id: 'demo-verifier-id' } })) ||
-      (await prisma.user.findFirst({ where: { role: 'VERIFIER' } })) ||
-      (await prisma.user.findFirst({ where: { role: 'ADMIN' } }));
+    redirect('/sign-in?redirect_url=/verify');
+  }
+  if (!hasRole(user, 'VERIFIER')) {
+    redirect('/');
   }
   return user;
 }
 
 export async function requireAdmin() {
-  let user = await getOrCreateCurrentUser();
+  const user = await getOrCreateCurrentUser();
   if (!user) {
-    user =
-      (await prisma.user.findUnique({ where: { id: 'demo-admin-id' } })) ||
-      (await prisma.user.findFirst({ where: { role: 'ADMIN' } }));
+    redirect('/sign-in?redirect_url=/admin');
+  }
+  if (!hasRole(user, 'ADMIN')) {
+    redirect('/');
   }
   return user;
 }

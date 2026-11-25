@@ -2,13 +2,39 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { createStory } from "@/actions/story";
 import MultiImageUpload from "@/components/multi-image-upload";
 
 export default function NewStoryPage() {
+  const { isLoaded, isSignedIn } = useUser();
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [images, setImages] = useState<string[]>([]);
+
+  if (isLoaded && !isSignedIn) {
+    return (
+      <div className="bg-[#F8FAF8] text-[#163829] min-h-[75vh] flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-3xl border border-gray-200/80 p-8 text-center space-y-4 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 mx-auto flex items-center justify-center text-xl">
+            📖
+          </div>
+          <h2 className="font-heading text-xl font-bold text-[#163829]">
+            Sign in to Publish a FurStory
+          </h2>
+          <p className="font-body text-xs text-gray-600 leading-relaxed">
+            Community recovery stories must be submitted by signed-in community members to maintain authentic updates.
+          </p>
+          <Link
+            href="/sign-in?redirect_url=/stories/new"
+            className="btn-paw-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold shadow-xs hover:scale-[1.02] transition-transform"
+          >
+            Sign In to Share &rarr;
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

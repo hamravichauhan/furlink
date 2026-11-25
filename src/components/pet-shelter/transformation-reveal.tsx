@@ -13,12 +13,12 @@ interface Props {
 }
 
 export default function TransformationReveal({
-  beforeImage = "/pets/chotu-before.jpg",
-  afterImage = "/pets/chotu-after.jpg",
-  name = "Chotu",
-  daysToRecovery = 114,
-  quote = "The day we brought Chotu home, he didn't know what carpet felt like. Now he curls up between us on the sofa every evening like he's always belonged there.",
-  author = "Ananya & Rohan K., Bangalore",
+  beforeImage = "/pets/recovery-before.jpg",
+  afterImage = "/pets/recovery-after.jpg",
+  name = "Bruno",
+  daysToRecovery = 45,
+  quote = "When we rescued Bruno from the highway bypass, he had a severe hind leg fracture and could not walk. 45 days of clinical casting and nursing later, his cast is off and he smiles with pure joy every morning in his forever home.",
+  author = "Pooja & Sameer K., Belagavi",
 }: Props) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -85,7 +85,7 @@ export default function TransformationReveal({
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute top-3 right-3 bg-[#163829] text-white font-body text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md z-10">
-                  Day 114: In Permanent Home
+                  Day {daysToRecovery}: Healed &amp; Happy in Forever Home
                 </div>
 
                 {/* Before Image (Clipped) */}
@@ -100,8 +100,8 @@ export default function TransformationReveal({
                     className="absolute inset-0 w-full h-full object-cover max-w-none"
                     style={{ width: containerRef.current?.clientWidth || "100%" }}
                   />
-                  <div className="absolute top-3 left-3 bg-[#E76F51] text-white font-body text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md z-10">
-                    Day 01: Roadside Admission
+                  <div className="absolute top-3 left-3 bg-[#cc2b3f] text-white font-body text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md z-10">
+                    Day 01: Trauma Admission &amp; Cast
                   </div>
                 </div>
 

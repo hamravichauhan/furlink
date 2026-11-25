@@ -9,11 +9,15 @@ export async function GET(request: Request) {
   const target = url.searchParams.get('redirect') || '/admin';
 
   const cookieStore = await cookies();
-  cookieStore.set('furlink_demo_user', role.toLowerCase(), {
-    path: '/',
-    maxAge: 60 * 60 * 24 * 30,
-    sameSite: 'lax',
-  });
+  if (role.toLowerCase() === 'guest') {
+    cookieStore.delete('furlink_demo_user');
+  } else {
+    cookieStore.set('furlink_demo_user', role.toLowerCase(), {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 30,
+      sameSite: 'lax',
+    });
+  }
 
   redirect(target);
 }

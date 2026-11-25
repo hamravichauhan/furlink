@@ -11,6 +11,7 @@ interface Props {
   ownerName?: string | null;
   contactPhone?: string | null;
   location?: string | null;
+  currentUserId?: string | null;
 }
 
 export default function AdoptionForm({
@@ -20,6 +21,7 @@ export default function AdoptionForm({
   ownerName = "Belagavi Sanctuary Station",
   contactPhone = "+91 94812 00000",
   location = "Tilakwadi Sanctuary Station, Belagavi",
+  currentUserId,
 }: Props) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -51,6 +53,30 @@ export default function AdoptionForm({
           Placement In Progress
         </span>
         This case is currently pending finalized placement or medical clearance. Inquiries are temporarily paused.
+      </div>
+    );
+  }
+
+  if (!currentUserId) {
+    return (
+      <div className="p-6 bg-emerald-50/70 border border-emerald-200/80 rounded-3xl text-center space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-white border border-emerald-200 text-[#163829] mx-auto flex items-center justify-center font-bold text-lg shadow-xs">
+          🐾
+        </div>
+        <div>
+          <h3 className="font-heading text-lg font-bold text-[#163829]">
+            Member Sign In Required
+          </h3>
+          <p className="font-body text-xs text-gray-600 mt-1 max-w-sm mx-auto leading-relaxed">
+            Adoption applications are reserved for registered FurLink members to ensure animal safety and coordinate meet-and-greet visits.
+          </p>
+        </div>
+        <Link
+          href={`/sign-in?redirect_url=/adoptions/${petId}`}
+          className="btn-paw-primary inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold shadow-xs hover:scale-[1.02] transition-transform"
+        >
+          Sign In to Apply for {petName} &rarr;
+        </Link>
       </div>
     );
   }

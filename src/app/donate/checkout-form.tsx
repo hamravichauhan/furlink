@@ -153,8 +153,8 @@ export default function CheckoutForm() {
             }}
             className={`border rounded-2xl py-3 text-xs font-bold transition cursor-pointer ${
               amount === t && !customAmount
-                ? "bg-[#163829] text-white border-[#163829] shadow-xs"
-                : "bg-white text-[#163829] border-gray-200 hover:border-gray-400"
+                ? "bg-emerald-50/80 text-[#163829] border-2 border-emerald-600 ring-2 ring-emerald-500/20 shadow-xs"
+                : "bg-white text-[#163829] border-gray-200 hover:border-gray-300"
             }`}
           >
             ₹{t.toLocaleString("en-IN")}
